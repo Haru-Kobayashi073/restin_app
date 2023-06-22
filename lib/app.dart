@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:search_roof_top_app/pages/map/map_page.dart';
+import 'package:search_roof_top_app/pages/home/main_page.dart';
 import 'widgets/widgets.dart';
 
 class App extends StatelessWidget {
@@ -9,9 +9,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.amber,
       ),
-      home: const MapPage(),
+      home: const MainPage(),
       builder: (BuildContext context, Widget? child) {
         return GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final Completer<GoogleMapController> mapController = Completer();
+final mapControllerProvider =
+    StateProvider<GoogleMapController?>((ref) => null);
 
 final firstSpotProvider = StateProvider<LatLng>(
   (ref) => const LatLng(
@@ -18,13 +17,13 @@ class MapPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void onMapCreated(GoogleMapController controller) {
+      ref.watch(mapControllerProvider.notifier).state = controller;
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Maps Sample App'),
-        backgroundColor: Colors.green[700],
-      ),
       body: GoogleMap(
-        onMapCreated: mapController.complete,
+        onMapCreated: onMapCreated,
         myLocationEnabled: true,
         initialCameraPosition: CameraPosition(
           target: ref.watch(firstSpotProvider.notifier).state,
