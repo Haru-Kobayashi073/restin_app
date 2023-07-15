@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:search_roof_top_app/pages/home/main_page.dart';
-import 'package:search_roof_top_app/utils/utils.dart';
 import 'widgets/widgets.dart';
 
 class App extends StatelessWidget {
@@ -11,7 +10,6 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.amber,
-        scaffoldBackgroundColor: ColorName.white,
       ),
       home: const MainPage(),
       builder: (BuildContext context, Widget? child) {
