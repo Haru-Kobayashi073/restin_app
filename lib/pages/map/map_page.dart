@@ -1,31 +1,21 @@
-// ignore_for_file: unused_local_variable
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-/// GoogleMapControllerを保持
-final mapControllerProvider =
-    StateProvider<GoogleMapController?>((ref) => null);
-
-/// 現在地の緯度経度を保持
-final currentSpotProvider = StateProvider<LatLng?>((ref) => null);
+import 'package:search_roof_top_app/features/map.dart';
+import 'package:search_roof_top_app/pages/map/components/map_components.dart';
 
 class MapPage extends HookConsumerWidget {
   const MapPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Position? currentPosition;
-    late GoogleMapController mapController;
     late StreamSubscription<Position> positionStream;
 
     /// 画面上のGoogleMapを制御
     void onMapCreated(GoogleMapController controller) {
-      mapController = controller;
       ref.watch(mapControllerProvider.notifier).state = controller;
     }
 
@@ -33,6 +23,19 @@ class MapPage extends HookConsumerWidget {
       accuracy: LocationAccuracy.high,
       distanceFilter: 100,
     );
+
+    void moveCameraToCurrentPosition() {
+      final position = CameraPosition(
+        target: ref.read(currentSpotProvider) ??
+            const LatLng(
+              35.658034,
+              139.701636,
+            ),
+        zoom: 15,
+      );
+      final mapController = ref.read(mapControllerProvider.notifier).state;
+      mapController!.animateCamera(CameraUpdate.newCameraPosition(position));
+    }
 
     useEffect(
       () {
@@ -59,7 +62,6 @@ class MapPage extends HookConsumerWidget {
         positionStream =
             Geolocator.getPositionStream(locationSettings: locationSettings)
                 .listen((Position? position) {
-          currentPosition = position;
           debugPrint(
             position == null
                 ? 'Unknown'
@@ -72,17 +74,23 @@ class MapPage extends HookConsumerWidget {
     );
 
     final currentSpot = ref.watch(currentSpotProvider);
+    final selectedMapType = ref.watch(selectedMapTypeProvider);
 
     return Scaffold(
+      floatingActionButton: TabActionsButton(
+        onPressed: moveCameraToCurrentPosition,
+      ),
       body: currentSpot == null
           ? const Center(
               child: CircularProgressIndicator(),
             )
           : GoogleMap(
               onMapCreated: onMapCreated,
+              mapType: selectedMapType,
               myLocationEnabled: true,
+              myLocationButtonEnabled: false,
               initialCameraPosition: CameraPosition(
-                target: ref.watch(currentSpotProvider.notifier).state ??
+                target: ref.watch(currentSpotProvider) ??
                     const LatLng(
                       35.658034,
                       139.701636,
