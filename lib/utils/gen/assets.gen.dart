@@ -9,8 +9,39 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsIconsGen {
+  const $AssetsIconsGen();
+
+  /// File path: assets/icons/change-map-type.svg
+  String get changeMapType => 'assets/icons/change-map-type.svg';
+
+  /// File path: assets/icons/current-position.svg
+  String get currentPosition => 'assets/icons/current-position.svg';
+
+  /// List of all assets
+  List<String> get values => [changeMapType, currentPosition];
+}
+
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  /// File path: assets/images/default-map.png
+  AssetGenImage get defaultMap =>
+      const AssetGenImage('assets/images/default-map.png');
+
+  /// File path: assets/images/satellite-map.png
+  AssetGenImage get satelliteMap =>
+      const AssetGenImage('assets/images/satellite-map.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [defaultMap, satelliteMap];
+}
+
 class Assets {
   Assets._();
+
+  static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 
 class AssetGenImage {
