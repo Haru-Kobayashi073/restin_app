@@ -4,10 +4,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 class ActionButton extends StatelessWidget {
   const ActionButton({
     super.key,
+    required this.heroTag,
     required this.onPressed,
     required this.icon,
     required this.isOpened,
   });
+  final String heroTag;
   final void Function() onPressed;
   final String icon;
   final bool isOpened;
@@ -15,6 +17,7 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      heroTag: heroTag,
       elevation: isOpened ? 5 : 0,
       onPressed: onPressed,
       child: SvgPicture.asset(

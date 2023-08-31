@@ -18,8 +18,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/current-position.svg
   String get currentPosition => 'assets/icons/current-position.svg';
 
+  /// File path: assets/icons/marker.svg
+  String get marker => 'assets/icons/marker.svg';
+
+  /// File path: assets/icons/save.svg
+  String get save => 'assets/icons/save.svg';
+
   /// List of all assets
-  List<String> get values => [changeMapType, currentPosition];
+  List<String> get values => [changeMapType, currentPosition, marker, save];
 }
 
 class $AssetsImagesGen {

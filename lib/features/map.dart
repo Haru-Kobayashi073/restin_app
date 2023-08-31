@@ -9,3 +9,7 @@ final mapControllerProvider =
 final currentSpotProvider = StateProvider<LatLng?>((ref) => null);
 
 final selectedMapTypeProvider = StateProvider<MapType>((ref) => MapType.normal);
+
+// final tappedMarkerProvider = StateProvider<List<Marker>>((ref) => []);
+
+final markersProvider = StateProvider<Set<Marker>>((ref) => {});
