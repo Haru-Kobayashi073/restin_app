@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:search_roof_top_app/features/map.dart';
+import 'package:search_roof_top_app/pages/map/components/create_marker_dialog.dart';
 import 'package:search_roof_top_app/pages/map/components/map_components.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 
 class TabActionsButton extends HookConsumerWidget {
   const TabActionsButton({
     super.key,
-    required this.onPressed,
   });
-  final void Function() onPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,8 +55,9 @@ class TabActionsButton extends HookConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Transform.translate(
-          offset: Offset(0, translateButton * 2.0),
+          offset: Offset(0, translateButton * 3.0),
           child: ActionButton(
+            heroTag: 'map_type',
             isOpened: isOpened.value,
             onPressed: () {
               showModalBottomSheet<void>(
@@ -75,14 +77,48 @@ class TabActionsButton extends HookConsumerWidget {
           ),
         ),
         Transform.translate(
-          offset: Offset(0, translateButton),
+          offset: Offset(0, translateButton * 2.0),
           child: ActionButton(
+            heroTag: 'camera_focus',
             isOpened: isOpened.value,
-            onPressed: onPressed,
+            onPressed: () {
+              final position = CameraPosition(
+                target: ref.read(currentSpotProvider) ??
+                    const LatLng(
+                      35.658034,
+                      139.701636,
+                    ),
+                zoom: 15,
+              );
+              final mapController =
+                  ref.read(mapControllerProvider.notifier).state;
+              mapController!
+                  .animateCamera(CameraUpdate.newCameraPosition(position));
+            },
             icon: Assets.icons.currentPosition,
           ),
         ),
+        Transform.translate(
+          offset: Offset(0, translateButton),
+          child: ActionButton(
+            heroTag: 'create_marker',
+            isOpened: isOpened.value,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<dynamic>(
+                  builder: (context) {
+                    return const CreateMarkerDialog();
+                  },
+                  fullscreenDialog: true,
+                ),
+              );
+            },
+            icon: Assets.icons.marker,
+          ),
+        ),
         FloatingActionButton(
+          heroTag: 'tab_actions',
           backgroundColor: buttonColor,
           onPressed: animate,
           child: AnimatedIcon(
