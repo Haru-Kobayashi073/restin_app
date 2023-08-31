@@ -10,9 +10,16 @@ import 'package:search_roof_top_app/pages/map/components/map_components.dart';
 class MapPage extends HookConsumerWidget {
   const MapPage({super.key});
 
+  static Route<dynamic> route() {
+    return MaterialPageRoute<dynamic>(
+      builder: (_) => const MapPage(),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     late StreamSubscription<Position> positionStream;
+    late Position position;
 
     /// 画面上のGoogleMapを制御
     void onMapCreated(GoogleMapController controller) {
@@ -24,19 +31,6 @@ class MapPage extends HookConsumerWidget {
       distanceFilter: 100,
     );
 
-    void moveCameraToCurrentPosition() {
-      final position = CameraPosition(
-        target: ref.read(currentSpotProvider) ??
-            const LatLng(
-              35.658034,
-              139.701636,
-            ),
-        zoom: 15,
-      );
-      final mapController = ref.read(mapControllerProvider.notifier).state;
-      mapController!.animateCamera(CameraUpdate.newCameraPosition(position));
-    }
-
     useEffect(
       () {
         Future(() async {
@@ -47,7 +41,7 @@ class MapPage extends HookConsumerWidget {
           }
 
           /// 位置情報を格納
-          final position = await Geolocator.getCurrentPosition(
+          position = await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high,
           );
 
@@ -75,11 +69,10 @@ class MapPage extends HookConsumerWidget {
 
     final currentSpot = ref.watch(currentSpotProvider);
     final selectedMapType = ref.watch(selectedMapTypeProvider);
+    final markers = ref.watch(markersProvider.notifier).state;
 
     return Scaffold(
-      floatingActionButton: TabActionsButton(
-        onPressed: moveCameraToCurrentPosition,
-      ),
+      floatingActionButton: const TabActionsButton(),
       body: currentSpot == null
           ? const Center(
               child: CircularProgressIndicator(),
@@ -97,6 +90,7 @@ class MapPage extends HookConsumerWidget {
                     ),
                 zoom: 14,
               ),
+              markers: markers.toSet(),
             ),
     );
   }
