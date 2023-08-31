@@ -26,7 +26,10 @@ class ColorName {
   static const Color lightGrey = Color(0xFFD9D9D9);
 
   /// Color: #AFAFAF
-  static const Color mudiumGrey = Color(0xFFAFAFAF);
+  static const Color mediumGrey = Color(0xFFAFAFAF);
+
+  /// Color: #F05465
+  static const Color red = Color(0xFFF05465);
 
   /// Color: #FFFFFF
   static const Color white = Color(0xFFFFFFFF);
