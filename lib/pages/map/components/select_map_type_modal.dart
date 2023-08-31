@@ -111,7 +111,7 @@ class SelectMapTypeModal extends ConsumerWidget {
                             .read(
                               selectedMapTypeProvider.notifier,
                             )
-                            .state = MapType.satellite;
+                            .state = MapType.hybrid;
                       },
                       child: Container(
                         width: context.deviceWidth * 0.3,
@@ -119,7 +119,7 @@ class SelectMapTypeModal extends ConsumerWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: selectedMapType == MapType.satellite
+                            color: selectedMapType == MapType.hybrid
                                 ? ColorName.amber
                                 : ColorName.white,
                             width: 3,
