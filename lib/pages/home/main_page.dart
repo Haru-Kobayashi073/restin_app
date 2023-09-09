@@ -3,7 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/pages/map/map_page.dart';
 import 'package:search_roof_top_app/pages/settings/settings_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
-import 'package:search_roof_top_app/widgets/widgets.dart';
 
 enum TabType { home, profile }
 
@@ -26,7 +25,6 @@ class MainPage extends HookConsumerWidget {
       const SettingsPage(),
     ];
     return Scaffold(
-      appBar: const HomeAppBar(),
       body: screens[tabType.index],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: ColorName.white,

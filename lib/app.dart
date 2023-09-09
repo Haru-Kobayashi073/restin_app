@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:search_roof_top_app/pages/home/main_page.dart';
+import 'package:search_roof_top_app/start_up_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
-import 'widgets/widgets.dart';
+import 'package:search_roof_top_app/widgets/widgets.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -13,7 +13,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.amber,
         scaffoldBackgroundColor: ColorName.white,
       ),
-      home: const MainPage(),
+      home: const StartUpPage(),
       builder: (BuildContext context, Widget? child) {
         return GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

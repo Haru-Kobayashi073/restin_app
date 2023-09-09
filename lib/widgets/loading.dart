@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// アプリ全体に二度押し防止のローディングを重ねるかどうかを管理するStateProvider
-final overlayLoadingProvider = StateProvider.autoDispose<bool>((ref) => false);
+final overlayLoadingWidgetProvider = StateProvider.autoDispose<bool>(
+  (ref) => false,
+);
 
 /// 二度押しを防止したいときなどのオーバーレイローディング
 class OverlayLoading extends HookConsumerWidget {
@@ -15,7 +17,7 @@ class OverlayLoading extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final overlayLoading = ref.watch(overlayLoadingProvider);
+    final overlayLoading = ref.watch(overlayLoadingWidgetProvider);
 
     return Visibility(
       visible: overlayLoading,
