@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:search_roof_top_app/models/user_data.dart';
 import 'package:search_roof_top_app/repositories/auth/auth_repository.dart';
 
 final authProvider = Provider<FirebaseAuth>(
@@ -35,20 +36,22 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<String?> signUp({
-    required String userName,
-    required String email,
+    required UserData userData,
     required String password,
   }) async {
+    final createdAtTimestamp = Timestamp.fromDate(DateTime.now());
     final userCredential = await _auth.createUserWithEmailAndPassword(
-      email: email,
+      email: userData.email,
       password: password,
     );
-    await _firestore.collection('users').doc(userCredential.user?.uid).set({
-      'userName': userName,
-      'email': email,
-      'createAt': Timestamp.now(),
-    });
-
+    await _firestore.collection('users').doc(userCredential.user?.uid).set(
+          UserData(
+            email: userData.email,
+            userName: userData.userName,
+            // imageUrl: userData.imageUrl,
+            createdAt: createdAtTimestamp,
+          ).toJson(),
+        );
     return userCredential.user?.uid;
   }
 

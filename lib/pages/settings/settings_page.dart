@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:search_roof_top_app/features/auth/sign_out.dart';
+import 'package:search_roof_top_app/features/auth/auth.dart';
 import 'package:search_roof_top_app/pages/auth/sign_in_page.dart';
-import 'package:search_roof_top_app/repositories/auth/auth_repository_impl.dart';
-import 'package:search_roof_top_app/utils/utils.dart';
-import 'package:search_roof_top_app/widgets/widgets.dart';
 
 class SettingsPage extends HookConsumerWidget {
   const SettingsPage({super.key});
@@ -22,57 +19,34 @@ class SettingsPage extends HookConsumerWidget {
           signOutControllerProvider.notifier,
         )
         .signOutProvider;
-    final user = ref.watch(authUserProvider);
 
-    return user.when(
-      data: (data) {
-        return Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: ColorName.white,
-            title: Text(data?.displayName ?? '名前を設定しましょう'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('設定'),
+        elevation: 0,
+      ),
+      body: ListView(
+        children: [
+          ListTile(
+            title: const Text('プライバシーポリシー'),
+            onTap: () {},
           ),
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(data?.email ?? 'メールアドレスを設定しましょう'),
-                GestureDetector(
-                  onTap: () {},
-                  child: const CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      'https://www.photolibrary.jp/mhd6/img174/450-201010070921378146.jpg',
-                    ),
-                    radius: 56,
+          ListTile(
+            title: const Text('利用規約'),
+            onTap: () {},
+          ),
+          ListTile(
+            title: const Text('ログアウト'),
+            onTap: () => ref.read(signOut).call(
+                  onSuccess: () => Navigator.pushAndRemoveUntil(
+                    context,
+                    SignInPage.route(),
+                    (route) => false,
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () async {
-                    await ref.read(signOut).call(
-                      onSuccess: () async {
-                        await Navigator.pushAndRemoveUntil(
-                          context,
-                          SignInPage.route(),
-                          (route) => false,
-                        );
-                      },
-                    );
-                  },
-                  child: const Text('ログアウト'),
-                )
-              ],
-            ),
           ),
-        );
-      },
-      loading: () => const Loading(),
-      error: (error, stackTrace) {
-        return Scaffold(
-          body: Center(
-            child: Text(error.toString()),
-          ),
-        );
-      },
+        ],
+      ),
     );
   }
 }

@@ -22,11 +22,14 @@ class ColorName {
   /// Color: #707070
   static const Color darkGrey = Color(0xFF707070);
 
-  /// Color: #D9D9D9
-  static const Color lightGrey = Color(0xFFD9D9D9);
-
   /// Color: #AFAFAF
-  static const Color mediumGrey = Color(0xFFAFAFAF);
+  static const Color deepGrey = Color(0xFFAFAFAF);
+
+  /// Color: #F5F5F5
+  static const Color lightGrey = Color(0xFFF5F5F5);
+
+  /// Color: #D9D9D9
+  static const Color mediumGrey = Color(0xFFD9D9D9);
 
   /// Color: #F05465
   static const Color red = Color(0xFFF05465);

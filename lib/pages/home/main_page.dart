@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/pages/map/map_page.dart';
-import 'package:search_roof_top_app/pages/settings/settings_page.dart';
+import 'package:search_roof_top_app/pages/profile/profile_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 
 enum TabType { home, profile }
@@ -22,7 +22,7 @@ class MainPage extends HookConsumerWidget {
     final tabType = ref.watch(tabTypeProvider);
     final screens = [
       const MapPage(),
-      const SettingsPage(),
+      const ProfilePage(),
     ];
     return Scaffold(
       body: screens[tabType.index],

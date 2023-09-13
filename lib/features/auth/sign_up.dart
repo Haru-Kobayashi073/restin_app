@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:search_roof_top_app/models/user_data.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
 
@@ -23,14 +24,16 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
 
   final signUpProvider = Provider.autoDispose<
       Future<void> Function({
-        required String userName,
         required String email,
+        required String userName,
+        // required String imageUrl,
         required String password,
         required VoidCallback onSuccess,
       })>(
     (ref) => ({
-      required userName,
       required email,
+      required userName,
+      // required imageUrl,
       required password,
       required onSuccess,
     }) async {
@@ -38,11 +41,17 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
       final isNetworkCheck = await isNetworkConnected();
       try {
         read(overlayLoadingWidgetProvider.notifier).update((state) => true);
-        await read(authRepositoryImplProvider).signUp(
-          userName: userName,
-          email: email,
+        final response = await read(authRepositoryImplProvider).signUp(
+          userData: UserData(
+            email: email,
+            userName: userName,
+            // imageUrl: imageUrl,
+            createdAt: DateTime.now(),
+          ),
           password: password,
         );
+        await read(sharedPreferencesServiceProvider)
+            .setAuthCredentials(uid: response.toString());
         onSuccess();
         debugPrint('新規登録しました');
       } on FirebaseAuthException catch (e) {
