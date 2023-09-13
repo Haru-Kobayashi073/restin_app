@@ -3,15 +3,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 
 final scaffoldKeyProvider = Provider(
-  (_) => GlobalKey<ScaffoldMessengerState>(),
+  (ref) => GlobalKey<ScaffoldMessengerState>(),
 );
 
 final scaffoldMessengerServiceProvider =
     Provider.autoDispose(ScaffoldMessengerService.new);
 
-/// ツリー上部の ScaffoldMessenger 上でスナックバーやダイアログの表示を操作する。
-/// Operate showing dialog or snackbar
-/// on ScaffoldMessenger set on the above of tree.
 class ScaffoldMessengerService {
   ScaffoldMessengerService(this._ref);
 
@@ -20,71 +17,23 @@ class ScaffoldMessengerService {
   GlobalKey<ScaffoldMessengerState> get scaffoldKey =>
       _ref.read(scaffoldKeyProvider);
 
-  /// showDialog で指定したビルダー関数を返す。
-  /// Return builder function of showDialog
-  ///
-  /// エラーに関しては別で [AsyncValueErrorDialog] を用いて対応する。
-  /// Error handling depends on using [AsyncValueErrorDialog].
-  Future<T?> showDialogByBuilder<T>({
-    required Widget Function(BuildContext) builder,
-    bool barrierDismissible = true,
-  }) {
-    return showDialog<T>(
-      context: scaffoldKey.currentContext!,
-      barrierDismissible: barrierDismissible,
-      builder: builder,
-    );
-  }
-
-  /// スナックバーを表示する。
-  /// Show a snackbar.
-  ///
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
-    String message, {
-    bool removeCurrentSnackBar = true,
-    Duration duration = defaultSnackBarDuration,
-  }) {
-    final scaffoldMessengerState = scaffoldKey.currentState;
-    if (removeCurrentSnackBar && scaffoldMessengerState != null) {
-      scaffoldMessengerState.removeCurrentSnackBar();
-    }
-    if (scaffoldMessengerState != null) {
-      return scaffoldMessengerState.showSnackBar(
-        SnackBar(
-          content: Text(
-            message,
-          ),
-          backgroundColor: ColorName.black,
-          behavior: defaultSnackBarBehavior,
-          duration: duration,
-        ),
-      );
-    } else {
-      throw Exception('scaffoldMessengerState is null.');
-    }
-  }
-
   /// スナックバーを表示する。
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSuccessSnackBar(
     String message, {
     bool removeCurrentSnackBar = true,
     Duration duration = defaultSnackBarDuration,
   }) {
-    final scaffoldMessengerState = scaffoldKey.currentState;
-    if (removeCurrentSnackBar && scaffoldMessengerState != null) {
+    final scaffoldMessengerState = scaffoldKey.currentState!;
+    if (removeCurrentSnackBar) {
       scaffoldMessengerState.removeCurrentSnackBar();
     }
-    if (scaffoldMessengerState != null) {
-      return scaffoldMessengerState.showSnackBar(
-        SnackBar(
-          content: Text(message),
-          behavior: defaultSnackBarBehavior,
-          duration: duration,
-        ),
-      );
-    } else {
-      throw Exception('scaffoldMessengerState is null.');
-    }
+    return scaffoldMessengerState.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        behavior: defaultSnackBarBehavior,
+        duration: duration,
+      ),
+    );
   }
 
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason>
@@ -93,21 +42,17 @@ class ScaffoldMessengerService {
     bool removeCurrentSnackBar = true,
     Duration duration = defaultSnackBarDuration,
   }) {
-    final scaffoldMessengerState = scaffoldKey.currentState;
-    if (removeCurrentSnackBar && scaffoldMessengerState != null) {
+    final scaffoldMessengerState = scaffoldKey.currentState!;
+    if (removeCurrentSnackBar) {
       scaffoldMessengerState.removeCurrentSnackBar();
     }
-    if (scaffoldMessengerState != null) {
-      return scaffoldMessengerState.showSnackBar(
-        SnackBar(
-          content: Text(message),
-          behavior: defaultSnackBarBehavior,
-          duration: duration,
-        ),
-      );
-    } else {
-      throw Exception('scaffoldMessengerState is null.');
-    }
+    return scaffoldMessengerState.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        behavior: defaultSnackBarBehavior,
+        duration: duration,
+      ),
+    );
   }
 
   /// Exception 起点でスナックバーを表示する。
