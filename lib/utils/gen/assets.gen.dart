@@ -24,8 +24,12 @@ class $AssetsIconsGen {
   /// File path: assets/icons/save.svg
   String get save => 'assets/icons/save.svg';
 
+  /// File path: assets/icons/setting.svg
+  String get setting => 'assets/icons/setting.svg';
+
   /// List of all assets
-  List<String> get values => [changeMapType, currentPosition, marker, save];
+  List<String> get values =>
+      [changeMapType, currentPosition, marker, save, setting];
 }
 
 class $AssetsImagesGen {
