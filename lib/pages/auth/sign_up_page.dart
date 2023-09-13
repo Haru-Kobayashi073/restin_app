@@ -66,6 +66,7 @@ class SignUpPage extends HookConsumerWidget {
               await ref.read(signUp).call(
                     userName: userNameController.text,
                     email: emailController.text,
+                    // imageUrl: imageUrl,
                     password: passwordController.text,
                     onSuccess: () async {
                       await Navigator.pushAndRemoveUntil(
