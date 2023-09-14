@@ -8,6 +8,7 @@ export 'firebase/firebase.dart';
 export 'gen/assets.gen.dart';
 export 'gen/colors.gen.dart';
 export 'global_key.dart';
+export 'helpers/helpers.dart';
 export 'loading.dart';
 export 'scaffold_messanger_service.dart';
 export 'shared_preferences_service.dart';
