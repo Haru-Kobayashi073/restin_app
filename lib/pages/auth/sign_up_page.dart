@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/features/auth/auth.dart';
-import 'package:search_roof_top_app/pages/home/main_page.dart';
+import 'package:search_roof_top_app/pages/auth/entry_user_information_page.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
 
 class SignUpPage extends HookConsumerWidget {
@@ -66,12 +66,11 @@ class SignUpPage extends HookConsumerWidget {
               await ref.read(signUp).call(
                     userName: userNameController.text,
                     email: emailController.text,
-                    // imageUrl: imageUrl,
                     password: passwordController.text,
                     onSuccess: () async {
                       await Navigator.pushAndRemoveUntil(
                         context,
-                        MainPage.route(),
+                        EntryUserInformationPage.route(),
                         (route) => false,
                       );
                     },

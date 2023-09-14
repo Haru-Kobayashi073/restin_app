@@ -26,14 +26,12 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
       Future<void> Function({
         required String email,
         required String userName,
-        // required String imageUrl,
         required String password,
         required VoidCallback onSuccess,
       })>(
     (ref) => ({
       required email,
       required userName,
-      // required imageUrl,
       required password,
       required onSuccess,
     }) async {
@@ -45,7 +43,6 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
           userData: UserData(
             email: email,
             userName: userName,
-            // imageUrl: imageUrl,
             createdAt: DateTime.now(),
           ),
           password: password,

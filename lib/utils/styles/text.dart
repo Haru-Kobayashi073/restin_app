@@ -4,6 +4,11 @@ import 'package:search_roof_top_app/utils/utils.dart';
 class AppTextStyle {
   AppTextStyle._();
 
+  static const authPageTitle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+  );
+
   static const mapTypeModalTitle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w600,
@@ -20,6 +25,25 @@ class AppTextStyle {
   );
 
   static const saveMarkerText = TextStyle(
+    fontSize: 16,
+  );
+
+  static const commonButtonText = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+  );
+
+  static const profilePageUserName = TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const profilePageUserValue = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const profilePageUserKey = TextStyle(
     fontSize: 16,
   );
 }
