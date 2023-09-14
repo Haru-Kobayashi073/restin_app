@@ -1,11 +1,12 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:search_roof_top_app/features/user/user_data.dart';
+import 'package:search_roof_top_app/features/user/fetch_user_data.dart';
 import 'package:search_roof_top_app/pages/settings/settings_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
@@ -57,10 +58,7 @@ class ProfilePage extends HookConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Text(
                 data?.userName ?? '名前を設定しましょう',
-                style: const TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: AppTextStyle.profilePageUserName,
               ),
             ),
           ),
@@ -91,44 +89,50 @@ class ProfilePage extends HookConsumerWidget {
                                         child: AlertDialog(
                                           elevation: 0,
                                           backgroundColor: Colors.transparent,
-                                          content: CircleAvatar(
-                                            radius: MediaQuery.sizeOf(context)
-                                                    .width /
-                                                1.8,
-                                            foregroundImage: const NetworkImage(
-                                              // data!.imageUrl! != ""
-                                              //     ? data.imageUrl.toString()
-                                              //     :
-                                              'https://www.photolibrary.jp/mhd6/img174/450-201010070921378146.jpg',
-                                            ),
-                                          ),
+                                          content: data?.imageUrl != null
+                                              ? CircleAvatar(
+                                                  backgroundImage:
+                                                      CachedNetworkImageProvider(
+                                                    data!.imageUrl.toString(),
+                                                  ),
+                                                  radius: 112,
+                                                )
+                                              : CircleAvatar(
+                                                  radius: 112,
+                                                  child: SvgPicture.asset(
+                                                    Assets.icons.person,
+                                                  ),
+                                                ),
                                         ),
                                       );
                                     },
                                   );
                                 },
-                                child: const CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                    // data?.imageUrl?.toString() ??
-                                    'https://www.photolibrary.jp/mhd6/img174/450-201010070921378146.jpg',
-                                  ),
-                                  radius: 56,
-                                ),
+                                child: data?.imageUrl != null
+                                    ? CircleAvatar(
+                                        backgroundImage:
+                                            CachedNetworkImageProvider(
+                                          data!.imageUrl.toString(),
+                                        ),
+                                        radius: 56,
+                                      )
+                                    : CircleAvatar(
+                                        radius: 56,
+                                        child: SvgPicture.asset(
+                                          Assets.icons.person,
+                                          width: 48,
+                                        ),
+                                      ),
                               ),
                               const Column(
                                 children: [
                                   Text(
                                     '0',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: AppTextStyle.profilePageUserValue,
                                   ),
                                   Text(
                                     '投稿',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                    ),
+                                    style: AppTextStyle.profilePageUserKey,
                                   ),
                                 ],
                               ),
@@ -136,22 +140,16 @@ class ProfilePage extends HookConsumerWidget {
                                 children: [
                                   Text(
                                     DateFormat('yyyy年M月d日').format(createdDate),
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: AppTextStyle.profilePageUserValue,
                                   ),
                                   const Text(
                                     '始めた日',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                    ),
+                                    style: AppTextStyle.profilePageUserKey,
                                   ),
                                 ],
                               ),
                             ],
                           ),
-                          // Text(data?.email ?? 'メールアドレスを設定しましょう'),
                           Container(
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(vertical: 16),
