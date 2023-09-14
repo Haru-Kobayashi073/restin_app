@@ -12,6 +12,9 @@ import 'package:flutter/widgets.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/add.svg
+  String get add => 'assets/icons/add.svg';
+
   /// File path: assets/icons/change-map-type.svg
   String get changeMapType => 'assets/icons/change-map-type.svg';
 
@@ -21,6 +24,12 @@ class $AssetsIconsGen {
   /// File path: assets/icons/marker.svg
   String get marker => 'assets/icons/marker.svg';
 
+  /// File path: assets/icons/person.svg
+  String get person => 'assets/icons/person.svg';
+
+  /// File path: assets/icons/picture.svg
+  String get picture => 'assets/icons/picture.svg';
+
   /// File path: assets/icons/save.svg
   String get save => 'assets/icons/save.svg';
 
@@ -28,8 +37,16 @@ class $AssetsIconsGen {
   String get setting => 'assets/icons/setting.svg';
 
   /// List of all assets
-  List<String> get values =>
-      [changeMapType, currentPosition, marker, save, setting];
+  List<String> get values => [
+        add,
+        changeMapType,
+        currentPosition,
+        marker,
+        person,
+        picture,
+        save,
+        setting
+      ];
 }
 
 class $AssetsImagesGen {
