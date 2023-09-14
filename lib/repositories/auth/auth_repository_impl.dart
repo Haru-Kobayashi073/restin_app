@@ -48,7 +48,6 @@ class AuthRepositoryImpl implements AuthRepository {
           UserData(
             email: userData.email,
             userName: userData.userName,
-            // imageUrl: userData.imageUrl,
             createdAt: createdAtTimestamp,
           ).toJson(),
         );
