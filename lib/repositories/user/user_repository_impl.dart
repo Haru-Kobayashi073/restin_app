@@ -6,18 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/models/user_data.dart';
 import 'package:search_roof_top_app/repositories/user/user_repository.dart';
-
-final authProvider = Provider<FirebaseAuth>(
-  (_) => FirebaseAuth.instance,
-);
-
-final firestoreProvider = Provider<FirebaseFirestore>(
-  (_) => FirebaseFirestore.instance,
-);
-
-final storageProvider = Provider<FirebaseStorage>(
-  (_) => FirebaseStorage.instance,
-);
+import 'package:search_roof_top_app/utils/utils.dart';
 
 final userRepositoryImplProvider = Provider<UserRepository>(
   (ref) => UserRepositoryImpl(

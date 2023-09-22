@@ -6,14 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:search_roof_top_app/repositories/file/file_repository.dart';
-
-final authProvider = Provider<FirebaseAuth>(
-  (_) => FirebaseAuth.instance,
-);
-
-final storageProvider = Provider<FirebaseStorage>(
-  (_) => FirebaseStorage.instance,
-);
+import 'package:search_roof_top_app/utils/utils.dart';
 
 final fileRepositoryImplProvider = Provider<FileRepository>(
   (ref) => FileRepositoryImpl(
