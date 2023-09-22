@@ -1,13 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.search_roof_top_app">
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
    <application
         android:label="search_roof_top_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-        <meta-data android:name="com.example.search_roof_top_app"
-               android:value="@string/GOOGLE_MAPS_API_KEY_FOR_ANDROID"/>
-        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="${googleMapApiKey}"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

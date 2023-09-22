@@ -36,4 +36,20 @@ class NoAnimationRoute {
       (route) => true,
     );
   }
+
+  static Future<T?> pushReplacement<T>(
+    BuildContext context,
+    Widget page, {
+    bool rootNavigator = true,
+    bool fullscreenDialog = false,
+  }) async {
+    return Navigator.of(context, rootNavigator: rootNavigator).pushReplacement(
+      PageRouteBuilder<T>(
+        pageBuilder: (_, __, ___) => page,
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        fullscreenDialog: fullscreenDialog,
+      ),
+    );
+  }
 }

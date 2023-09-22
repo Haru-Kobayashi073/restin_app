@@ -4,8 +4,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:search_roof_top_app/features/map.dart';
+import 'package:search_roof_top_app/features/google_map/fetch_all_markers.dart';
+import 'package:search_roof_top_app/features/google_map/map.dart';
 import 'package:search_roof_top_app/pages/map/components/map_components.dart';
+import 'package:search_roof_top_app/widgets/widgets.dart';
 
 class MapPage extends HookConsumerWidget {
   const MapPage({super.key});
@@ -69,29 +71,38 @@ class MapPage extends HookConsumerWidget {
 
     final currentSpot = ref.watch(currentSpotProvider);
     final selectedMapType = ref.watch(selectedMapTypeProvider);
-    final markers = ref.watch(markersProvider.notifier).state;
+    final markers = ref.watch(fetchAllMarkersProvider);
 
-    return Scaffold(
-      floatingActionButton: const TabActionsButton(),
-      body: currentSpot == null
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : GoogleMap(
-              onMapCreated: onMapCreated,
-              mapType: selectedMapType,
-              myLocationEnabled: true,
-              myLocationButtonEnabled: false,
-              initialCameraPosition: CameraPosition(
-                target: ref.watch(currentSpotProvider) ??
-                    const LatLng(
-                      35.658034,
-                      139.701636,
-                    ),
-                zoom: 14,
-              ),
-              markers: markers.toSet(),
-            ),
+    return markers.when(
+      data: (markers) {
+        return Scaffold(
+          floatingActionButton: const TabActionsButton(),
+          body: currentSpot == null
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : GoogleMap(
+                  onMapCreated: onMapCreated,
+                  mapType: selectedMapType,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: false,
+                  initialCameraPosition: CameraPosition(
+                    target: ref.watch(currentSpotProvider) ??
+                        const LatLng(
+                          35.658034,
+                          139.701636,
+                        ),
+                    zoom: 14,
+                  ),
+                  markers: markers.toSet(),
+                ),
+        );
+      },
+      error: (error, stackTrace) => ErrorPage(
+        error: error,
+        onTapReload: () => ref.invalidate(fetchAllMarkersProvider),
+      ),
+      loading: () => const SizedBox(),
     );
   }
 }
