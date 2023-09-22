@@ -35,6 +35,7 @@ class SignUpPage extends HookConsumerWidget {
             padding: const EdgeInsets.all(8),
             child: CommonTextField(
               controller: userNameController,
+              keyboardType: TextInputType.text,
               onFieldSubmitted: (_) =>
                   FocusScope.of(context).requestFocus(emailFocusNode),
               textInputAction: TextInputAction.next,
@@ -45,6 +46,7 @@ class SignUpPage extends HookConsumerWidget {
             padding: const EdgeInsets.all(8),
             child: CommonTextField(
               controller: emailController,
+              keyboardType: TextInputType.emailAddress,
               focusNode: emailFocusNode,
               onFieldSubmitted: (_) =>
                   FocusScope.of(context).requestFocus(passwordFocusNode),
@@ -56,6 +58,7 @@ class SignUpPage extends HookConsumerWidget {
             padding: const EdgeInsets.all(8),
             child: CommonTextField(
               controller: passwordController,
+              keyboardType: TextInputType.visiblePassword,
               focusNode: passwordFocusNode,
               textInputAction: TextInputAction.done,
               labelText: 'パスワード',

@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/features/google_map/google_map.dart';
 import 'package:search_roof_top_app/pages/home/main_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
+import 'package:search_roof_top_app/widgets/widgets.dart';
 
 import 'components/map_components.dart';
 
@@ -24,8 +25,7 @@ class AddMarkerOptionPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedMapType = ref.watch(selectedMapTypeProvider);
-    final createMarker =
-        ref.read(createMarkerControllerProvider.notifier).createMarkerProvider;
+    final createMarker = ref.read(createMarkerProvider);
     final markers = ref.watch(markersProvider.notifier).state;
     final markerTitleController = useTextEditingController();
     final descriptionController = useTextEditingController();
@@ -68,100 +68,24 @@ class AddMarkerOptionPage extends HookConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFormField(
-                      controller: markerTitleController,
-                      textInputAction: TextInputAction.next,
-                      onFieldSubmitted: (_) =>
-                          FocusScope.of(context).requestFocus(detailFocusNode),
-                      decoration: InputDecoration(
-                        labelText: '地点名',
-                        labelStyle: AppTextStyle.createMarkerTextFieldLabel,
-                        contentPadding: const EdgeInsets.all(12),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: ColorName.red,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: ColorName.mediumGrey,
-                          ),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: ColorName.red,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: ColorName.mediumGrey,
-                          ),
-                        ),
-                        disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: ColorName.mediumGrey,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: CommonTextField(
+                    controller: markerTitleController,
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (_) =>
+                        FocusScope.of(context).requestFocus(detailFocusNode),
+                    autofocus: true,
+                    labelText: '地点名',
+                  ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: descriptionController,
-                      textInputAction: TextInputAction.done,
-                      focusNode: detailFocusNode,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      decoration: InputDecoration(
-                        labelText: '詳細',
-                        labelStyle: AppTextStyle.createMarkerTextFieldLabel,
-                        contentPadding: const EdgeInsets.all(12),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: ColorName.red,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: ColorName.mediumGrey,
-                          ),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: ColorName.red,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: ColorName.mediumGrey,
-                          ),
-                        ),
-                        disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: ColorName.mediumGrey,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                CommonTextField(
+                  controller: descriptionController,
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.done,
+                  focusNode: detailFocusNode,
+                  labelText: '詳細',
                 ),
                 const SizedBox(height: 300),
                 Container(
@@ -187,17 +111,21 @@ class AddMarkerOptionPage extends HookConsumerWidget {
                         ),
                       );
                       ref.read(markersProvider.notifier).state.add(newMarker);
-                      await ref.read(createMarker).call(
-                            marker: newMarker,
-                            onSuccess: () {
-                              ref.invalidate(fetchAllMarkersProvider);
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MainPage.route(),
-                                (route) => false,
-                              );
-                            },
+                      await createMarker.call(
+                        marker: newMarker,
+                        onSuccess: () {
+                          ref.invalidate(fetchAllMarkersProvider);
+                          ScaffoldMessengerService.showSuccessSnackBar(
+                            context,
+                            'マーカーが追加されました!',
                           );
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MainPage.route(),
+                            (route) => false,
+                          );
+                        },
+                      );
                     },
                     child: const Text(
                       '保存',
