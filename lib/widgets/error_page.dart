@@ -46,12 +46,13 @@ class ErrorPage extends HookConsumerWidget {
           final appException = error! as AppException;
 
           if (appException.code == unauthorized) {
+            ScaffoldMessengerService.showExceptionSnackBar(
+              context,
+              generalUnauthorizedMessage,
+            );
             await ref
                 .read(sharedPreferencesServiceProvider)
                 .deleteAuthCredentials();
-            ref
-                .read(scaffoldMessengerServiceProvider)
-                .showExceptionSnackBar(generalUnauthorizedMessage);
             await ref
                 .read(navigatorKeyProvider)
                 .currentState

@@ -81,6 +81,10 @@ class EntryUserInformationPage extends HookConsumerWidget {
                         context: context,
                       );
                     } else {
+                      ScaffoldMessengerService.showSuccessSnackBar(
+                        context,
+                        '新規登録が完了しました!',
+                      );
                       await Navigator.pushAndRemoveUntil(
                         context,
                         MainPage.route(),
@@ -114,6 +118,10 @@ class EntryUserInformationPage extends HookConsumerWidget {
     await ref.read(updateUserDataProvider).call(
           file: file,
           onSuccess: () async {
+            ScaffoldMessengerService.showSuccessSnackBar(
+              context,
+              '新規登録が完了しました!',
+            );
             await Navigator.pushAndRemoveUntil(
               context,
               MainPage.route(),
@@ -129,6 +137,10 @@ class EntryUserInformationPage extends HookConsumerWidget {
   }) async {
     await ref.read(deleteFileProvider).call(
       onSuccess: () async {
+        ScaffoldMessengerService.showSuccessSnackBar(
+          context,
+          '新規登録が完了しました!',
+        );
         await Navigator.pushAndRemoveUntil(
           context,
           MainPage.route(),

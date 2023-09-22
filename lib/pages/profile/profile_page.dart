@@ -1,12 +1,10 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:search_roof_top_app/features/user/fetch_user_data.dart';
+import 'package:search_roof_top_app/pages/profile/components/profile_components.dart';
 import 'package:search_roof_top_app/pages/settings/settings_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
@@ -76,53 +74,8 @@ class ProfilePage extends HookConsumerWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  showDialog<void>(
-                                    context: context,
-                                    builder: (_) {
-                                      return BackdropFilter(
-                                        filter: ImageFilter.blur(
-                                          sigmaX: 20,
-                                          sigmaY: 20,
-                                        ),
-                                        child: AlertDialog(
-                                          elevation: 0,
-                                          backgroundColor: Colors.transparent,
-                                          content: data?.imageUrl != null
-                                              ? CircleAvatar(
-                                                  backgroundImage:
-                                                      CachedNetworkImageProvider(
-                                                    data!.imageUrl.toString(),
-                                                  ),
-                                                  radius: 112,
-                                                )
-                                              : CircleAvatar(
-                                                  radius: 112,
-                                                  child: SvgPicture.asset(
-                                                    Assets.icons.person,
-                                                  ),
-                                                ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                                child: data?.imageUrl != null
-                                    ? CircleAvatar(
-                                        backgroundImage:
-                                            CachedNetworkImageProvider(
-                                          data!.imageUrl.toString(),
-                                        ),
-                                        radius: 56,
-                                      )
-                                    : CircleAvatar(
-                                        radius: 56,
-                                        child: SvgPicture.asset(
-                                          Assets.icons.person,
-                                          width: 48,
-                                        ),
-                                      ),
+                              ProfileImageAvator(
+                                imageUrl: data?.imageUrl,
                               ),
                               const Column(
                                 children: [
@@ -210,14 +163,11 @@ class ProfilePage extends HookConsumerWidget {
           ),
         );
       },
+      error: (error, stackTrace) => ErrorPage(
+        error: error,
+        onTapReload: () => ref.invalidate(fetchUserDataProvider),
+      ),
       loading: () => const Loading(),
-      error: (error, stackTrace) {
-        return Scaffold(
-          body: Center(
-            child: Text(error.toString()),
-          ),
-        );
-      },
     );
   }
 }

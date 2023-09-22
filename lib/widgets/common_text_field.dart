@@ -5,25 +5,30 @@ class CommonTextField extends StatelessWidget {
   const CommonTextField({
     super.key,
     required this.controller,
+    required this.keyboardType,
     required this.labelText,
     this.textInputAction,
     this.focusNode,
     this.onFieldSubmitted,
+    this.autofocus = false,
   });
   final TextEditingController controller;
+  final TextInputType? keyboardType;
   final FocusNode? focusNode;
   final void Function(String)? onFieldSubmitted;
   final TextInputAction? textInputAction;
+  final bool autofocus;
   final String labelText;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      keyboardType: keyboardType,
       focusNode: focusNode,
       onFieldSubmitted: onFieldSubmitted,
       textInputAction: textInputAction,
-      keyboardType: TextInputType.multiline,
+      autofocus: autofocus,
       maxLines: null,
       decoration: InputDecoration(
         labelText: labelText,
