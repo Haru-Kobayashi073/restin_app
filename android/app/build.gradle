@@ -6,6 +6,15 @@ if (localPropertiesFile.exists()) {
     }
 }
 
+// 環境変数を呼び出すコード
+def secretProperties = new Properties()
+def secretPropertiesFile = rootProject.file('secret.properties')
+if (secretPropertiesFile.exists()) {
+    secretPropertiesFile.withReader('UTF-8') { reader ->
+        secretProperties.load(reader)
+    }
+}
+
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
@@ -51,10 +60,16 @@ android {
         applicationId "com.example.search_roof_top_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21
+        multiDexEnabled true
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
+        manifestPlaceholders = [
+            googleMapApiKey: secretProperties.getProperty('GOOGLE_MAPS_API_KEY_FOR_ANDROID'),
+            applicationName: secretProperties.getProperty('APPLICATION_NAME'),
+        ]
     }
 
     buildTypes {
