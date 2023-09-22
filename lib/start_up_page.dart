@@ -12,24 +12,14 @@ class StartUpPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: ref.watch(authUserProvider).when(
-        data: (data) {
-          if (data != null) {
-            return const MainPage();
-          } else {
-            return const SignInPage();
-          }
-        },
-        error: (error, stackTrace) {
-          return Scaffold(
-            body: Center(
-              child: Text(error.toString()),
+            data: (data) =>
+                data != null ? const MainPage() : const SignInPage(),
+            error: (error, stackTrace) => ErrorPage(
+              error: error,
+              onTapReload: () => ref.invalidate(authUserProvider),
             ),
-          );
-        },
-        loading: () {
-          return const Loading();
-        },
-      ),
+            loading: () => const Loading(),
+          ),
     );
   }
 }
