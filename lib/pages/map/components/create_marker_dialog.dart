@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/features/google_map/google_map.dart';
 import 'package:search_roof_top_app/pages/map/add_marker_option_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
+import 'package:search_roof_top_app/widgets/widgets.dart';
 
 class CreateMarkerDialog extends HookConsumerWidget {
   const CreateMarkerDialog({super.key});
@@ -31,6 +32,7 @@ class CreateMarkerDialog extends HookConsumerWidget {
     }
 
     final selectedMapType = ref.watch(selectedMapTypeProvider);
+    final markers = ref.watch(fetchAllMarkersProvider);
     final tappedPosition = useState<LatLng?>(null);
 
     return Scaffold(
@@ -42,20 +44,29 @@ class CreateMarkerDialog extends HookConsumerWidget {
         elevation: 0,
         backgroundColor: ColorName.white,
       ),
-      body: GoogleMap(
-        mapType: selectedMapType,
-        myLocationEnabled: true,
-        myLocationButtonEnabled: false,
-        initialCameraPosition: CameraPosition(
-          target: ref.watch(currentSpotProvider) ??
-              const LatLng(
-                35.658034,
-                139.701636,
-              ),
-          zoom: 14,
+      body: markers.when(
+        data: (markers) {
+          return GoogleMap(
+            mapType: selectedMapType,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: false,
+            initialCameraPosition: CameraPosition(
+              target: ref.watch(currentSpotProvider) ??
+                  const LatLng(
+                    35.658034,
+                    139.701636,
+                  ),
+              zoom: 14,
+            ),
+            onTap: (latLng) => setMarkerPosition(tappedPosition.value = latLng),
+            markers: markers.toSet(),
+          );
+        },
+        error: (error, stackTrace) => ErrorPage(
+          error: error,
+          onTapReload: () => ref.invalidate(fetchAllMarkersProvider),
         ),
-        onTap: (latLng) => setMarkerPosition(tappedPosition.value = latLng),
-        markers: ref.watch(allMarkersProvider).toSet(),
+        loading: () => const SizedBox(),
       ),
     );
   }

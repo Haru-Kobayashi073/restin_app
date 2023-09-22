@@ -102,9 +102,7 @@ class MapPage extends HookConsumerWidget {
         error: error,
         onTapReload: () => ref.invalidate(fetchAllMarkersProvider),
       ),
-      loading: () {
-        return const SizedBox();
-      },
+      loading: () => const SizedBox(),
     );
   }
 }
