@@ -30,7 +30,10 @@ class OkCancelAlertDialog extends HookConsumerWidget {
       title: Text(
         title,
         textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+        style: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+        ),
       ),
       content: message != null
           ? Text(
