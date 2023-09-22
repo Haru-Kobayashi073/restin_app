@@ -5,6 +5,7 @@ import 'package:search_roof_top_app/features/auth/sign_in.dart';
 import 'package:search_roof_top_app/pages/auth/send_reset_password_email_page.dart';
 import 'package:search_roof_top_app/pages/auth/sign_up_page.dart';
 import 'package:search_roof_top_app/pages/home/main_page.dart';
+import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
 
 class SignInPage extends HookConsumerWidget {
@@ -35,6 +36,7 @@ class SignInPage extends HookConsumerWidget {
             padding: const EdgeInsets.all(8),
             child: CommonTextField(
               controller: emailController,
+              keyboardType: TextInputType.emailAddress,
               onFieldSubmitted: (_) =>
                   FocusScope.of(context).requestFocus(passwordFocusNode),
               textInputAction: TextInputAction.next,
@@ -45,6 +47,7 @@ class SignInPage extends HookConsumerWidget {
             padding: const EdgeInsets.all(8),
             child: CommonTextField(
               controller: passwordController,
+              keyboardType: TextInputType.visiblePassword,
               focusNode: passwordFocusNode,
               textInputAction: TextInputAction.done,
               labelText: 'パスワード',
@@ -56,6 +59,10 @@ class SignInPage extends HookConsumerWidget {
                     email: emailController.text,
                     password: passwordController.text,
                     onSuccess: () async {
+                      ScaffoldMessengerService.showSuccessSnackBar(
+                        context,
+                        'ログインしました!',
+                      );
                       await Navigator.pushAndRemoveUntil(
                         context,
                         MainPage.route(),
