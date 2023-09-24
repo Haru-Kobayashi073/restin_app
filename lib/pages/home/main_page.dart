@@ -25,6 +25,7 @@ class MainPage extends HookConsumerWidget {
       const ProfilePage(),
     ];
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: screens[tabType.index],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: ColorName.white,

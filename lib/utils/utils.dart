@@ -1,3 +1,5 @@
+export 'package:flutter_svg/flutter_svg.dart';
+
 export 'async_value_error_loading.dart';
 export 'connectivity.dart';
 export 'constants/constants.dart';

@@ -10,10 +10,22 @@ class StartUpPage extends HookConsumerWidget {
   const StartUpPage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final tabType = ref.watch(tabTypeProvider);
+
     return Scaffold(
+      resizeToAvoidBottomInset: tabType.index == 0 ? false : null,
       body: ref.watch(authUserProvider).when(
-            data: (data) =>
-                data != null ? const MainPage() : const SignInPage(),
+            data: (data) => data != null
+                ? Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      const MainPage(),
+                      tabType.index == 0
+                          ? const FloatSearchBar()
+                          : const SizedBox()
+                    ],
+                  )
+                : const SignInPage(),
             error: (error, stackTrace) => ErrorPage(
               error: error,
               onTapReload: () => ref.invalidate(authUserProvider),

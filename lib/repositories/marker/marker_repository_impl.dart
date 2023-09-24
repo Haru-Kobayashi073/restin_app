@@ -66,4 +66,30 @@ class MarkerRepositoryImpl implements MarkerRepository {
 
     yield list;
   }
+
+  @override
+  Future<List<Marker>> searchMarkers({required String query}) async {
+    final snapshot = await _firestore
+        .collection('markers')
+        .where('title', isEqualTo: query)
+        .get();
+    final list = <Marker>[];
+    for (final document in snapshot.docs) {
+      final data = MarkerData.fromJson(document.data());
+      list.add(
+        Marker(
+          markerId: MarkerId(data.markerId),
+          position: LatLng(
+            data.latitude,
+            data.longitude,
+          ),
+          infoWindow: InfoWindow(
+            title: data.title,
+            snippet: data.description,
+          ),
+        ),
+      );
+    }
+    return list;
+  }
 }

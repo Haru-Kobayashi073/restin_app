@@ -7,4 +7,6 @@ abstract class MarkerRepository {
   Future<void> createMarker({required Marker marker});
 
   Stream<List<Marker>> fetchAllMarkers();
+
+  Future<List<Marker>> searchMarkers({required String query});
 }

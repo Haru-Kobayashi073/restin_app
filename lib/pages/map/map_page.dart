@@ -72,15 +72,16 @@ class MapPage extends HookConsumerWidget {
     final selectedMapType = ref.watch(selectedMapTypeProvider);
     final markers = ref.watch(fetchAllMarkersProvider);
 
-    return markers.when(
-      data: (markers) {
-        return Scaffold(
-          floatingActionButton: const TabActionsButton(),
-          body: currentSpot == null
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : GoogleMap(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      floatingActionButton: const TabActionsButton(),
+      body: currentSpot == null
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : markers.when(
+              data: (markers) {
+                return GoogleMap(
                   onMapCreated: onMapCreated,
                   mapType: selectedMapType,
                   myLocationEnabled: true,
@@ -94,14 +95,14 @@ class MapPage extends HookConsumerWidget {
                     zoom: 14,
                   ),
                   markers: markers.toSet(),
-                ),
-        );
-      },
-      error: (error, stackTrace) => ErrorPage(
-        error: error,
-        onTapReload: () => ref.invalidate(fetchAllMarkersProvider),
-      ),
-      loading: () => const SizedBox(),
+                );
+              },
+              error: (error, stackTrace) => ErrorPage(
+                error: error,
+                onTapReload: () => ref.invalidate(fetchAllMarkersProvider),
+              ),
+              loading: () => const Loading(),
+            ),
     );
   }
 }

@@ -15,3 +15,5 @@ final selectedMapTypeProvider = StateProvider<MapType>((ref) => MapType.normal);
 final markersProvider = StateProvider<List<Marker>>((ref) => []);
 
 final allMarkersProvider = StateProvider.autoDispose<List<Marker>>((ref) => []);
+
+final tappedMarkerPositionProvider = StateProvider<LatLng?>((ref) => null);

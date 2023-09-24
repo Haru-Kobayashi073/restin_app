@@ -30,6 +30,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/picture.svg
   String get picture => 'assets/icons/picture.svg';
 
+  /// File path: assets/icons/right_arrow.svg
+  String get rightArrow => 'assets/icons/right_arrow.svg';
+
   /// File path: assets/icons/save.svg
   String get save => 'assets/icons/save.svg';
 
@@ -44,6 +47,7 @@ class $AssetsIconsGen {
         marker,
         person,
         picture,
+        rightArrow,
         save,
         setting
       ];

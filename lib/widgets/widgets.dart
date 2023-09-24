@@ -5,4 +5,6 @@ export 'home_app_bar.dart';
 export 'loading.dart';
 export 'no_animation_route.dart';
 export 'ok_cancel_alert_dialog.dart';
+export 'search_bar/float_search_bar.dart';
+export 'search_bar/search_result_card.dart';
 export 'sticky_tab_bar_delegate.dart';
