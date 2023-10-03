@@ -32,7 +32,7 @@ class CreateMarkerDialog extends HookConsumerWidget {
     }
 
     final selectedMapType = ref.watch(selectedMapTypeProvider);
-    final markers = ref.watch(fetchAllMarkersProvider);
+    final markers = ref.watch(fetchAllMarkersProvider(context));
     final tappedPosition = useState<LatLng?>(null);
 
     return Scaffold(
