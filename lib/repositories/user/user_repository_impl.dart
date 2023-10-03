@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/models/user_data.dart';
 import 'package:search_roof_top_app/repositories/user/user_repository.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
+import 'package:tuple/tuple.dart';
 
 final userRepositoryImplProvider = Provider<UserRepository>(
   (ref) => UserRepositoryImpl(
@@ -37,15 +38,16 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<void> updateUserData({required File? file}) async {
+  Future<void> updateUserData({
+    required Tuple2<String, File> imgInfo,
+  }) async {
     final uid = currentUser!.uid;
-    if (file != null) {
-      const fileName = 'profile_icon_image.jpg';
-      final reference = _storage.ref().child('users/$uid/$fileName');
-      final imageUrl = await reference.getDownloadURL();
-      await _firestore.collection('users').doc(uid).update({
-        'imageUrl': imageUrl,
-      });
-    }
+    final reference =
+        _storage.ref().child('users').child(uid).child(imgInfo.item1);
+    final imageUrl = await reference.getDownloadURL();
+    await reference.putFile(imgInfo.item2);
+    await _firestore.collection('users').doc(uid).update({
+      'imageUrl': imageUrl,
+    });
   }
 }
