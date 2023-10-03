@@ -13,7 +13,8 @@ _$_MarkerData _$$_MarkerDataFromJson(Map<String, dynamic> json) =>
       markerId: json['markerId'] as String,
       createdAt: json['createdAt'],
       title: json['title'] as String,
-      description: json['description'] as String?,
+      description: json['description'] as String,
+      imageUrl: json['imageUrl'] as String?,
       latitude: (json['latitude'] as num).toDouble(),
       longitude: (json['longitude'] as num).toDouble(),
     );
@@ -26,6 +27,7 @@ Map<String, dynamic> _$$_MarkerDataToJson(_$_MarkerData instance) =>
       'createdAt': instance.createdAt,
       'title': instance.title,
       'description': instance.description,
+      'imageUrl': instance.imageUrl,
       'latitude': instance.latitude,
       'longitude': instance.longitude,
     };

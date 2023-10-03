@@ -11,7 +11,8 @@ abstract class MarkerData with _$MarkerData {
     required String markerId,
     required dynamic createdAt,
     required String title,
-    String? description,
+    required String description,
+    String? imageUrl,
     required double latitude,
     required double longitude,
   }) = _MarkerData;
