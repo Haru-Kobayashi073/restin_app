@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/repositories/file/file_repository_impl.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
+import 'package:tuple/tuple.dart';
 
 final pickImageAndUploadProvider = Provider.autoDispose<
-    Future<File?>>(
+    Future<Tuple2<String, File>>>(
   (ref) async {
     final read = ref.read;
     final isNetworkCheck = await isNetworkConnected();
