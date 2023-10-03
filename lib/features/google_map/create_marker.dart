@@ -10,10 +10,12 @@ import 'package:search_roof_top_app/widgets/widgets.dart';
 final createMarkerProvider = Provider.autoDispose<
     Future<void> Function({
       required Marker marker,
+      required String imageUrl,
       required VoidCallback onSuccess,
     })>(
   (ref) => ({
     required marker,
+    required imageUrl,
     required onSuccess,
   }) async {
     final read = ref.read;
@@ -22,6 +24,7 @@ final createMarkerProvider = Provider.autoDispose<
       read(overlayLoadingWidgetProvider.notifier).update((state) => true);
       await read(markerRepositoryImplProvider).createMarker(
         marker: marker,
+        imageUrl: imageUrl,
       );
       onSuccess();
       debugPrint('マーカーを作成しました。');
