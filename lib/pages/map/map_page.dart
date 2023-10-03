@@ -70,7 +70,6 @@ class MapPage extends HookConsumerWidget {
 
     final currentSpot = ref.watch(currentSpotProvider);
     final selectedMapType = ref.watch(selectedMapTypeProvider);
-    final markers = ref.watch(fetchAllMarkersProvider);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -79,30 +78,30 @@ class MapPage extends HookConsumerWidget {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : markers.when(
-              data: (markers) {
-                return GoogleMap(
-                  onMapCreated: onMapCreated,
-                  mapType: selectedMapType,
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: false,
-                  initialCameraPosition: CameraPosition(
-                    target: ref.watch(currentSpotProvider) ??
-                        const LatLng(
-                          35.658034,
-                          139.701636,
-                        ),
-                    zoom: 14,
-                  ),
-                  markers: markers.toSet(),
-                );
-              },
-              error: (error, stackTrace) => ErrorPage(
-                error: error,
-                onTapReload: () => ref.invalidate(fetchAllMarkersProvider),
+          : ref.watch(fetchAllMarkersProvider(context)).when(
+                data: (markers) {
+                  return GoogleMap(
+                    onMapCreated: onMapCreated,
+                    mapType: selectedMapType,
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: false,
+                    initialCameraPosition: CameraPosition(
+                      target: ref.watch(currentSpotProvider) ??
+                          const LatLng(
+                            35.658034,
+                            139.701636,
+                          ),
+                      zoom: 14,
+                    ),
+                    markers: markers.toSet(),
+                  );
+                },
+                error: (error, stackTrace) => ErrorPage(
+                  error: error,
+                  onTapReload: () => ref.invalidate(fetchAllMarkersProvider),
+                ),
+                loading: () => const Loading(),
               ),
-              loading: () => const Loading(),
-            ),
     );
   }
 }

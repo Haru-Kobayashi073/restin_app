@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 import 'package:search_roof_top_app/features/google_map/google_map.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
+import 'package:tuple/tuple.dart';
 
 class FloatSearchBar extends HookConsumerWidget {
   const FloatSearchBar({super.key});
@@ -30,8 +31,7 @@ class FloatSearchBar extends HookConsumerWidget {
       onQueryChanged: (text) {
         query.value = text;
       },
-      transition: SlideFadeFloatingSearchBarTransition(),
-      // transition: ExpandingFloatingSearchBarTransition(),
+      transition: ExpandingFloatingSearchBarTransition(),
       leadingActions: [
         FloatingSearchBarAction(
           showIfOpened: true,
@@ -55,12 +55,18 @@ class FloatSearchBar extends HookConsumerWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: query.value.isNotEmpty
-                  ? ref.watch(searchMarkersProvider(query.value)).when(
+                  ? ref
+                      .watch(
+                        searchMarkerDataProvider(
+                          Tuple2(query.value, context),
+                        ),
+                      )
+                      .when(
                         data: (markers) {
                           return markers!
                               .map(
                                 (marker) => SearchResultCard(
-                                  marker: marker,
+                                  markerData: marker,
                                   controller: controller.value,
                                   removeState: () => query.value = '',
                                 ),
@@ -71,18 +77,20 @@ class FloatSearchBar extends HookConsumerWidget {
                           ErrorPage(
                             error: error,
                             onTapReload: () => ref.invalidate(
-                              searchMarkersProvider(query.value),
+                              searchMarkerDataProvider(
+                                Tuple2(query.value, context),
+                              ),
                             ),
                           )
                         ],
                         loading: () => [const Loading()],
                       )
-                  : ref.watch(fetchAllMarkersProvider).when(
+                  : ref.watch(fetchAllMarkerDataProvider(context)).when(
                         data: (markers) {
                           return markers
                               .map(
                                 (marker) => SearchResultCard(
-                                  marker: marker,
+                                  markerData: marker,
                                   controller: controller.value,
                                   removeState: () => query.value = '',
                                 ),
@@ -93,11 +101,13 @@ class FloatSearchBar extends HookConsumerWidget {
                           ErrorPage(
                             error: error,
                             onTapReload: () => ref.invalidate(
-                              fetchAllMarkersProvider,
+                              fetchAllMarkerDataProvider(context),
                             ),
                           )
                         ],
-                        loading: () => [const Loading()],
+                        loading: () => [
+                          const Loading(),
+                        ],
                       ),
             ),
           ),

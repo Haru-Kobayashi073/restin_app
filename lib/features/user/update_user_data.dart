@@ -5,14 +5,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/repositories/user/user_repository_impl.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
+import 'package:tuple/tuple.dart';
 
 final updateUserDataProvider = Provider.autoDispose<
     Future<void> Function({
-      File? file,
+      required Tuple2<String, File> imgInfo,
       required VoidCallback onSuccess,
     })>(
   (ref) => ({
-    file,
+    required imgInfo,
     required onSuccess,
   }) async {
     final read = ref.read;
@@ -20,7 +21,7 @@ final updateUserDataProvider = Provider.autoDispose<
     try {
       read(overlayLoadingWidgetProvider.notifier).update((state) => true);
       await read(userRepositoryImplProvider).updateUserData(
-        file: file,
+        imgInfo: imgInfo,
       );
       onSuccess();
       debugPrint('プロフィール画像の登録/情報の更新が完了しました');

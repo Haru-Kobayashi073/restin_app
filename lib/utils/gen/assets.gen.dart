@@ -18,6 +18,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/change-map-type.svg
   String get changeMapType => 'assets/icons/change-map-type.svg';
 
+  /// File path: assets/icons/cross.svg
+  String get cross => 'assets/icons/cross.svg';
+
   /// File path: assets/icons/current-position.svg
   String get currentPosition => 'assets/icons/current-position.svg';
 
@@ -43,6 +46,7 @@ class $AssetsIconsGen {
   List<String> get values => [
         add,
         changeMapType,
+        cross,
         currentPosition,
         marker,
         person,

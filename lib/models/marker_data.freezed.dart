@@ -25,7 +25,8 @@ mixin _$MarkerData {
   String get markerId => throw _privateConstructorUsedError;
   dynamic get createdAt => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  String? get description => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
   double get latitude => throw _privateConstructorUsedError;
   double get longitude => throw _privateConstructorUsedError;
 
@@ -47,7 +48,8 @@ abstract class $MarkerDataCopyWith<$Res> {
       String markerId,
       dynamic createdAt,
       String title,
-      String? description,
+      String description,
+      String? imageUrl,
       double latitude,
       double longitude});
 }
@@ -70,7 +72,8 @@ class _$MarkerDataCopyWithImpl<$Res, $Val extends MarkerData>
     Object? markerId = null,
     Object? createdAt = freezed,
     Object? title = null,
-    Object? description = freezed,
+    Object? description = null,
+    Object? imageUrl = freezed,
     Object? latitude = null,
     Object? longitude = null,
   }) {
@@ -95,9 +98,13 @@ class _$MarkerDataCopyWithImpl<$Res, $Val extends MarkerData>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      description: freezed == description
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       latitude: null == latitude
           ? _value.latitude
@@ -125,7 +132,8 @@ abstract class _$$_MarkerDataCopyWith<$Res>
       String markerId,
       dynamic createdAt,
       String title,
-      String? description,
+      String description,
+      String? imageUrl,
       double latitude,
       double longitude});
 }
@@ -146,7 +154,8 @@ class __$$_MarkerDataCopyWithImpl<$Res>
     Object? markerId = null,
     Object? createdAt = freezed,
     Object? title = null,
-    Object? description = freezed,
+    Object? description = null,
+    Object? imageUrl = freezed,
     Object? latitude = null,
     Object? longitude = null,
   }) {
@@ -171,9 +180,13 @@ class __$$_MarkerDataCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      description: freezed == description
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       latitude: null == latitude
           ? _value.latitude
@@ -196,7 +209,8 @@ class _$_MarkerData implements _MarkerData {
       required this.markerId,
       required this.createdAt,
       required this.title,
-      this.description,
+      required this.description,
+      this.imageUrl,
       required this.latitude,
       required this.longitude});
 
@@ -214,7 +228,9 @@ class _$_MarkerData implements _MarkerData {
   @override
   final String title;
   @override
-  final String? description;
+  final String description;
+  @override
+  final String? imageUrl;
   @override
   final double latitude;
   @override
@@ -222,7 +238,7 @@ class _$_MarkerData implements _MarkerData {
 
   @override
   String toString() {
-    return 'MarkerData(creatorId: $creatorId, docId: $docId, markerId: $markerId, createdAt: $createdAt, title: $title, description: $description, latitude: $latitude, longitude: $longitude)';
+    return 'MarkerData(creatorId: $creatorId, docId: $docId, markerId: $markerId, createdAt: $createdAt, title: $title, description: $description, imageUrl: $imageUrl, latitude: $latitude, longitude: $longitude)';
   }
 
   @override
@@ -239,6 +255,8 @@ class _$_MarkerData implements _MarkerData {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
             (identical(other.latitude, latitude) ||
                 other.latitude == latitude) &&
             (identical(other.longitude, longitude) ||
@@ -255,6 +273,7 @@ class _$_MarkerData implements _MarkerData {
       const DeepCollectionEquality().hash(createdAt),
       title,
       description,
+      imageUrl,
       latitude,
       longitude);
 
@@ -279,7 +298,8 @@ abstract class _MarkerData implements MarkerData {
       required final String markerId,
       required final dynamic createdAt,
       required final String title,
-      final String? description,
+      required final String description,
+      final String? imageUrl,
       required final double latitude,
       required final double longitude}) = _$_MarkerData;
 
@@ -297,7 +317,9 @@ abstract class _MarkerData implements MarkerData {
   @override
   String get title;
   @override
-  String? get description;
+  String get description;
+  @override
+  String? get imageUrl;
   @override
   double get latitude;
   @override

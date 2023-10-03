@@ -25,7 +25,10 @@ class MarkerRepositoryImpl implements MarkerRepository {
   User? get currentUser => _auth.currentUser;
 
   @override
-  Future<void> createMarker({required Marker marker}) async {
+  Future<void> createMarker({
+    required Marker marker,
+    required String? imageUrl,
+  }) async {
     final uid = currentUser!.uid;
     final docId = returnUuidV4();
     final createdAtTimestamp = Timestamp.fromDate(DateTime.now());
@@ -36,7 +39,8 @@ class MarkerRepositoryImpl implements MarkerRepository {
             markerId: marker.markerId.value,
             createdAt: createdAtTimestamp,
             title: marker.infoWindow.title.toString(),
-            description: marker.infoWindow.snippet,
+            description: marker.infoWindow.snippet!,
+            imageUrl: imageUrl ?? '',
             latitude: marker.position.latitude,
             longitude: marker.position.longitude,
           ).toJson(),
@@ -44,51 +48,27 @@ class MarkerRepositoryImpl implements MarkerRepository {
   }
 
   @override
-  Stream<List<Marker>> fetchAllMarkers() async* {
+  Stream<List<MarkerData>> fetchAllMarkers() async* {
     final response = await _firestore.collection('markers').get();
-    final list = <Marker>[];
+    final list = <MarkerData>[];
     for (final document in response.docs) {
       final data = MarkerData.fromJson(document.data());
-      list.add(
-        Marker(
-          markerId: MarkerId(data.markerId),
-          position: LatLng(
-            data.latitude,
-            data.longitude,
-          ),
-          infoWindow: InfoWindow(
-            title: data.title,
-            snippet: data.description,
-          ),
-        ),
-      );
+      list.add(data);
     }
 
     yield list;
   }
 
   @override
-  Future<List<Marker>> searchMarkers({required String query}) async {
+  Future<List<MarkerData>> searchMarkers({required String query}) async {
     final snapshot = await _firestore
         .collection('markers')
         .where('title', isEqualTo: query)
         .get();
-    final list = <Marker>[];
+    final list = <MarkerData>[];
     for (final document in snapshot.docs) {
       final data = MarkerData.fromJson(document.data());
-      list.add(
-        Marker(
-          markerId: MarkerId(data.markerId),
-          position: LatLng(
-            data.latitude,
-            data.longitude,
-          ),
-          infoWindow: InfoWindow(
-            title: data.title,
-            snippet: data.description,
-          ),
-        ),
-      );
+      list.add(data);
     }
     return list;
   }
