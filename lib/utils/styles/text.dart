@@ -46,4 +46,13 @@ class AppTextStyle {
   static const profilePageUserKey = TextStyle(
     fontSize: 16,
   );
+
+  static const markerListTiltle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+  );
+
+  static const markerListDescription = TextStyle(
+    fontSize: 12,
+  );
 }
