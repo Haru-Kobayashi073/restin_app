@@ -36,10 +36,7 @@ class MarkerDetailModal extends HookConsumerWidget {
                   children: [
                     Text(
                       markerData.title,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: AppTextStyle.markerListTiltle,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -64,15 +61,11 @@ class MarkerDetailModal extends HookConsumerWidget {
                     children: [
                       Text(
                         markerData.description,
-                        style: const TextStyle(
-                          fontSize: 12,
-                        ),
+                        style: AppTextStyle.markerListDescription,
                       ),
                       Text(
                         formatTimeAgo(markerData.createdAt),
-                        style: const TextStyle(
-                          fontSize: 12,
-                        ),
+                        style: AppTextStyle.markerListDescription,
                       ),
                     ],
                   ),
