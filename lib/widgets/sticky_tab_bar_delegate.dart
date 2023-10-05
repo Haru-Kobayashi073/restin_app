@@ -20,6 +20,7 @@ class StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   ) {
     return DecoratedBox(
       decoration: const BoxDecoration(
+        color: ColorName.white,
         border: Border(
           bottom: BorderSide(
             color: ColorName.lightGrey,

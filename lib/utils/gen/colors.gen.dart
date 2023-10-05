@@ -25,6 +25,9 @@ class ColorName {
   /// Color: #AFAFAF
   static const Color deepGrey = Color(0xFFAFAFAF);
 
+  /// Color: #FFFBEB
+  static const Color lightAmber = Color(0xFFFFFBEB);
+
   /// Color: #F5F5F5
   static const Color lightGrey = Color(0xFFF5F5F5);
 

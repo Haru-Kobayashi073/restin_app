@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:search_roof_top_app/models/marker_data.dart';
 import 'package:search_roof_top_app/models/user_data.dart';
 import 'package:search_roof_top_app/repositories/user/user_repository.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
@@ -47,5 +48,19 @@ class UserRepositoryImpl implements UserRepository {
     await _firestore.collection('users').doc(uid).update({
       'imageUrl': imageUrl,
     });
+  }
+
+  @override
+  Future<List<MarkerData>?> fetchUserMarkers() async {
+    final uid = currentUser!.uid;
+    final list = <MarkerData>[];
+    final response = await _firestore
+        .collection('markers')
+        .where('creatorId', isEqualTo: uid)
+        .get();
+    for (final document in response.docs) {
+      list.add(MarkerData.fromJson(document.data()));
+    }
+    return list;
   }
 }

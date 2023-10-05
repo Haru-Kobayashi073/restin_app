@@ -23,3 +23,11 @@ String formatTimeAgo(dynamic timestamp) {
     return '';
   }
 }
+
+DateTime? parseTimestampToDateTime(dynamic createdAt) {
+  if (createdAt is Timestamp) {
+    final parseDate = createdAt.toDate();
+    return parseDate;
+  }
+  return null;
+}

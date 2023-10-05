@@ -83,8 +83,8 @@ final fetchAllMarkersProvider =
 );
 
 final fetchAllMarkerDataProvider =
-    StreamProvider.autoDispose.family<List<MarkerData>, BuildContext>(
-  (ref, context) async* {
+    StreamProvider.autoDispose<List<MarkerData>>(
+  (ref) async* {
     final read = ref.read;
     final isNetworkCheck = await isNetworkConnected();
     try {
