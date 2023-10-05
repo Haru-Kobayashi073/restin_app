@@ -28,6 +28,7 @@ class FloatSearchBar extends HookConsumerWidget {
       width: isPortrait ? 600 : 500,
       debounceDelay: const Duration(milliseconds: 500),
       clearQueryOnClose: false,
+      automaticallyImplyBackButton: false,
       onQueryChanged: (text) {
         query.value = text;
       },
@@ -85,7 +86,7 @@ class FloatSearchBar extends HookConsumerWidget {
                         ],
                         loading: () => [const Loading()],
                       )
-                  : ref.watch(fetchAllMarkerDataProvider(context)).when(
+                  : ref.watch(fetchAllMarkerDataProvider).when(
                         data: (markers) {
                           return markers
                               .map(
@@ -101,7 +102,7 @@ class FloatSearchBar extends HookConsumerWidget {
                           ErrorPage(
                             error: error,
                             onTapReload: () => ref.invalidate(
-                              fetchAllMarkerDataProvider(context),
+                              fetchAllMarkerDataProvider,
                             ),
                           )
                         ],
