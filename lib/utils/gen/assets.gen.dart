@@ -18,6 +18,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/change-map-type.svg
   String get changeMapType => 'assets/icons/change-map-type.svg';
 
+  /// File path: assets/icons/comment.svg
+  String get comment => 'assets/icons/comment.svg';
+
   /// File path: assets/icons/cross.svg
   String get cross => 'assets/icons/cross.svg';
 
@@ -33,6 +36,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/picture.svg
   String get picture => 'assets/icons/picture.svg';
 
+  /// File path: assets/icons/pinned.svg
+  String get pinned => 'assets/icons/pinned.svg';
+
   /// File path: assets/icons/right_arrow.svg
   String get rightArrow => 'assets/icons/right_arrow.svg';
 
@@ -42,18 +48,24 @@ class $AssetsIconsGen {
   /// File path: assets/icons/setting.svg
   String get setting => 'assets/icons/setting.svg';
 
+  /// File path: assets/icons/talk.svg
+  String get talk => 'assets/icons/talk.svg';
+
   /// List of all assets
   List<String> get values => [
         add,
         changeMapType,
+        comment,
         cross,
         currentPosition,
         marker,
         person,
         picture,
+        pinned,
         rightArrow,
         save,
-        setting
+        setting,
+        talk
       ];
 }
 
