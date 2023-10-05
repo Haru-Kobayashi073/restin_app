@@ -1,9 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:search_roof_top_app/features/user/fetch_user_data.dart';
+import 'package:search_roof_top_app/features/user/user.dart';
 import 'package:search_roof_top_app/pages/profile/components/profile_components.dart';
+import 'package:search_roof_top_app/pages/profile/user_post_page.dart';
 import 'package:search_roof_top_app/pages/settings/settings_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
@@ -20,15 +20,7 @@ class ProfilePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(fetchUserDataProvider);
-    final tabs = ['投稿', 'いいね'];
-
-    DateTime parseTimestampToDateTime(dynamic createdAt) {
-      if (createdAt is Timestamp) {
-        final parseDate = createdAt.toDate();
-        return parseDate;
-      }
-      return DateTime(2023, 09);
-    }
+    const tabs = ['投稿', '保存'];
 
     return user.when(
       data: (data) {
@@ -91,7 +83,8 @@ class ProfilePage extends HookConsumerWidget {
                               Column(
                                 children: [
                                   Text(
-                                    DateFormat('yyyy年M月d日').format(createdDate),
+                                    DateFormat('yyyy年M月d日')
+                                        .format(createdDate!),
                                     style: AppTextStyle.profilePageUserValue,
                                   ),
                                   const Text(
@@ -106,17 +99,7 @@ class ProfilePage extends HookConsumerWidget {
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             child: FilledButton(
-                              onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute<dynamic>(
-                                //     builder: (context) {
-                                //       return const CreateMarkerDialog();
-                                //     },
-                                //     fullscreenDialog: true,
-                                //   ),
-                                // );
-                              },
+                              onPressed: () {},
                               style: OutlinedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4),
@@ -136,12 +119,7 @@ class ProfilePage extends HookConsumerWidget {
                     delegate: StickyTabBarDelegate(
                       TabBar(
                         tabs: tabs
-                            .map(
-                              (String name) => Tab(
-                                height: 50,
-                                text: name,
-                              ),
-                            )
+                            .map((String name) => Tab(height: 50, text: name))
                             .toList(),
                         labelColor: Colors.black,
                         unselectedLabelColor: ColorName.black,
@@ -154,9 +132,21 @@ class ProfilePage extends HookConsumerWidget {
                   ),
                 ];
               },
-              body: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text('aaa'),
+              body: TabBarView(
+                children: [
+                  ref.watch(fetchUserMarkersProvider).when(
+                        data: (markers) => UserPostPage(markerData: markers),
+                        error: (error, stackTrace) => ErrorPage(
+                          error: error,
+                          onTapReload: () =>
+                              ref.invalidate(fetchUserMarkersProvider),
+                        ),
+                        loading: () => const Loading(),
+                      ),
+                  const Center(
+                    child: Text('いいね'),
+                  ),
+                ],
               ),
             ),
           ),
