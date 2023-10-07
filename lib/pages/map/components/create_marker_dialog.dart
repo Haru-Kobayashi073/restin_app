@@ -13,6 +13,7 @@ class CreateMarkerDialog extends HookConsumerWidget {
   static Route<dynamic> route() {
     return MaterialPageRoute<dynamic>(
       builder: (_) => const CreateMarkerDialog(),
+      fullscreenDialog: true,
     );
   }
 

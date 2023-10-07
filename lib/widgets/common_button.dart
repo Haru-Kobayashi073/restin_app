@@ -17,7 +17,7 @@ class CommonButton extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 72,
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: FilledButton(
         style: FilledButton.styleFrom(
           backgroundColor: color ?? Theme.of(context).primaryColor,
