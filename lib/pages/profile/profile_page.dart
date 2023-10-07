@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:search_roof_top_app/features/user/user.dart';
 import 'package:search_roof_top_app/pages/profile/components/profile_components.dart';
+import 'package:search_roof_top_app/pages/profile/edit_profile_page.dart';
 import 'package:search_roof_top_app/pages/profile/user_post_page.dart';
 import 'package:search_roof_top_app/pages/settings/settings_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
@@ -99,7 +100,10 @@ class ProfilePage extends HookConsumerWidget {
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             child: FilledButton(
-                              onPressed: () {},
+                              onPressed: () => Navigator.push(
+                                context,
+                                EditProfilePage.route(userData: data),
+                              ),
                               style: OutlinedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4),

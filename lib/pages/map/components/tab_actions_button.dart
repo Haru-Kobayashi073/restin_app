@@ -105,12 +105,7 @@ class TabActionsButton extends HookConsumerWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute<dynamic>(
-                  builder: (context) {
-                    return const CreateMarkerDialog();
-                  },
-                  fullscreenDialog: true,
-                ),
+                CreateMarkerDialog.route(),
               );
             },
             icon: Assets.icons.marker,

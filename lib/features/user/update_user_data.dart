@@ -9,11 +9,13 @@ import 'package:tuple/tuple.dart';
 
 final updateUserDataProvider = Provider.autoDispose<
     Future<void> Function({
-      required Tuple2<String, File> imgInfo,
+      String? userName,
+      Tuple2<String, File>? imgInfo,
       required VoidCallback onSuccess,
     })>(
   (ref) => ({
-    required imgInfo,
+    userName,
+    imgInfo,
     required onSuccess,
   }) async {
     final read = ref.read;
@@ -21,6 +23,7 @@ final updateUserDataProvider = Provider.autoDispose<
     try {
       read(overlayLoadingWidgetProvider.notifier).update((state) => true);
       await read(userRepositoryImplProvider).updateUserData(
+        userName: userName,
         imgInfo: imgInfo,
       );
       onSuccess();
