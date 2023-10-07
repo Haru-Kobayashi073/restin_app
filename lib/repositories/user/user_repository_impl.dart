@@ -39,15 +39,21 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<void> updateUserData({required Tuple2<String, File> imgInfo}) async {
+  Future<void> updateUserData({
+    String? userName,
+    Tuple2<String, File>? imgInfo,
+  }) async {
     final uid = currentUser!.uid;
-    final reference =
-        _storage.ref().child('users').child(uid).child(imgInfo.item1);
-    await reference.putFile(imgInfo.item2);
-    final imageUrl = await reference.getDownloadURL();
-    await _firestore.collection('users').doc(uid).update({
-      'imageUrl': imageUrl,
-    });
+    if (imgInfo!.item1.isNotEmpty) {
+      final reference =
+          _storage.ref().child('users').child(uid).child(imgInfo.item1);
+      await reference.putFile(imgInfo.item2);
+      final imageUrl = await reference.getDownloadURL();
+      await _firestore.collection('users').doc(uid).update({
+        'userName': userName,
+        'imageUrl': imageUrl,
+      });
+    }
   }
 
   @override
