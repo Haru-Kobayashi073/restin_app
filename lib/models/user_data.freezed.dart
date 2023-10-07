@@ -24,6 +24,7 @@ mixin _$UserData {
   String? get userName => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
   dynamic get createdAt => throw _privateConstructorUsedError;
+  List<String>? get bookMarkMarkerIds => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +38,11 @@ abstract class $UserDataCopyWith<$Res> {
       _$UserDataCopyWithImpl<$Res, UserData>;
   @useResult
   $Res call(
-      {String email, String? userName, String? imageUrl, dynamic createdAt});
+      {String email,
+      String? userName,
+      String? imageUrl,
+      dynamic createdAt,
+      List<String>? bookMarkMarkerIds});
 }
 
 /// @nodoc
@@ -57,6 +62,7 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
     Object? userName = freezed,
     Object? imageUrl = freezed,
     Object? createdAt = freezed,
+    Object? bookMarkMarkerIds = freezed,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -75,6 +81,10 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      bookMarkMarkerIds: freezed == bookMarkMarkerIds
+          ? _value.bookMarkMarkerIds
+          : bookMarkMarkerIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 }
@@ -87,7 +97,11 @@ abstract class _$$_UserDataCopyWith<$Res> implements $UserDataCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String email, String? userName, String? imageUrl, dynamic createdAt});
+      {String email,
+      String? userName,
+      String? imageUrl,
+      dynamic createdAt,
+      List<String>? bookMarkMarkerIds});
 }
 
 /// @nodoc
@@ -105,6 +119,7 @@ class __$$_UserDataCopyWithImpl<$Res>
     Object? userName = freezed,
     Object? imageUrl = freezed,
     Object? createdAt = freezed,
+    Object? bookMarkMarkerIds = freezed,
   }) {
     return _then(_$_UserData(
       email: null == email
@@ -123,6 +138,10 @@ class __$$_UserDataCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      bookMarkMarkerIds: freezed == bookMarkMarkerIds
+          ? _value._bookMarkMarkerIds
+          : bookMarkMarkerIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -134,7 +153,9 @@ class _$_UserData implements _UserData {
       {required this.email,
       this.userName,
       this.imageUrl,
-      required this.createdAt});
+      required this.createdAt,
+      final List<String>? bookMarkMarkerIds})
+      : _bookMarkMarkerIds = bookMarkMarkerIds;
 
   factory _$_UserData.fromJson(Map<String, dynamic> json) =>
       _$$_UserDataFromJson(json);
@@ -147,10 +168,20 @@ class _$_UserData implements _UserData {
   final String? imageUrl;
   @override
   final dynamic createdAt;
+  final List<String>? _bookMarkMarkerIds;
+  @override
+  List<String>? get bookMarkMarkerIds {
+    final value = _bookMarkMarkerIds;
+    if (value == null) return null;
+    if (_bookMarkMarkerIds is EqualUnmodifiableListView)
+      return _bookMarkMarkerIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'UserData(email: $email, userName: $userName, imageUrl: $imageUrl, createdAt: $createdAt)';
+    return 'UserData(email: $email, userName: $userName, imageUrl: $imageUrl, createdAt: $createdAt, bookMarkMarkerIds: $bookMarkMarkerIds)';
   }
 
   @override
@@ -163,13 +194,20 @@ class _$_UserData implements _UserData {
                 other.userName == userName) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
-            const DeepCollectionEquality().equals(other.createdAt, createdAt));
+            const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
+            const DeepCollectionEquality()
+                .equals(other._bookMarkMarkerIds, _bookMarkMarkerIds));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, email, userName, imageUrl,
-      const DeepCollectionEquality().hash(createdAt));
+  int get hashCode => Object.hash(
+      runtimeType,
+      email,
+      userName,
+      imageUrl,
+      const DeepCollectionEquality().hash(createdAt),
+      const DeepCollectionEquality().hash(_bookMarkMarkerIds));
 
   @JsonKey(ignore: true)
   @override
@@ -190,7 +228,8 @@ abstract class _UserData implements UserData {
       {required final String email,
       final String? userName,
       final String? imageUrl,
-      required final dynamic createdAt}) = _$_UserData;
+      required final dynamic createdAt,
+      final List<String>? bookMarkMarkerIds}) = _$_UserData;
 
   factory _UserData.fromJson(Map<String, dynamic> json) = _$_UserData.fromJson;
 
@@ -202,6 +241,8 @@ abstract class _UserData implements UserData {
   String? get imageUrl;
   @override
   dynamic get createdAt;
+  @override
+  List<String>? get bookMarkMarkerIds;
   @override
   @JsonKey(ignore: true)
   _$$_UserDataCopyWith<_$_UserData> get copyWith =>

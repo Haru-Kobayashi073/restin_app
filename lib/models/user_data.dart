@@ -10,6 +10,7 @@ abstract class UserData with _$UserData {
     String? userName,
     String? imageUrl,
     required dynamic createdAt,
+    List<String>? bookMarkMarkerIds,
   }) = _UserData;
 
   factory UserData.fromJson(Map<String, dynamic> json) =>
