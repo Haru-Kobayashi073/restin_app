@@ -8,9 +8,13 @@ import 'package:tuple/tuple.dart';
 abstract class UserRepository {
   User? get currentUser;
 
-  Future<UserData?> fetchUserData();
+  Future<UserData> fetchUserData();
 
-  Future<void> updateUserData({required Tuple2<String, File>imgInfo});
+  Future<void> updateUserData({required Tuple2<String, File> imgInfo});
 
   Future<List<MarkerData>?> fetchUserMarkers();
+
+  Future<void> switchBookMark({required String markerId});
+
+  Future<List<MarkerData>?> fetchUserBookMarkMarkers();
 }

@@ -32,7 +32,7 @@ class UserRepositoryImpl implements UserRepository {
   User? get currentUser => _auth.currentUser;
 
   @override
-  Future<UserData?> fetchUserData() async {
+  Future<UserData> fetchUserData() async {
     final uid = currentUser!.uid;
     final response = await _firestore.collection('users').doc(uid).get();
     return UserData.fromJson(response.data()!);
@@ -62,5 +62,62 @@ class UserRepositoryImpl implements UserRepository {
       list.add(MarkerData.fromJson(document.data()));
     }
     return list;
+  }
+
+  @override
+  Future<void> switchBookMark({required String markerId}) async {
+    final uid = currentUser!.uid;
+    final userRef = _firestore.collection('users').doc(uid);
+    final markerRef = _firestore.collection('markers').doc(markerId);
+
+    // ドキュメントの現在のデータを取得
+    final userSnapshot = await userRef.get();
+
+    final markerSnapshot = await markerRef.get();
+
+    // ドキュメント内のブックマークリストを取得
+    final currentBookmarks =
+        userSnapshot.data()?['bookMarkMarkerIds'] as List<dynamic>? ?? [];
+
+    final currentMarkerBookMarkList =
+        markerSnapshot.data()?['bookMarkedUserIds'] as List<dynamic>? ?? [];
+
+    // ブックマークのトグル処理
+    currentBookmarks.contains(markerId)
+        ? currentBookmarks.remove(markerId)
+        : currentBookmarks.add(markerId);
+
+    currentMarkerBookMarkList.contains(uid)
+        ? currentMarkerBookMarkList.remove(uid)
+        : currentMarkerBookMarkList.add(uid);
+    // ブックマークリストを更新
+    await userRef.update({
+      'bookMarkMarkerIds': currentBookmarks,
+    });
+    await markerRef.update({
+      'bookMarkedUserIds': currentMarkerBookMarkList,
+    });
+  }
+
+  @override
+  Future<List<MarkerData>?> fetchUserBookMarkMarkers() async {
+    final uid = currentUser!.uid;
+    final list = <MarkerData>[];
+    final response = await _firestore.collection('users').doc(uid).get();
+    final bookMarkMarkerIds =
+        response.data()?['bookMarkMarkerIds'] as List<dynamic>?;
+
+    if (bookMarkMarkerIds != null) {
+      for (final bookMarkMarkerId in bookMarkMarkerIds) {
+        final markerResponse = await _firestore
+            .collection('markers')
+            .doc(bookMarkMarkerId.toString())
+            .get();
+        list.add(MarkerData.fromJson(markerResponse.data()!));
+      }
+      return list;
+    } else {
+      return [];
+    }
   }
 }
