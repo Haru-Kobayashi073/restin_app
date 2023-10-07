@@ -30,12 +30,10 @@ class MarkerRepositoryImpl implements MarkerRepository {
     required String? imageUrl,
   }) async {
     final uid = currentUser!.uid;
-    final docId = returnUuidV4();
     final createdAtTimestamp = Timestamp.fromDate(DateTime.now());
-    await _firestore.collection('markers').doc(docId).set(
+    await _firestore.collection('markers').doc(marker.markerId.value).set(
           MarkerData(
             creatorId: uid,
-            docId: docId,
             markerId: marker.markerId.value,
             createdAt: createdAtTimestamp,
             title: marker.infoWindow.title.toString(),
