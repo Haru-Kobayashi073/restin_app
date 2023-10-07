@@ -117,11 +117,13 @@ class EntryUserInformationPage extends HookConsumerWidget {
   }
 
   Future<void> updateUserData({
-    required Tuple2<String, File> imgInfo,
+    String? userName,
+    Tuple2<String, File>? imgInfo,
     required WidgetRef ref,
     required BuildContext context,
   }) async {
     await ref.read(updateUserDataProvider).call(
+          userName: userName,
           imgInfo: imgInfo,
           onSuccess: () async {
             ScaffoldMessengerService.showSuccessSnackBar(
