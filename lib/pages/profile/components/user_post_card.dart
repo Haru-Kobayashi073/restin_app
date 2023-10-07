@@ -4,6 +4,7 @@ import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/features/google_map/google_map.dart';
+import 'package:search_roof_top_app/features/user/user.dart';
 import 'package:search_roof_top_app/models/marker_data.dart';
 import 'package:search_roof_top_app/pages/home/main_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
@@ -14,7 +15,7 @@ class UserPostCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isTap = useToggle(false);
+    final isSaved = ref.watch(isSavedProvider(markerData));
 
     return Container(
       width: double.infinity,
@@ -68,14 +69,18 @@ class UserPostCard extends HookConsumerWidget {
               IconButton(
                 onPressed: () {},
                 icon: const Icon(FontAwesome.commenting_o),
-                // icon: SvgPicture.asset(
-                //   Assets.icons.comment,
-                //   width: 24,
-                // ),
               ),
               IconButton(
-                onPressed: isTap.toggle,
-                icon: isTap.value
+                onPressed: () async {
+                  await switchBookMark(
+                    markerId: markerData.markerId,
+                    ref: ref,
+                  );
+                  ref
+                    ..invalidate(fetchUserMarkersProvider)
+                    ..invalidate(fetchBookMarkMarkersProvider);
+                },
+                icon: isSaved
                     ? const Icon(
                         Icons.bookmark_outlined,
                         weight: 0.2,
@@ -104,13 +109,8 @@ class UserPostCard extends HookConsumerWidget {
                       ),
                     ),
                   );
-                  mapController?.showMarkerInfoWindow(
-                    MarkerId(
-                      read(
-                        tappedMarkerPositionProvider.notifier,
-                      ).state.toString(),
-                    ),
-                  );
+                  mapController
+                      ?.showMarkerInfoWindow(MarkerId(markerData.markerId));
 
                   ref.read(showModalProvider).call(
                         context: context,
@@ -127,5 +127,12 @@ class UserPostCard extends HookConsumerWidget {
         ],
       ),
     );
+  }
+
+  Future<void> switchBookMark({
+    required String markerId,
+    required WidgetRef ref,
+  }) async {
+    await ref.read(switchBookMarkProvider).call(markerId: markerId);
   }
 }

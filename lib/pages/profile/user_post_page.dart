@@ -4,8 +4,13 @@ import 'package:search_roof_top_app/models/marker_data.dart';
 import 'package:search_roof_top_app/pages/profile/components/profile_components.dart';
 
 class UserPostPage extends HookConsumerWidget {
-  const UserPostPage({super.key, required this.markerData});
+  const UserPostPage({
+    super.key,
+    required this.markerData,
+    this.isUserPostPage = true,
+  });
   final List<MarkerData> markerData;
+  final bool isUserPostPage;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,8 +28,12 @@ class UserPostPage extends HookConsumerWidget {
               ),
             ],
           )
-        : const Center(
-            child: Text('投稿がありません'),
-          );
+        : isUserPostPage
+            ? const Center(
+                child: Text('投稿がありません'),
+              )
+            : const Center(
+                child: Text('保存した投稿がありません'),
+              );
   }
 }

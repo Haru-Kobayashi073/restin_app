@@ -4,7 +4,7 @@ import 'package:search_roof_top_app/models/user_data.dart';
 import 'package:search_roof_top_app/repositories/user/user_repository_impl.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 
-final fetchUserDataProvider = FutureProvider.autoDispose<UserData?>(
+final fetchUserDataProvider = FutureProvider.autoDispose<UserData>(
     (ref) async {
       final read = ref.read;
       final isNetworkCheck = await isNetworkConnected();

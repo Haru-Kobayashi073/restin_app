@@ -24,7 +24,7 @@ class ProfilePage extends HookConsumerWidget {
 
     return user.when(
       data: (data) {
-        final createdDate = parseTimestampToDateTime(data?.createdAt);
+        final createdDate = parseTimestampToDateTime(data.createdAt);
 
         return Scaffold(
           appBar: AppBar(
@@ -46,7 +46,7 @@ class ProfilePage extends HookConsumerWidget {
             title: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Text(
-                data?.userName ?? '名前を設定しましょう',
+                data.userName ?? '名前を設定しましょう',
                 style: AppTextStyle.profilePageUserName,
               ),
             ),
@@ -66,7 +66,7 @@ class ProfilePage extends HookConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               ProfileImageAvator(
-                                imageUrl: data?.imageUrl,
+                                imageUrl: data.imageUrl,
                               ),
                               const Column(
                                 children: [
@@ -143,9 +143,18 @@ class ProfilePage extends HookConsumerWidget {
                         ),
                         loading: () => const Loading(),
                       ),
-                  const Center(
-                    child: Text('いいね'),
-                  ),
+                  ref.watch(fetchBookMarkMarkersProvider).when(
+                        data: (markers) => UserPostPage(
+                          markerData: markers,
+                          isUserPostPage: false,
+                        ),
+                        error: (error, stackTrace) => ErrorPage(
+                          error: error,
+                          onTapReload: () =>
+                              ref.invalidate(fetchBookMarkMarkersProvider),
+                        ),
+                        loading: () => const Loading(),
+                      ),
                 ],
               ),
             ),
