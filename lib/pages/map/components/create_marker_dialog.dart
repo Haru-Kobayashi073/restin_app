@@ -20,8 +20,9 @@ class CreateMarkerDialog extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     void setMarkerPosition(LatLng latLng) {
       debugPrint('marker$latLng');
+      final markerId = returnUuidV4();
       final marker = Marker(
-        markerId: MarkerId(latLng.toString()),
+        markerId: MarkerId(markerId),
         position: latLng,
       );
       Navigator.push(

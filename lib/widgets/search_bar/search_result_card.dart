@@ -60,11 +60,7 @@ class SearchResultCard extends HookConsumerWidget {
             ),
           );
           mapController?.showMarkerInfoWindow(
-            MarkerId(
-              read(
-                tappedMarkerPositionProvider.notifier,
-              ).state.toString(),
-            ),
+            MarkerId(markerData.markerId),
           );
           ref.read(showModalProvider).call(
                 context: context,
