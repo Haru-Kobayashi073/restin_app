@@ -21,7 +21,6 @@ MarkerData _$MarkerDataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$MarkerData {
   String get creatorId => throw _privateConstructorUsedError;
-  String get docId => throw _privateConstructorUsedError;
   String get markerId => throw _privateConstructorUsedError;
   dynamic get createdAt => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
@@ -29,6 +28,7 @@ mixin _$MarkerData {
   String? get imageUrl => throw _privateConstructorUsedError;
   double get latitude => throw _privateConstructorUsedError;
   double get longitude => throw _privateConstructorUsedError;
+  List<String>? get bookMarkedUserIds => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,14 +44,14 @@ abstract class $MarkerDataCopyWith<$Res> {
   @useResult
   $Res call(
       {String creatorId,
-      String docId,
       String markerId,
       dynamic createdAt,
       String title,
       String description,
       String? imageUrl,
       double latitude,
-      double longitude});
+      double longitude,
+      List<String>? bookMarkedUserIds});
 }
 
 /// @nodoc
@@ -68,7 +68,6 @@ class _$MarkerDataCopyWithImpl<$Res, $Val extends MarkerData>
   @override
   $Res call({
     Object? creatorId = null,
-    Object? docId = null,
     Object? markerId = null,
     Object? createdAt = freezed,
     Object? title = null,
@@ -76,15 +75,12 @@ class _$MarkerDataCopyWithImpl<$Res, $Val extends MarkerData>
     Object? imageUrl = freezed,
     Object? latitude = null,
     Object? longitude = null,
+    Object? bookMarkedUserIds = freezed,
   }) {
     return _then(_value.copyWith(
       creatorId: null == creatorId
           ? _value.creatorId
           : creatorId // ignore: cast_nullable_to_non_nullable
-              as String,
-      docId: null == docId
-          ? _value.docId
-          : docId // ignore: cast_nullable_to_non_nullable
               as String,
       markerId: null == markerId
           ? _value.markerId
@@ -114,6 +110,10 @@ class _$MarkerDataCopyWithImpl<$Res, $Val extends MarkerData>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double,
+      bookMarkedUserIds: freezed == bookMarkedUserIds
+          ? _value.bookMarkedUserIds
+          : bookMarkedUserIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 }
@@ -128,14 +128,14 @@ abstract class _$$_MarkerDataCopyWith<$Res>
   @useResult
   $Res call(
       {String creatorId,
-      String docId,
       String markerId,
       dynamic createdAt,
       String title,
       String description,
       String? imageUrl,
       double latitude,
-      double longitude});
+      double longitude,
+      List<String>? bookMarkedUserIds});
 }
 
 /// @nodoc
@@ -150,7 +150,6 @@ class __$$_MarkerDataCopyWithImpl<$Res>
   @override
   $Res call({
     Object? creatorId = null,
-    Object? docId = null,
     Object? markerId = null,
     Object? createdAt = freezed,
     Object? title = null,
@@ -158,15 +157,12 @@ class __$$_MarkerDataCopyWithImpl<$Res>
     Object? imageUrl = freezed,
     Object? latitude = null,
     Object? longitude = null,
+    Object? bookMarkedUserIds = freezed,
   }) {
     return _then(_$_MarkerData(
       creatorId: null == creatorId
           ? _value.creatorId
           : creatorId // ignore: cast_nullable_to_non_nullable
-              as String,
-      docId: null == docId
-          ? _value.docId
-          : docId // ignore: cast_nullable_to_non_nullable
               as String,
       markerId: null == markerId
           ? _value.markerId
@@ -196,6 +192,10 @@ class __$$_MarkerDataCopyWithImpl<$Res>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double,
+      bookMarkedUserIds: freezed == bookMarkedUserIds
+          ? _value._bookMarkedUserIds
+          : bookMarkedUserIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -205,22 +205,21 @@ class __$$_MarkerDataCopyWithImpl<$Res>
 class _$_MarkerData implements _MarkerData {
   const _$_MarkerData(
       {required this.creatorId,
-      required this.docId,
       required this.markerId,
       required this.createdAt,
       required this.title,
       required this.description,
       this.imageUrl,
       required this.latitude,
-      required this.longitude});
+      required this.longitude,
+      final List<String>? bookMarkedUserIds})
+      : _bookMarkedUserIds = bookMarkedUserIds;
 
   factory _$_MarkerData.fromJson(Map<String, dynamic> json) =>
       _$$_MarkerDataFromJson(json);
 
   @override
   final String creatorId;
-  @override
-  final String docId;
   @override
   final String markerId;
   @override
@@ -235,10 +234,20 @@ class _$_MarkerData implements _MarkerData {
   final double latitude;
   @override
   final double longitude;
+  final List<String>? _bookMarkedUserIds;
+  @override
+  List<String>? get bookMarkedUserIds {
+    final value = _bookMarkedUserIds;
+    if (value == null) return null;
+    if (_bookMarkedUserIds is EqualUnmodifiableListView)
+      return _bookMarkedUserIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'MarkerData(creatorId: $creatorId, docId: $docId, markerId: $markerId, createdAt: $createdAt, title: $title, description: $description, imageUrl: $imageUrl, latitude: $latitude, longitude: $longitude)';
+    return 'MarkerData(creatorId: $creatorId, markerId: $markerId, createdAt: $createdAt, title: $title, description: $description, imageUrl: $imageUrl, latitude: $latitude, longitude: $longitude, bookMarkedUserIds: $bookMarkedUserIds)';
   }
 
   @override
@@ -248,7 +257,6 @@ class _$_MarkerData implements _MarkerData {
             other is _$_MarkerData &&
             (identical(other.creatorId, creatorId) ||
                 other.creatorId == creatorId) &&
-            (identical(other.docId, docId) || other.docId == docId) &&
             (identical(other.markerId, markerId) ||
                 other.markerId == markerId) &&
             const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
@@ -260,7 +268,9 @@ class _$_MarkerData implements _MarkerData {
             (identical(other.latitude, latitude) ||
                 other.latitude == latitude) &&
             (identical(other.longitude, longitude) ||
-                other.longitude == longitude));
+                other.longitude == longitude) &&
+            const DeepCollectionEquality()
+                .equals(other._bookMarkedUserIds, _bookMarkedUserIds));
   }
 
   @JsonKey(ignore: true)
@@ -268,14 +278,14 @@ class _$_MarkerData implements _MarkerData {
   int get hashCode => Object.hash(
       runtimeType,
       creatorId,
-      docId,
       markerId,
       const DeepCollectionEquality().hash(createdAt),
       title,
       description,
       imageUrl,
       latitude,
-      longitude);
+      longitude,
+      const DeepCollectionEquality().hash(_bookMarkedUserIds));
 
   @JsonKey(ignore: true)
   @override
@@ -294,22 +304,20 @@ class _$_MarkerData implements _MarkerData {
 abstract class _MarkerData implements MarkerData {
   const factory _MarkerData(
       {required final String creatorId,
-      required final String docId,
       required final String markerId,
       required final dynamic createdAt,
       required final String title,
       required final String description,
       final String? imageUrl,
       required final double latitude,
-      required final double longitude}) = _$_MarkerData;
+      required final double longitude,
+      final List<String>? bookMarkedUserIds}) = _$_MarkerData;
 
   factory _MarkerData.fromJson(Map<String, dynamic> json) =
       _$_MarkerData.fromJson;
 
   @override
   String get creatorId;
-  @override
-  String get docId;
   @override
   String get markerId;
   @override
@@ -324,6 +332,8 @@ abstract class _MarkerData implements MarkerData {
   double get latitude;
   @override
   double get longitude;
+  @override
+  List<String>? get bookMarkedUserIds;
   @override
   @JsonKey(ignore: true)
   _$$_MarkerDataCopyWith<_$_MarkerData> get copyWith =>

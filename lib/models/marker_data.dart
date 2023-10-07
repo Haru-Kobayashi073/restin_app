@@ -7,7 +7,6 @@ part 'marker_data.g.dart';
 abstract class MarkerData with _$MarkerData {
   const factory MarkerData({
     required String creatorId,
-    required String docId,
     required String markerId,
     required dynamic createdAt,
     required String title,
@@ -15,6 +14,7 @@ abstract class MarkerData with _$MarkerData {
     String? imageUrl,
     required double latitude,
     required double longitude,
+    List<String>? bookMarkedUserIds,
   }) = _MarkerData;
 
   factory MarkerData.fromJson(Map<String, dynamic> json) =>
