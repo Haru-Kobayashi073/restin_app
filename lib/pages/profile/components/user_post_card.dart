@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/features/google_map/google_map.dart';
 import 'package:search_roof_top_app/features/user/user.dart';
 import 'package:search_roof_top_app/models/marker_data.dart';
+import 'package:search_roof_top_app/pages/comment/comment_page.dart';
 import 'package:search_roof_top_app/pages/home/main_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 
@@ -67,7 +68,22 @@ class UserPostCard extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet<void>(
+                    isScrollControlled: true,
+                    useRootNavigator: true,
+                    context: context,
+                    backgroundColor: ColorName.white,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(15),
+                      ),
+                    ),
+                    builder: (BuildContext context) {
+                      return CommentPage(markerId: markerData.markerId);
+                    },
+                  );
+                },
                 icon: const Icon(FontAwesome.commenting_o),
               ),
               IconButton(
