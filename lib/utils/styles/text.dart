@@ -55,4 +55,12 @@ class AppTextStyle {
   static const markerListDescription = TextStyle(
     fontSize: 12,
   );
+
+  static const commentUserName = TextStyle(
+    fontSize: 16,
+  );
+
+  static const commentCreatedAt = TextStyle(
+    fontSize: 12,
+  );
 }
