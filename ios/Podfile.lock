@@ -201,7 +201,7 @@ SPEC CHECKSUMS:
   FirebaseFirestore: 8d9dd05bb50e0891ebe4fdd9bd0f9b9d22ea5556
   FirebaseStorage: 1d7ca8c8953fc61ccacaa7c612696b5402968a0d
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_config: 2226c1df19c78fe34a05eb7f1363445f18e76fc1
+  flutter_config: f48f0d47a284f1791aacce2687eabb3309ba7a41
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
   google_maps_flutter_ios: abdac20d6ce8931f6ebc5f46616df241bfaa2cfd
@@ -219,4 +219,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 5417c4394b79438bf5eb0aef3cb98b7d1996d8e4
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.13.0
