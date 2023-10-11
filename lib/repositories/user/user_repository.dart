@@ -8,7 +8,7 @@ import 'package:tuple/tuple.dart';
 abstract class UserRepository {
   User? get currentUser;
 
-  Future<UserData> fetchUserData();
+  Future<UserData> fetchUserData(String? uid);
 
   Future<void> updateUserData({
     String? userName,
