@@ -72,9 +72,9 @@ class OkCancelAlertDialog extends HookConsumerWidget {
               label: okLabel,
               onTap: onTapOk,
               // context: context,
-            )
+            ),
           ],
-        )
+        ),
       ],
     );
   }

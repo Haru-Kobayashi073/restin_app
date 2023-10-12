@@ -51,7 +51,7 @@ class MarkerDetailModal extends HookConsumerWidget {
                         ),
                         child: const Icon(Icons.clear_rounded),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 Padding(

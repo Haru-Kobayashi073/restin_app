@@ -137,9 +137,9 @@ class UserPostCard extends HookConsumerWidget {
                   Assets.icons.marker,
                   width: 24,
                 ),
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

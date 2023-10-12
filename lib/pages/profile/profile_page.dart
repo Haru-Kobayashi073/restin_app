@@ -42,7 +42,7 @@ class ProfilePage extends HookConsumerWidget {
                     SettingsPage.route(),
                   ),
                 ),
-              )
+              ),
             ],
             title: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
