@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:search_roof_top_app/models/comment.dart';
 import 'package:search_roof_top_app/models/marker_data.dart';
 import 'package:search_roof_top_app/repositories/marker/marker_repository.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
@@ -66,6 +67,45 @@ class MarkerRepositoryImpl implements MarkerRepository {
     final list = <MarkerData>[];
     for (final document in snapshot.docs) {
       final data = MarkerData.fromJson(document.data());
+      list.add(data);
+    }
+    return list;
+  }
+
+  @override
+  Future<void> createMarkerComment({
+    required String markerId,
+    required String comment,
+  }) async {
+    final uid = currentUser!.uid;
+    final createdAtTimestamp = Timestamp.fromDate(DateTime.now());
+    final commentId = returnUuidV4();
+    final commentRef = _firestore
+        .collection('markers')
+        .doc(markerId)
+        .collection('comments')
+        .doc(commentId);
+    await commentRef.set(
+      Comment(
+        commentId: commentId,
+        creatorId: uid,
+        comment: comment,
+        createdAt: createdAtTimestamp,
+      ).toJson(),
+    );
+  }
+
+  @override
+  Future<List<Comment>> fetchMarkersComments({required String markerId}) async {
+    final snapshot = await _firestore
+        .collection('markers')
+        .doc(markerId)
+        .collection('comments')
+        .orderBy('createdAt', descending: true)
+        .get();
+    final list = <Comment>[];
+    for (final document in snapshot.docs) {
+      final data = Comment.fromJson(document.data());
       list.add(data);
     }
     return list;

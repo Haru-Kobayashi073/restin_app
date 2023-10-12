@@ -20,7 +20,7 @@ class ProfilePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(fetchUserDataProvider);
+    final user = ref.watch(fetchUserDataProvider(null));
     const tabs = ['投稿', '保存'];
 
     return user.when(

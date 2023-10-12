@@ -32,9 +32,9 @@ class UserRepositoryImpl implements UserRepository {
   User? get currentUser => _auth.currentUser;
 
   @override
-  Future<UserData> fetchUserData() async {
-    final uid = currentUser!.uid;
-    final response = await _firestore.collection('users').doc(uid).get();
+  Future<UserData> fetchUserData(String? uid) async {
+    final userId = uid ?? currentUser!.uid;
+    final response = await _firestore.collection('users').doc(userId).get();
     return UserData.fromJson(response.data()!);
   }
 
