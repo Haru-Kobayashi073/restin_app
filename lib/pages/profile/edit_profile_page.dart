@@ -59,7 +59,7 @@ class EditProfilePage extends HookConsumerWidget {
                                   imgInfo.value.item1!,
                                 ),
                               )
-                            : userData.imageUrl!.isEmpty
+                            : userData.imageUrl.isNull
                                 ? CircleAvatar(
                                     radius: context.deviceWidth * 0.18,
                                     child:
