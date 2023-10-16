@@ -5,14 +5,14 @@ import 'package:search_roof_top_app/repositories/user/user_repository_impl.dart'
 import 'package:search_roof_top_app/utils/utils.dart';
 
 final fetchBookMarkMarkersProvider =
-    FutureProvider.autoDispose<List<MarkerData>>(
-  (ref) async {
+    FutureProvider.autoDispose.family<List<MarkerData>, String?>(
+  (ref, uid) async {
     final read = ref.read;
     final isNetworkCheck = await isNetworkConnected();
     final list = <MarkerData>[];
     try {
       await read(userRepositoryImplProvider)
-          .fetchUserBookMarkMarkers()
+          .fetchUserBookMarkMarkers(uid)
           .then((value) => value!.forEach(list.add));
       debugPrint('保存済みの全マーカーを取得しました。');
       return list;
