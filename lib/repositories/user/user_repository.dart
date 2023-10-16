@@ -17,7 +17,7 @@ abstract class UserRepository {
 
   Future<List<MarkerData>?> fetchUserMarkers();
 
-  Future<void> switchBookMark({required String markerId});
+  Future<bool> switchBookMark({required String markerId});
 
   Future<List<MarkerData>?> fetchUserBookMarkMarkers();
 }
