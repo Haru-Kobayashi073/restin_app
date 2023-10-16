@@ -71,7 +71,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<void> switchBookMark({required String markerId}) async {
+  Future<bool> switchBookMark({required String markerId}) async {
     final uid = currentUser!.uid;
     final userRef = _firestore.collection('users').doc(uid);
     final markerRef = _firestore.collection('markers').doc(markerId);
@@ -103,6 +103,7 @@ class UserRepositoryImpl implements UserRepository {
     await markerRef.update({
       'bookMarkedUserIds': currentMarkerBookMarkList,
     });
+    return currentBookmarks.contains(markerId);
   }
 
   @override

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:search_roof_top_app/models/user_data.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
 
@@ -40,11 +39,8 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
       try {
         read(overlayLoadingWidgetProvider.notifier).update((state) => true);
         final response = await read(authRepositoryImplProvider).signUp(
-          userData: UserData(
-            email: email,
-            userName: userName,
-            createdAt: DateTime.now(),
-          ),
+          email: email,
+          userName: userName,
           password: password,
         );
         await read(sharedPreferencesServiceProvider)

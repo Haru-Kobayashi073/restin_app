@@ -1,8 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:search_roof_top_app/features/google_map/google_map.dart';
+import 'package:search_roof_top_app/features/user/user.dart';
 import 'package:search_roof_top_app/models/marker_data.dart';
+import 'package:search_roof_top_app/pages/comment/comment_page.dart';
+import 'package:search_roof_top_app/pages/profile/profile_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
+import 'package:search_roof_top_app/widgets/widgets.dart';
 
 class MarkerDetailModal extends HookConsumerWidget {
   const MarkerDetailModal({
@@ -13,22 +19,38 @@ class MarkerDetailModal extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            height: 4,
-            margin: const EdgeInsets.fromLTRB(160, 16, 160, 8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: ColorName.mediumGrey,
+    final isSaved = ref.watch(isSavedProvider(markerData));
+    void displaySnackBar({required bool? isSaved}) {
+      Navigator.pop(context);
+      if (isSaved != null) {
+        ScaffoldMessengerService.showSuccessSnackBar(
+          context,
+          isSaved ? '保存しました' : '保存を解除しました',
+        );
+      } else {
+        ScaffoldMessengerService.showExceptionSnackBar(
+          context,
+          'エラーが発生しました',
+        );
+      }
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              height: 4,
+              margin: const EdgeInsets.symmetric(horizontal: 160),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: ColorName.mediumGrey,
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
@@ -38,20 +60,104 @@ class MarkerDetailModal extends HookConsumerWidget {
                       markerData.title,
                       style: AppTextStyle.markerListTiltle,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        width: 32,
-                        height: 32,
-                        decoration: const BoxDecoration(
-                          color: ColorName.mediumGrey,
-                          shape: BoxShape.circle,
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              ProfilePage.route(
+                                markerData.creatorId,
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 14),
+                            child: ref
+                                .watch(
+                                  fetchUserDataProvider(markerData.creatorId),
+                                )
+                                .when(
+                                  data: (user) => user.imageUrl != null
+                                      ? CircleAvatar(
+                                          backgroundImage:
+                                              CachedNetworkImageProvider(
+                                            user.imageUrl!,
+                                          ),
+                                          radius: 14,
+                                        )
+                                      : CircleAvatar(
+                                          radius: 14,
+                                          child: SvgPicture.asset(
+                                            Assets.icons.person,
+                                          ),
+                                        ),
+                                  error: (error, stackTrace) => ErrorPage(
+                                    error: error,
+                                    onTapReload: () => ref.invalidate(
+                                      fetchUserDataProvider(
+                                        markerData.creatorId,
+                                      ),
+                                    ),
+                                  ),
+                                  loading: () => const Loading(),
+                                ),
+                          ),
                         ),
-                        child: const Icon(Icons.clear_rounded),
-                      ),
-                    )
+                        IconButton(
+                          onPressed: () {
+                            showModalBottomSheet<void>(
+                              isScrollControlled: true,
+                              useRootNavigator: true,
+                              context: context,
+                              backgroundColor: ColorName.white,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(15),
+                                ),
+                              ),
+                              builder: (BuildContext context) {
+                                return CommentPage(
+                                  markerId: markerData.markerId,
+                                );
+                              },
+                            );
+                          },
+                          icon: const Icon(FontAwesome.commenting_o),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            final isSaved = await ref
+                                .read(switchBookMarkProvider)
+                                .call(markerId: markerData.markerId);
+                            ref
+                              ..invalidate(fetchAllMarkersProvider)
+                              ..invalidate(fetchBookMarkMarkersProvider);
+                            displaySnackBar(isSaved: isSaved);
+                          },
+                          icon: isSaved
+                              ? const Icon(
+                                  Icons.bookmark_outlined,
+                                  weight: 0.2,
+                                  color: ColorName.amber,
+                                )
+                              : const Icon(Icons.bookmark_outline),
+                          padding: const EdgeInsets.only(right: 8),
+                        ),
+                        GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: Container(
+                            width: 32,
+                            height: 32,
+                            decoration: const BoxDecoration(
+                              color: ColorName.mediumGrey,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(Icons.clear_rounded),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
                 Padding(
@@ -80,8 +186,8 @@ class MarkerDetailModal extends HookConsumerWidget {
                     : const SizedBox(height: 100),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

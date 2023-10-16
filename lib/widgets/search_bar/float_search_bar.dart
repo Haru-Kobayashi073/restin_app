@@ -82,7 +82,7 @@ class FloatSearchBar extends HookConsumerWidget {
                                 Tuple2(query.value, context),
                               ),
                             ),
-                          )
+                          ),
                         ],
                         loading: () => [const Loading()],
                       )
@@ -104,7 +104,7 @@ class FloatSearchBar extends HookConsumerWidget {
                             onTapReload: () => ref.invalidate(
                               fetchAllMarkerDataProvider,
                             ),
-                          )
+                          ),
                         ],
                         loading: () => [
                           const Loading(),

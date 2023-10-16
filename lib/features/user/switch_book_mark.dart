@@ -7,7 +7,7 @@ import 'package:search_roof_top_app/repositories/user/user_repository_impl.dart'
 import 'package:search_roof_top_app/utils/utils.dart';
 
 final switchBookMarkProvider = Provider<
-    Future<void> Function({
+    Future<bool?> Function({
       required String markerId,
     })>(
   (ref) => ({
@@ -16,8 +16,10 @@ final switchBookMarkProvider = Provider<
     final read = ref.read;
     final isNetworkCheck = await isNetworkConnected();
     try {
-      await read(userRepositoryImplProvider).switchBookMark(markerId: markerId);
+      final isSaved = await read(userRepositoryImplProvider)
+          .switchBookMark(markerId: markerId);
       debugPrint('保存しました/削除しました。');
+      return isSaved;
     } on FirebaseAuthException catch (e) {
       if (!isNetworkCheck) {
         const exception = AppException(
@@ -27,5 +29,6 @@ final switchBookMarkProvider = Provider<
       }
       debugPrint('保存エラー: $e');
     }
+    return null;
   },
 );

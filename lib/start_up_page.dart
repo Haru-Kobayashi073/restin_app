@@ -22,7 +22,7 @@ class StartUpPage extends HookConsumerWidget {
                       const MainPage(),
                       tabType.index == 0
                           ? const FloatSearchBar()
-                          : const SizedBox()
+                          : const SizedBox(),
                     ],
                   )
                 : const SignInPage(),

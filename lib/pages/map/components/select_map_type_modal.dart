@@ -151,7 +151,7 @@ class SelectMapTypeModal extends ConsumerWidget {
                       style: AppTextStyle.mapTypeModalOption,
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ],

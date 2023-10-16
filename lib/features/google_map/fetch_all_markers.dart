@@ -34,7 +34,7 @@ final showModalProvider = StateProvider.autoDispose<
 );
 
 final fetchAllMarkersProvider =
-    StreamProvider.autoDispose.family<List<Marker>, BuildContext>(
+    StreamProvider.family<List<Marker>, BuildContext>(
   (ref, context) async* {
     final read = ref.read;
     final isNetworkCheck = await isNetworkConnected();

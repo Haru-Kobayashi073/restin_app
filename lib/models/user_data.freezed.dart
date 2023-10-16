@@ -20,6 +20,7 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserData {
+  String get uid => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String? get userName => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
@@ -38,7 +39,8 @@ abstract class $UserDataCopyWith<$Res> {
       _$UserDataCopyWithImpl<$Res, UserData>;
   @useResult
   $Res call(
-      {String email,
+      {String uid,
+      String email,
       String? userName,
       String? imageUrl,
       dynamic createdAt,
@@ -58,6 +60,7 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uid = null,
     Object? email = null,
     Object? userName = freezed,
     Object? imageUrl = freezed,
@@ -65,6 +68,10 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
     Object? bookMarkMarkerIds = freezed,
   }) {
     return _then(_value.copyWith(
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -97,7 +104,8 @@ abstract class _$$_UserDataCopyWith<$Res> implements $UserDataCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String email,
+      {String uid,
+      String email,
       String? userName,
       String? imageUrl,
       dynamic createdAt,
@@ -115,6 +123,7 @@ class __$$_UserDataCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uid = null,
     Object? email = null,
     Object? userName = freezed,
     Object? imageUrl = freezed,
@@ -122,6 +131,10 @@ class __$$_UserDataCopyWithImpl<$Res>
     Object? bookMarkMarkerIds = freezed,
   }) {
     return _then(_$_UserData(
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -150,7 +163,8 @@ class __$$_UserDataCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_UserData implements _UserData {
   const _$_UserData(
-      {required this.email,
+      {required this.uid,
+      required this.email,
       this.userName,
       this.imageUrl,
       required this.createdAt,
@@ -160,6 +174,8 @@ class _$_UserData implements _UserData {
   factory _$_UserData.fromJson(Map<String, dynamic> json) =>
       _$$_UserDataFromJson(json);
 
+  @override
+  final String uid;
   @override
   final String email;
   @override
@@ -181,7 +197,7 @@ class _$_UserData implements _UserData {
 
   @override
   String toString() {
-    return 'UserData(email: $email, userName: $userName, imageUrl: $imageUrl, createdAt: $createdAt, bookMarkMarkerIds: $bookMarkMarkerIds)';
+    return 'UserData(uid: $uid, email: $email, userName: $userName, imageUrl: $imageUrl, createdAt: $createdAt, bookMarkMarkerIds: $bookMarkMarkerIds)';
   }
 
   @override
@@ -189,6 +205,7 @@ class _$_UserData implements _UserData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UserData &&
+            (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
@@ -203,6 +220,7 @@ class _$_UserData implements _UserData {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      uid,
       email,
       userName,
       imageUrl,
@@ -225,7 +243,8 @@ class _$_UserData implements _UserData {
 
 abstract class _UserData implements UserData {
   const factory _UserData(
-      {required final String email,
+      {required final String uid,
+      required final String email,
       final String? userName,
       final String? imageUrl,
       required final dynamic createdAt,
@@ -233,6 +252,8 @@ abstract class _UserData implements UserData {
 
   factory _UserData.fromJson(Map<String, dynamic> json) = _$_UserData.fromJson;
 
+  @override
+  String get uid;
   @override
   String get email;
   @override

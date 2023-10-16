@@ -10,17 +10,18 @@ import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
 
 class ProfilePage extends HookConsumerWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({super.key, this.userId});
+  final String? userId;
 
-  static Route<dynamic> route() {
+  static Route<dynamic> route(String? userId) {
     return MaterialPageRoute<dynamic>(
-      builder: (_) => const ProfilePage(),
+      builder: (_) => ProfilePage(userId: userId),
     );
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(fetchUserDataProvider(null));
+    final user = ref.watch(fetchUserDataProvider(userId));
     const tabs = ['投稿', '保存'];
 
     return user.when(
@@ -33,16 +34,18 @@ class ProfilePage extends HookConsumerWidget {
             backgroundColor: ColorName.white,
             centerTitle: false,
             actions: [
-              Container(
-                margin: const EdgeInsets.only(right: 12),
-                child: IconButton(
-                  icon: SvgPicture.asset(Assets.icons.setting, width: 66),
-                  onPressed: () => Navigator.push(
-                    context,
-                    SettingsPage.route(),
-                  ),
-                ),
-              )
+              userId != data.uid
+                  ? const SizedBox()
+                  : Container(
+                      margin: const EdgeInsets.only(right: 12),
+                      child: IconButton(
+                        icon: SvgPicture.asset(Assets.icons.setting, width: 66),
+                        onPressed: () => Navigator.push(
+                          context,
+                          SettingsPage.route(),
+                        ),
+                      ),
+                    )
             ],
             title: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -96,24 +99,27 @@ class ProfilePage extends HookConsumerWidget {
                               ),
                             ],
                           ),
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            child: FilledButton(
-                              onPressed: () => Navigator.push(
-                                context,
-                                EditProfilePage.route(userData: data),
-                              ),
-                              style: OutlinedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4),
+                          userId != data.uid
+                              ? const SizedBox()
+                              : Container(
+                                  width: double.infinity,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  child: FilledButton(
+                                    onPressed: () => Navigator.push(
+                                      context,
+                                      EditProfilePage.route(userData: data),
+                                    ),
+                                    style: OutlinedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      'プロフィールを編集',
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              child: const Text(
-                                'プロフィールを編集',
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),

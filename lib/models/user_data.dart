@@ -6,6 +6,7 @@ part 'user_data.g.dart';
 @freezed
 abstract class UserData with _$UserData {
   const factory UserData({
+    required String uid,
     required String email,
     String? userName,
     String? imageUrl,
