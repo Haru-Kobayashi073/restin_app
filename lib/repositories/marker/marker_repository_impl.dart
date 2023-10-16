@@ -44,6 +44,9 @@ class MarkerRepositoryImpl implements MarkerRepository {
             longitude: marker.position.longitude,
           ).toJson(),
         );
+    await _firestore.collection('users').doc(uid).update({
+      'markersCounts': FieldValue.increment(1),
+    });
   }
 
   @override
