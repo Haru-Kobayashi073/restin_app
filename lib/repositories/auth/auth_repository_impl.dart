@@ -29,18 +29,20 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<String?> signUp({
-    required UserData userData,
+    required String email,
+    required String userName,
     required String password,
   }) async {
     final createdAtTimestamp = Timestamp.fromDate(DateTime.now());
     final userCredential = await _auth.createUserWithEmailAndPassword(
-      email: userData.email,
+      email: email,
       password: password,
     );
     await _firestore.collection('users').doc(userCredential.user?.uid).set(
           UserData(
-            email: userData.email,
-            userName: userData.userName,
+            uid: userCredential.user!.uid,
+            email: email,
+            userName: userName,
             createdAt: createdAtTimestamp,
           ).toJson(),
         );

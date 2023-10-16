@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:search_roof_top_app/models/user_data.dart';
 
 abstract class AuthRepository {
   User? get currentUser;
   Stream<User?> authStateChanges();
 
   Future<String?> signUp({
-    required UserData userData,
+    required String email,
+    required String userName,
     required String password,
   });
 
