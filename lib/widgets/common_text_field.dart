@@ -10,12 +10,14 @@ class CommonTextField extends StatelessWidget {
     this.textInputAction,
     this.focusNode,
     this.onFieldSubmitted,
+    this.validator,
     this.autofocus = false,
   });
   final TextEditingController controller;
   final TextInputType? keyboardType;
   final FocusNode? focusNode;
   final void Function(String)? onFieldSubmitted;
+  final String? Function(String?)? validator;
   final TextInputAction? textInputAction;
   final bool autofocus;
   final String labelText;
@@ -29,6 +31,7 @@ class CommonTextField extends StatelessWidget {
       onFieldSubmitted: onFieldSubmitted,
       textInputAction: textInputAction,
       autofocus: autofocus,
+      validator: validator,
       maxLines: null,
       decoration: InputDecoration(
         labelText: labelText,
