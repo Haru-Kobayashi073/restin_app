@@ -26,6 +26,7 @@ mixin _$UserData {
   String? get imageUrl => throw _privateConstructorUsedError;
   dynamic get createdAt => throw _privateConstructorUsedError;
   List<String>? get bookMarkMarkerIds => throw _privateConstructorUsedError;
+  int get markersCounts => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,7 +45,8 @@ abstract class $UserDataCopyWith<$Res> {
       String? userName,
       String? imageUrl,
       dynamic createdAt,
-      List<String>? bookMarkMarkerIds});
+      List<String>? bookMarkMarkerIds,
+      int markersCounts});
 }
 
 /// @nodoc
@@ -66,6 +68,7 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
     Object? imageUrl = freezed,
     Object? createdAt = freezed,
     Object? bookMarkMarkerIds = freezed,
+    Object? markersCounts = null,
   }) {
     return _then(_value.copyWith(
       uid: null == uid
@@ -92,6 +95,10 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.bookMarkMarkerIds
           : bookMarkMarkerIds // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      markersCounts: null == markersCounts
+          ? _value.markersCounts
+          : markersCounts // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -109,7 +116,8 @@ abstract class _$$_UserDataCopyWith<$Res> implements $UserDataCopyWith<$Res> {
       String? userName,
       String? imageUrl,
       dynamic createdAt,
-      List<String>? bookMarkMarkerIds});
+      List<String>? bookMarkMarkerIds,
+      int markersCounts});
 }
 
 /// @nodoc
@@ -129,6 +137,7 @@ class __$$_UserDataCopyWithImpl<$Res>
     Object? imageUrl = freezed,
     Object? createdAt = freezed,
     Object? bookMarkMarkerIds = freezed,
+    Object? markersCounts = null,
   }) {
     return _then(_$_UserData(
       uid: null == uid
@@ -155,6 +164,10 @@ class __$$_UserDataCopyWithImpl<$Res>
           ? _value._bookMarkMarkerIds
           : bookMarkMarkerIds // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      markersCounts: null == markersCounts
+          ? _value.markersCounts
+          : markersCounts // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -168,7 +181,8 @@ class _$_UserData implements _UserData {
       this.userName,
       this.imageUrl,
       required this.createdAt,
-      final List<String>? bookMarkMarkerIds})
+      final List<String>? bookMarkMarkerIds,
+      required this.markersCounts})
       : _bookMarkMarkerIds = bookMarkMarkerIds;
 
   factory _$_UserData.fromJson(Map<String, dynamic> json) =>
@@ -196,8 +210,11 @@ class _$_UserData implements _UserData {
   }
 
   @override
+  final int markersCounts;
+
+  @override
   String toString() {
-    return 'UserData(uid: $uid, email: $email, userName: $userName, imageUrl: $imageUrl, createdAt: $createdAt, bookMarkMarkerIds: $bookMarkMarkerIds)';
+    return 'UserData(uid: $uid, email: $email, userName: $userName, imageUrl: $imageUrl, createdAt: $createdAt, bookMarkMarkerIds: $bookMarkMarkerIds, markersCounts: $markersCounts)';
   }
 
   @override
@@ -213,7 +230,9 @@ class _$_UserData implements _UserData {
                 other.imageUrl == imageUrl) &&
             const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
             const DeepCollectionEquality()
-                .equals(other._bookMarkMarkerIds, _bookMarkMarkerIds));
+                .equals(other._bookMarkMarkerIds, _bookMarkMarkerIds) &&
+            (identical(other.markersCounts, markersCounts) ||
+                other.markersCounts == markersCounts));
   }
 
   @JsonKey(ignore: true)
@@ -225,7 +244,8 @@ class _$_UserData implements _UserData {
       userName,
       imageUrl,
       const DeepCollectionEquality().hash(createdAt),
-      const DeepCollectionEquality().hash(_bookMarkMarkerIds));
+      const DeepCollectionEquality().hash(_bookMarkMarkerIds),
+      markersCounts);
 
   @JsonKey(ignore: true)
   @override
@@ -248,7 +268,8 @@ abstract class _UserData implements UserData {
       final String? userName,
       final String? imageUrl,
       required final dynamic createdAt,
-      final List<String>? bookMarkMarkerIds}) = _$_UserData;
+      final List<String>? bookMarkMarkerIds,
+      required final int markersCounts}) = _$_UserData;
 
   factory _UserData.fromJson(Map<String, dynamic> json) = _$_UserData.fromJson;
 
@@ -264,6 +285,8 @@ abstract class _UserData implements UserData {
   dynamic get createdAt;
   @override
   List<String>? get bookMarkMarkerIds;
+  @override
+  int get markersCounts;
   @override
   @JsonKey(ignore: true)
   _$$_UserDataCopyWith<_$_UserData> get copyWith =>

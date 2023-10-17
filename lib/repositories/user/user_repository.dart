@@ -15,9 +15,9 @@ abstract class UserRepository {
     Tuple2<String, File>? imgInfo,
   });
 
-  Future<List<MarkerData>?> fetchUserMarkers();
+  Future<List<MarkerData>?> fetchUserMarkers(String? uid);
 
   Future<bool> switchBookMark({required String markerId});
 
-  Future<List<MarkerData>?> fetchUserBookMarkMarkers();
+  Future<List<MarkerData>?> fetchUserBookMarkMarkers(String? uid);
 }

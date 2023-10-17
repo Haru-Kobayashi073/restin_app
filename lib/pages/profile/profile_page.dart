@@ -23,6 +23,8 @@ class ProfilePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(fetchUserDataProvider(userId));
     const tabs = ['投稿', '保存'];
+    final myUid =
+        ref.watch(sharedPreferencesServiceProvider).getAuthCredentials();
 
     return user.when(
       data: (data) {
@@ -34,9 +36,8 @@ class ProfilePage extends HookConsumerWidget {
             backgroundColor: ColorName.white,
             centerTitle: false,
             actions: [
-              userId != data.uid
-                  ? const SizedBox()
-                  : Container(
+              userId.isNull || myUid == userId
+                  ? Container(
                       margin: const EdgeInsets.only(right: 12),
                       child: IconButton(
                         icon: SvgPicture.asset(Assets.icons.setting, width: 66),
@@ -46,6 +47,7 @@ class ProfilePage extends HookConsumerWidget {
                         ),
                       ),
                     )
+                  : const SizedBox()
             ],
             title: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -72,13 +74,13 @@ class ProfilePage extends HookConsumerWidget {
                               ProfileImageAvator(
                                 imageUrl: data.imageUrl,
                               ),
-                              const Column(
+                              Column(
                                 children: [
                                   Text(
-                                    '0',
+                                    data.markersCounts.toString(),
                                     style: AppTextStyle.profilePageUserValue,
                                   ),
-                                  Text(
+                                  const Text(
                                     '投稿',
                                     style: AppTextStyle.profilePageUserKey,
                                   ),
@@ -99,9 +101,8 @@ class ProfilePage extends HookConsumerWidget {
                               ),
                             ],
                           ),
-                          userId != data.uid
-                              ? const SizedBox()
-                              : Container(
+                          userId.isNull || myUid == userId
+                              ? Container(
                                   width: double.infinity,
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 16),
@@ -119,7 +120,8 @@ class ProfilePage extends HookConsumerWidget {
                                       'プロフィールを編集',
                                     ),
                                   ),
-                                ),
+                                )
+                              : const SizedBox()
                         ],
                       ),
                     ),
@@ -144,7 +146,7 @@ class ProfilePage extends HookConsumerWidget {
               },
               body: TabBarView(
                 children: [
-                  ref.watch(fetchUserMarkersProvider).when(
+                  ref.watch(fetchUserMarkersProvider(userId)).when(
                         data: (markers) => UserPostPage(markerData: markers),
                         error: (error, stackTrace) => ErrorPage(
                           error: error,
@@ -153,7 +155,7 @@ class ProfilePage extends HookConsumerWidget {
                         ),
                         loading: () => const Loading(),
                       ),
-                  ref.watch(fetchBookMarkMarkersProvider).when(
+                  ref.watch(fetchBookMarkMarkersProvider(userId)).when(
                         data: (markers) => UserPostPage(
                           markerData: markers,
                           isUserPostPage: false,

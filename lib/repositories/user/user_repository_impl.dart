@@ -49,20 +49,30 @@ class UserRepositoryImpl implements UserRepository {
           _storage.ref().child('users').child(uid).child(imgInfo.item1);
       await reference.putFile(imgInfo.item2);
       final imageUrl = await reference.getDownloadURL();
-      await _firestore.collection('users').doc(uid).update({
-        'userName': userName,
-        'imageUrl': imageUrl,
-      });
+      await _firestore.collection('users').doc(uid).update(
+            userName.isNull
+                ? imageUrl.isEmpty
+                    ? {}
+                    : {
+                        'imageUrl': imageUrl,
+                      }
+                : imageUrl.isEmpty
+                    ? {'userName': userName}
+                    : {
+                        'userName': userName,
+                        'imageUrl': imageUrl,
+                      },
+          );
     }
   }
 
   @override
-  Future<List<MarkerData>?> fetchUserMarkers() async {
-    final uid = currentUser!.uid;
+  Future<List<MarkerData>?> fetchUserMarkers(String? uid) async {
+    final userId = uid ?? currentUser!.uid;
     final list = <MarkerData>[];
     final response = await _firestore
         .collection('markers')
-        .where('creatorId', isEqualTo: uid)
+        .where('creatorId', isEqualTo: userId)
         .get();
     for (final document in response.docs) {
       list.add(MarkerData.fromJson(document.data()));
@@ -107,10 +117,10 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<List<MarkerData>?> fetchUserBookMarkMarkers() async {
-    final uid = currentUser!.uid;
+  Future<List<MarkerData>?> fetchUserBookMarkMarkers(String? uid) async {
+    final userId = uid ?? currentUser!.uid;
     final list = <MarkerData>[];
-    final response = await _firestore.collection('users').doc(uid).get();
+    final response = await _firestore.collection('users').doc(userId).get();
     final bookMarkMarkerIds =
         response.data()?['bookMarkMarkerIds'] as List<dynamic>?;
 
