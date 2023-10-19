@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/pages/map/map_page.dart';
+import 'package:search_roof_top_app/pages/profile/non_sign_in_profile_page.dart';
 import 'package:search_roof_top_app/pages/profile/profile_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 
@@ -9,11 +10,12 @@ enum TabType { home, profile }
 final tabTypeProvider = StateProvider<TabType>((ref) => TabType.home);
 
 class MainPage extends HookConsumerWidget {
-  const MainPage({super.key});
+  const MainPage({super.key, this.isAuthenticated = false});
+  final bool isAuthenticated;
 
-  static Route<dynamic> route() {
+  static Route<dynamic> route({bool isAuthenticated = false}) {
     return MaterialPageRoute<dynamic>(
-      builder: (_) => const MainPage(),
+      builder: (_) => MainPage(isAuthenticated: isAuthenticated),
     );
   }
 
@@ -22,7 +24,7 @@ class MainPage extends HookConsumerWidget {
     final tabType = ref.watch(tabTypeProvider);
     final screens = [
       const MapPage(),
-      const ProfilePage(),
+      isAuthenticated ? const ProfilePage() : const NonSignInProfilePage(),
     ];
     return Scaffold(
       resizeToAvoidBottomInset: false,
