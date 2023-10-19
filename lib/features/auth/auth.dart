@@ -1,3 +1,4 @@
+export 'is_authenticated.dart';
 export 'send_reset_password_email.dart';
 export 'sign_in.dart';
 export 'sign_out.dart';

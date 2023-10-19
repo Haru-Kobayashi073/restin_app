@@ -19,6 +19,7 @@ class SettingsPage extends HookConsumerWidget {
           signOutControllerProvider.notifier,
         )
         .signOutProvider;
+    final isAuthenticated = ref.read(isAuthenticatedProvider.notifier).state;
 
     return Scaffold(
       appBar: AppBar(
@@ -35,16 +36,23 @@ class SettingsPage extends HookConsumerWidget {
             title: const Text('利用規約'),
             onTap: () {},
           ),
-          ListTile(
-            title: const Text('ログアウト'),
-            onTap: () => ref.read(signOut).call(
-                  onSuccess: () => Navigator.pushAndRemoveUntil(
-                    context,
-                    SignInPage.route(),
-                    (route) => false,
+          isAuthenticated
+              ? ListTile(
+                  title: const Text('ログアウト'),
+                  onTap: () => ref.read(signOut).call(
+                    onSuccess: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        SignInPage.route(),
+                        (route) => false,
+                      );
+                    },
                   ),
-                ),
-          ),
+                )
+              : ListTile(
+                  title: const Text('ログイン'),
+                  onTap: () => Navigator.push(context, SignInPage.route()),
+                )
         ],
       ),
     );

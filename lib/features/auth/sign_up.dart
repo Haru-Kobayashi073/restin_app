@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:search_roof_top_app/features/auth/auth.dart';
+import 'package:search_roof_top_app/features/user/user.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
 
@@ -45,6 +47,9 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
         );
         await read(sharedPreferencesServiceProvider)
             .setAuthCredentials(uid: response.toString());
+        ref
+          ..invalidate(isAuthenticatedProvider)
+          ..invalidate(isSavedProvider);
         onSuccess();
         debugPrint('新規登録しました');
       } on FirebaseAuthException catch (e) {

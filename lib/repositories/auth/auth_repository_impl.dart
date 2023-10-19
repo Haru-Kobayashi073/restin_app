@@ -51,14 +51,15 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> signIn({
+  Future<String> signIn({
     required String email,
     required String password,
   }) async {
-    await _auth.signInWithEmailAndPassword(
+    final user = await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
+    return user.user!.uid;
   }
 
   @override

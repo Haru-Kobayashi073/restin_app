@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:search_roof_top_app/features/auth/auth.dart';
+import 'package:search_roof_top_app/features/user/user.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
 
@@ -36,10 +38,14 @@ class SignInController extends AutoDisposeAsyncNotifier<void> {
       final isNetworkCheck = await isNetworkConnected();
       try {
         read(overlayLoadingWidgetProvider.notifier).update((state) => true);
-        await read(authRepositoryImplProvider).signIn(
+        final uid = await read(authRepositoryImplProvider).signIn(
           email: email,
           password: password,
         );
+        await read(sharedPreferencesServiceProvider)
+            .setAuthCredentials(uid: uid);
+        ref..invalidate(isAuthenticatedProvider)
+        ..invalidate(isSavedProvider);
         onSuccess();
         debugPrint('ログインしました');
       } on FirebaseAuthException catch (e) {

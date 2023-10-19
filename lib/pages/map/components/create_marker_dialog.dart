@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:search_roof_top_app/features/auth/auth.dart';
 import 'package:search_roof_top_app/features/google_map/google_map.dart';
 import 'package:search_roof_top_app/pages/map/add_marker_option_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
@@ -33,9 +34,26 @@ class CreateMarkerDialog extends HookConsumerWidget {
       ref.read(markersProvider.notifier).state.add(marker);
     }
 
+    final isAuthenticated = ref.read(isAuthenticatedProvider);
     final selectedMapType = ref.watch(selectedMapTypeProvider);
     final markers = ref.watch(fetchAllMarkersProvider(context));
     final tappedPosition = useState<LatLng?>(null);
+
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        if (isAuthenticated) {
+          return;
+        } else {
+          showDialog<void>(
+            context: context,
+            builder: (_) {
+              return const SignInDialog(isTwicePop: true);
+            },
+          );
+        }
+        return;
+      },
+    );
 
     return Scaffold(
       appBar: AppBar(

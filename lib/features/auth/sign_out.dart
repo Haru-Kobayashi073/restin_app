@@ -1,6 +1,9 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:search_roof_top_app/features/auth/auth.dart';
+import 'package:search_roof_top_app/features/user/user.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
 
@@ -33,6 +36,9 @@ class SignOutController extends AutoDisposeAsyncNotifier<void> {
         await read(authRepositoryImplProvider).signOut();
         onSuccess();
         debugPrint('ログアウトしました');
+        await read(sharedPreferencesServiceProvider).deleteAuthCredentials();
+        ref..invalidate(isAuthenticatedProvider)
+        ..invalidate(isSavedProvider);
       } on AppException catch (e) {
         if (!isNetworkCheck) {
           const exception = AppException(

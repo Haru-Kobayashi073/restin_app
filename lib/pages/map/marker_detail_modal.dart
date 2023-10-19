@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:search_roof_top_app/features/auth/auth.dart';
 import 'package:search_roof_top_app/features/google_map/google_map.dart';
 import 'package:search_roof_top_app/features/user/user.dart';
 import 'package:search_roof_top_app/models/marker_data.dart';
@@ -20,6 +21,7 @@ class MarkerDetailModal extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isSaved = ref.watch(isSavedProvider(markerData));
+    final isAuthenticated = ref.read(isAuthenticatedProvider);
     void displaySnackBar({required bool? isSaved}) {
       Navigator.pop(context);
       if (isSaved != null) {
@@ -82,7 +84,7 @@ class MarkerDetailModal extends HookConsumerWidget {
                                       ? CircleAvatar(
                                           backgroundImage:
                                               CachedNetworkImageProvider(
-                                            user.imageUrl!,
+                                            user.imageUrl.toString(),
                                           ),
                                           radius: 14,
                                         )
@@ -127,13 +129,22 @@ class MarkerDetailModal extends HookConsumerWidget {
                         ),
                         IconButton(
                           onPressed: () async {
-                            final isSaved = await ref
-                                .read(switchBookMarkProvider)
-                                .call(markerId: markerData.markerId);
-                            ref
-                              ..invalidate(fetchAllMarkersProvider)
-                              ..invalidate(fetchBookMarkMarkersProvider);
-                            displaySnackBar(isSaved: isSaved);
+                            if (isAuthenticated) {
+                              final isSaved = await ref
+                                  .read(switchBookMarkProvider)
+                                  .call(markerId: markerData.markerId);
+                              ref
+                                ..invalidate(fetchAllMarkersProvider)
+                                ..invalidate(fetchBookMarkMarkersProvider);
+                              displaySnackBar(isSaved: isSaved);
+                            } else {
+                              await showDialog<void>(
+                                context: context,
+                                builder: (_) {
+                                  return const SignInDialog();
+                                },
+                              );
+                            }
                           },
                           icon: isSaved
                               ? const Icon(

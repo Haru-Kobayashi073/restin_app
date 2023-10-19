@@ -65,7 +65,7 @@ class SignInPage extends HookConsumerWidget {
                       );
                       await Navigator.pushAndRemoveUntil(
                         context,
-                        MainPage.route(),
+                        MainPage.route(isAuthenticated: true),
                         (route) => false,
                       );
                     },
@@ -88,6 +88,16 @@ class SignInPage extends HookConsumerWidget {
               await Navigator.push(
                 context,
                 SendResetPasswordEmailPage.route(),
+              );
+            },
+          ),
+          ElevatedButton(
+            child: const Text('スキップ'),
+            onPressed: () async {
+              await Navigator.pushAndRemoveUntil(
+                context,
+                MainPage.route(),
+                (route) => false,
               );
             },
           ),
