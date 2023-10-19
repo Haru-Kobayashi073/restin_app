@@ -100,7 +100,7 @@ class EntryUserInformationPage extends HookConsumerWidget {
                       );
                       await Navigator.pushAndRemoveUntil(
                         context,
-                        MainPage.route(),
+                        MainPage.route(isAuthenticated: true),
                         (route) => false,
                       );
                     }
