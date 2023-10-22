@@ -56,14 +56,7 @@ class CreateMarkerDialog extends HookConsumerWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          '地点を選択してください',
-          style: AppTextStyle.mapTypeModalTitle,
-        ),
-        elevation: 0,
-        backgroundColor: ColorName.white,
-      ),
+      appBar: const HomeAppBar(text: '地点を選択してください'),
       body: markers.when(
         data: (markers) {
           return GoogleMap(
