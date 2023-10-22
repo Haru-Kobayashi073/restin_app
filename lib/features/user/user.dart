@@ -1,3 +1,4 @@
+export 'create_user_data.dart';
 export 'fetch_book_mark_markers.dart';
 export 'fetch_user_data.dart';
 export 'fetch_user_markers.dart';
