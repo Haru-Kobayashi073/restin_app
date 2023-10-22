@@ -12,6 +12,7 @@ class SendResetPasswordEmailPage extends HookConsumerWidget {
   static Route<dynamic> route() {
     return MaterialPageRoute<dynamic>(
       builder: (_) => const SendResetPasswordEmailPage(),
+      fullscreenDialog: true,
     );
   }
 
@@ -24,41 +25,64 @@ class SendResetPasswordEmailPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('パスワードリセット'),
+        backgroundColor: ColorName.white,
         elevation: 0,
+        leading: GestureDetector(
+          child: const Icon(Icons.close, size: 32),
+          onTap: () => Navigator.pop(context),
+        ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: CommonTextField(
-              controller: emailController,
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.done,
-              labelText: 'メールアドレス',
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'パスワードをリセット',
+                  style: AppTextStyle.authPageTitle,
+                ),
+                const Text(
+                  'パスワードをリセットするためのメールを送信します。送り先のメールアドレスを入力してください。',
+                  style: AppTextStyle.greyText,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 32),
+                  child: CommonTextField(
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.done,
+                    labelText: 'メールアドレス',
+                  ),
+                ),
+              ],
             ),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              await ref.read(sendResetPasswordEmail).call(
-                    email: emailController.text,
-                    onSuccess: () async {
-                      ScaffoldMessengerService.showSuccessSnackBar(
-                        context,
-                        'メールが送信されました!',
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: CommonButton(
+                onPressed: () async {
+                  await ref.read(sendResetPasswordEmail).call(
+                        email: emailController.text,
+                        onSuccess: () async {
+                          ScaffoldMessengerService.showSuccessSnackBar(
+                            context,
+                            'メールが送信されました!',
+                          );
+                          await Navigator.pushAndRemoveUntil(
+                            context,
+                            SignInPage.route(),
+                            (route) => false,
+                          );
+                        },
                       );
-                      await Navigator.pushAndRemoveUntil(
-                        context,
-                        SignInPage.route(),
-                        (route) => false,
-                      );
-                    },
-                  );
-            },
-            child: const Text('送信'),
-          ),
-        ],
+                },
+                text: '送信',
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
