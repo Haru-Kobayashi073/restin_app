@@ -9,3 +9,10 @@ const generalUnauthorizedMessage = 'ログインの有効期限が切れたた�
 const unauthorized = '401';
 const notFound = '404';
 const serverError = '500';
+
+// 認証周りの文言
+
+final precautionsForEmailVerified = <String>[
+  '迷惑メールフォルダに移動したおそれがあるので、ご確認ください。',
+  '新規登録ページでご入力されたメールアドレスが間違っている、存在しない場合があります。',
+];
