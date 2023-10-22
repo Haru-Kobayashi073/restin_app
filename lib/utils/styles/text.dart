@@ -30,7 +30,6 @@ class AppTextStyle {
 
   static const commonButtonText = TextStyle(
     fontSize: 16,
-    fontWeight: FontWeight.w600,
   );
 
   static const profilePageUserName = TextStyle(
@@ -62,5 +61,23 @@ class AppTextStyle {
 
   static const commentCreatedAt = TextStyle(
     fontSize: 12,
+  );
+
+  static const greyText = TextStyle(
+    color: ColorName.darkGrey,
+  );
+
+  static const bold = TextStyle(
+    fontWeight: FontWeight.bold,
+  );
+
+  static const underline = TextStyle(
+    color: ColorName.black,
+    decoration: TextDecoration.underline,
+  );
+
+  static const largeGrey = TextStyle(
+    fontSize: 24,
+    color: ColorName.darkGrey,
   );
 }
