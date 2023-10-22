@@ -11,16 +11,22 @@ class CommonTextField extends StatelessWidget {
     this.focusNode,
     this.onFieldSubmitted,
     this.validator,
+    this.obscureText = false,
+    this.maxLines,
     this.autofocus = false,
+    this.suffixIcon,
   });
   final TextEditingController controller;
   final TextInputType? keyboardType;
   final FocusNode? focusNode;
   final void Function(String)? onFieldSubmitted;
   final String? Function(String?)? validator;
+  final bool obscureText;
+  final int? maxLines;
   final TextInputAction? textInputAction;
   final bool autofocus;
   final String labelText;
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +38,13 @@ class CommonTextField extends StatelessWidget {
       textInputAction: textInputAction,
       autofocus: autofocus,
       validator: validator,
-      maxLines: null,
+      obscureText: obscureText,
+      maxLines: maxLines,
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: AppTextStyle.createMarkerTextFieldLabel,
         contentPadding: const EdgeInsets.all(12),
+        suffixIcon: suffixIcon,
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
