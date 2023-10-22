@@ -32,6 +32,32 @@ class UserRepositoryImpl implements UserRepository {
   User? get currentUser => _auth.currentUser;
 
   @override
+  Future<void> createUserData(
+    String? userName,
+    Tuple2<String, File>? imgInfo,
+  ) async {
+    String? imageUrl;
+    final uid = currentUser!.uid;
+    final createdAtTimestamp = Timestamp.fromDate(DateTime.now());
+    if (imgInfo != null && imgInfo.item1.isNotEmpty) {
+      final reference =
+          _storage.ref().child('users').child(uid).child(imgInfo.item1);
+      await reference.putFile(imgInfo.item2);
+      imageUrl = await reference.getDownloadURL();
+    }
+    await _firestore.collection('users').doc(currentUser?.uid).set(
+          UserData(
+            uid: currentUser?.uid ?? '',
+            email: currentUser?.email ?? '',
+            userName: userName,
+            imageUrl: imageUrl,
+            createdAt: createdAtTimestamp,
+            markersCounts: 0,
+          ).toJson(),
+        );
+  }
+
+  @override
   Future<UserData> fetchUserData(String? uid) async {
     final userId = uid ?? currentUser!.uid;
     final response = await _firestore.collection('users').doc(userId).get();
@@ -44,9 +70,9 @@ class UserRepositoryImpl implements UserRepository {
     Tuple2<String, File>? imgInfo,
   }) async {
     final uid = currentUser!.uid;
-    if (imgInfo!.item1.isNotEmpty) {
+    if (imgInfo != null || userName != null) {
       final reference =
-          _storage.ref().child('users').child(uid).child(imgInfo.item1);
+          _storage.ref().child('users').child(uid).child(imgInfo!.item1);
       await reference.putFile(imgInfo.item2);
       final imageUrl = await reference.getDownloadURL();
       await _firestore.collection('users').doc(uid).update(

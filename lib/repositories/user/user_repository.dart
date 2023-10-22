@@ -8,6 +8,11 @@ import 'package:tuple/tuple.dart';
 abstract class UserRepository {
   User? get currentUser;
 
+  Future<void> createUserData(
+    String? userName,
+    Tuple2<String, File>? imgInfo,
+  );
+
   Future<UserData> fetchUserData(String? uid);
 
   Future<void> updateUserData({
