@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:search_roof_top_app/utils/styles/styles.dart';
+import 'package:search_roof_top_app/utils/utils.dart';
 
 class CommonButton extends StatelessWidget {
   const CommonButton({
@@ -16,11 +16,14 @@ class CommonButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 72,
+      height: 64,
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: FilledButton(
         style: FilledButton.styleFrom(
           backgroundColor: color ?? Theme.of(context).primaryColor,
+          side: color != null
+              ? const BorderSide(color: ColorName.lightGrey, width: 2)
+              : null,
         ),
         onPressed: onPressed,
         child: Text(

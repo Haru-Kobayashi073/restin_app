@@ -26,13 +26,11 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
   final signUpProvider = Provider.autoDispose<
       Future<void> Function({
         required String email,
-        required String userName,
         required String password,
         required VoidCallback onSuccess,
       })>(
     (ref) => ({
       required email,
-      required userName,
       required password,
       required onSuccess,
     }) async {
@@ -42,7 +40,6 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
         read(overlayLoadingWidgetProvider.notifier).update((state) => true);
         final response = await read(authRepositoryImplProvider).signUp(
           email: email,
-          userName: userName,
           password: password,
         );
         await read(sharedPreferencesServiceProvider)
@@ -51,7 +48,7 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
           ..invalidate(isAuthenticatedProvider)
           ..invalidate(isSavedProvider);
         onSuccess();
-        debugPrint('新規登録しました');
+        debugPrint('送信しました');
       } on FirebaseAuthException catch (e) {
         if (!isNetworkCheck) {
           const exception = AppException(
@@ -60,7 +57,7 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
           throw exception;
         }
 
-        if (userName.isEmpty || email.isEmpty || password.isEmpty) {
+        if (email.isEmpty || password.isEmpty) {
           const exception = AppException(
             message: 'Please input your user name, email, and password.',
           );

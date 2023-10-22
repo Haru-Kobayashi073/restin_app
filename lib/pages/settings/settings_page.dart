@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/features/auth/auth.dart';
 import 'package:search_roof_top_app/pages/auth/sign_in_page.dart';
+import 'package:search_roof_top_app/widgets/widgets.dart';
 
 class SettingsPage extends HookConsumerWidget {
   const SettingsPage({super.key});
@@ -22,10 +23,7 @@ class SettingsPage extends HookConsumerWidget {
     final isAuthenticated = ref.read(isAuthenticatedProvider.notifier).state;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('設定'),
-        elevation: 0,
-      ),
+      appBar: const HomeAppBar(text: '設定'),
       body: ListView(
         children: [
           ListTile(

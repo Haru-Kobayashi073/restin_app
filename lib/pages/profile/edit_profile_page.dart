@@ -31,10 +31,7 @@ class EditProfilePage extends HookConsumerWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: ColorName.white,
-      ),
+      appBar: const HomeAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

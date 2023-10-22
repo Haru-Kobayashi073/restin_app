@@ -49,10 +49,7 @@ class AddMarkerOptionPage extends HookConsumerWidget {
         return cancel ?? false;
       },
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: ColorName.white,
-        ),
+        appBar: const HomeAppBar(),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),

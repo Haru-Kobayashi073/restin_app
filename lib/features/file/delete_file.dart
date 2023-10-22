@@ -6,18 +6,15 @@ import 'package:search_roof_top_app/utils/utils.dart';
 final deleteFileProvider = Provider.autoDispose<
     Future<void> Function({
       required String url,
-      required VoidCallback onSuccess,
     })>(
   (ref) => ({
     required url,
-    required onSuccess,
   }) async {
     final read = ref.read;
     final isNetworkCheck = await isNetworkConnected();
     try {
       await read(fileRepositoryImplProvider).deleteFile(url);
       debugPrint('画像を削除しました。');
-      onSuccess();
     } on AppException catch (e) {
       if (!isNetworkCheck) {
         const exception = AppException(

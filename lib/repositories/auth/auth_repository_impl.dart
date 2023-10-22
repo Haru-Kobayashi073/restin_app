@@ -1,15 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:search_roof_top_app/models/user_data.dart';
 import 'package:search_roof_top_app/repositories/auth/auth_repository.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 
 final authRepositoryImplProvider = Provider<AuthRepository>(
-  (ref) => AuthRepositoryImpl(
-    ref.watch(authProvider),
-    ref.watch(firestoreProvider),
-  ),
+  (ref) => AuthRepositoryImpl(ref.watch(authProvider)),
 );
 
 final authUserProvider = StreamProvider<User?>(
@@ -17,36 +12,35 @@ final authUserProvider = StreamProvider<User?>(
 );
 
 class AuthRepositoryImpl implements AuthRepository {
-  AuthRepositoryImpl(this._auth, this._firestore);
+  AuthRepositoryImpl(this._auth);
   final FirebaseAuth _auth;
-  final FirebaseFirestore _firestore;
 
   @override
   User? get currentUser => _auth.currentUser;
-
   @override
   Stream<User?> authStateChanges() => _auth.authStateChanges();
 
   @override
+  Future<bool> checkEmailVerified() async {
+    await _auth.currentUser?.reload();
+    if (_auth.currentUser == null) {
+      return false;
+    } else {
+      return _auth.currentUser!.emailVerified;
+    }
+  }
+
+  @override
   Future<String?> signUp({
     required String email,
-    required String userName,
     required String password,
   }) async {
-    final createdAtTimestamp = Timestamp.fromDate(DateTime.now());
     final userCredential = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
-    await _firestore.collection('users').doc(userCredential.user?.uid).set(
-          UserData(
-            uid: userCredential.user!.uid,
-            email: email,
-            userName: userName,
-            createdAt: createdAtTimestamp,
-            markersCounts: 0,
-          ).toJson(),
-        );
+    await userCredential.user?.sendEmailVerification();
+
     return userCredential.user?.uid;
   }
 

@@ -40,7 +40,7 @@ class NonSignInProfilePage extends HookConsumerWidget {
         title: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 32),
           child: Text(
-            '新規登録/ログインをしよう！',
+            '未設定',
             style: AppTextStyle.profilePageUserName,
           ),
         ),

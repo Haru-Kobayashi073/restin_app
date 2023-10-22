@@ -16,3 +16,4 @@ export 'loading.dart';
 export 'scaffold_messanger_service.dart';
 export 'shared_preferences_service.dart';
 export 'styles/styles.dart';
+export 'validator.dart';
