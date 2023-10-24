@@ -39,6 +39,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/pinned.svg
   String get pinned => 'assets/icons/pinned.svg';
 
+  /// File path: assets/icons/restin.svg
+  String get restin => 'assets/icons/restin.svg';
+
   /// File path: assets/icons/right_arrow.svg
   String get rightArrow => 'assets/icons/right_arrow.svg';
 
@@ -62,6 +65,7 @@ class $AssetsIconsGen {
         person,
         picture,
         pinned,
+        restin,
         rightArrow,
         save,
         setting,
@@ -76,12 +80,21 @@ class $AssetsImagesGen {
   AssetGenImage get defaultMap =>
       const AssetGenImage('assets/images/default-map.png');
 
+  /// File path: assets/images/restin_large.png
+  AssetGenImage get restinLarge =>
+      const AssetGenImage('assets/images/restin_large.png');
+
+  /// File path: assets/images/restin_logo.png
+  AssetGenImage get restinLogo =>
+      const AssetGenImage('assets/images/restin_logo.png');
+
   /// File path: assets/images/satellite-map.png
   AssetGenImage get satelliteMap =>
       const AssetGenImage('assets/images/satellite-map.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [defaultMap, satelliteMap];
+  List<AssetGenImage> get values =>
+      [defaultMap, restinLarge, restinLogo, satelliteMap];
 }
 
 class Assets {
