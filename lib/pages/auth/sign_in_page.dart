@@ -124,16 +124,6 @@ class SignInPage extends HookConsumerWidget {
                   ),
                 ],
               ),
-              // ElevatedButton(
-              //   child: const Text('スキップ'),
-              //   onPressed: () async {
-              //     await Navigator.pushAndRemoveUntil(
-              //       context,
-              //       MainPage.route(),
-              //       (route) => false,
-              //     );
-              //   },
-              // ),
             ],
           ),
         ),

@@ -22,13 +22,15 @@ class CommonButton extends StatelessWidget {
         style: FilledButton.styleFrom(
           backgroundColor: color ?? Theme.of(context).primaryColor,
           side: color != null
-              ? const BorderSide(color: ColorName.lightGrey, width: 2)
+              ? const BorderSide(color: ColorName.amber, width: 2)
               : null,
         ),
         onPressed: onPressed,
         child: Text(
           text,
-          style: AppTextStyle.commonButtonText,
+          style: color != null
+              ? AppTextStyle.commonButtonYellow
+              : AppTextStyle.commonButtonText,
         ),
       ),
     );
