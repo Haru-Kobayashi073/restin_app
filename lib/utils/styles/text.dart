@@ -30,6 +30,14 @@ class AppTextStyle {
 
   static const commonButtonText = TextStyle(
     fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: ColorName.white,
+  );
+
+  static const commonButtonYellow = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: ColorName.amber,
   );
 
   static const profilePageUserName = TextStyle(
