@@ -41,7 +41,7 @@ class SettingsPage extends HookConsumerWidget {
                     onSuccess: () {
                       Navigator.pushAndRemoveUntil(
                         context,
-                        SignInPage.route(),
+                        SignInPage.route(canPop: false),
                         (route) => false,
                       );
                     },
