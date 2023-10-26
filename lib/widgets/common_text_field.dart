@@ -30,52 +30,61 @@ class CommonTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      focusNode: focusNode,
-      onFieldSubmitted: onFieldSubmitted,
-      textInputAction: textInputAction,
-      autofocus: autofocus,
-      validator: validator,
-      obscureText: obscureText,
-      maxLines: maxLines,
-      decoration: InputDecoration(
-        labelText: labelText,
-        labelStyle: AppTextStyle.createMarkerTextFieldLabel,
-        contentPadding: const EdgeInsets.all(12),
-        suffixIcon: suffixIcon,
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            color: ColorName.red,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Text(labelText),
+        ),
+        TextFormField(
+          controller: controller,
+          keyboardType: keyboardType,
+          focusNode: focusNode,
+          onFieldSubmitted: onFieldSubmitted,
+          textInputAction: textInputAction,
+          autofocus: autofocus,
+          validator: validator,
+          obscureText: obscureText,
+          maxLines: maxLines,
+          decoration: InputDecoration(
+            hintText: '入力してください',
+            hintStyle: AppTextStyle.createMarkerTextFieldLabel,
+            contentPadding: const EdgeInsets.all(12),
+            suffixIcon: suffixIcon,
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(
+                color: ColorName.red,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(
+                color: ColorName.mediumGrey,
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(
+                color: ColorName.red,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(
+                color: ColorName.mediumGrey,
+              ),
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(
+                color: ColorName.mediumGrey,
+              ),
+            ),
           ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            color: ColorName.mediumGrey,
-          ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            color: ColorName.red,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            color: ColorName.mediumGrey,
-          ),
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            color: ColorName.mediumGrey,
-          ),
-        ),
-      ),
+      ],
     );
   }
 }

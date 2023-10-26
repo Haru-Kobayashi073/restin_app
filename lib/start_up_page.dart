@@ -20,15 +20,7 @@ class StartUpPage extends HookConsumerWidget {
       body: ref.watch(authUserProvider).when(
             data: (data) {
               return !isFirstLaunch
-                  ? Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        MainPage(isAuthenticated: data != null),
-                        tabType.index == 0
-                            ? const FloatSearchBar()
-                            : const SizedBox(),
-                      ],
-                    )
+                  ? MainPage(isAuthenticated: data != null)
                   : const FirstLaunchPage();
             },
             error: (error, stackTrace) => ErrorPage(

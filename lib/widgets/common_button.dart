@@ -22,7 +22,7 @@ class CommonButton extends StatelessWidget {
         style: FilledButton.styleFrom(
           backgroundColor: color ?? Theme.of(context).primaryColor,
           side: color != null
-              ? const BorderSide(color: ColorName.amber, width: 2)
+              ? const BorderSide(color: ColorName.amber)
               : null,
         ),
         onPressed: onPressed,

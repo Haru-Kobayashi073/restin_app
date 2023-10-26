@@ -4,10 +4,12 @@ import 'package:search_roof_top_app/pages/map/map_page.dart';
 import 'package:search_roof_top_app/pages/profile/non_sign_in_profile_page.dart';
 import 'package:search_roof_top_app/pages/profile/profile_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
+import 'package:search_roof_top_app/widgets/widgets.dart';
 
 enum TabType { home, profile }
 
-final tabTypeProvider = StateProvider<TabType>((ref) => TabType.home);
+final tabTypeProvider =
+    StateProvider.autoDispose<TabType>((ref) => TabType.home);
 
 class MainPage extends HookConsumerWidget {
   const MainPage({super.key, this.isAuthenticated = false});
@@ -26,9 +28,15 @@ class MainPage extends HookConsumerWidget {
       const MapPage(),
       isAuthenticated ? const ProfilePage() : const NonSignInProfilePage(),
     ];
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: screens[tabType.index],
+      body: Stack(
+        children: [
+          screens[tabType.index],
+          tabType.index == 0 ? const FloatSearchBar() : const SizedBox(),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: ColorName.white,
         selectedItemColor: ColorName.black,
