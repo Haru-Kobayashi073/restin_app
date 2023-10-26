@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 
 class AppTextStyle {
@@ -21,7 +22,7 @@ class AppTextStyle {
 
   static const createMarkerTextFieldLabel = TextStyle(
     fontSize: 16,
-    color: ColorName.black,
+    color: ColorName.deepGrey,
   );
 
   static const saveMarkerText = TextStyle(
@@ -87,5 +88,16 @@ class AppTextStyle {
   static const largeGrey = TextStyle(
     fontSize: 24,
     color: ColorName.darkGrey,
+  );
+
+  static TextStyle mPlusFont = TextStyle(
+    fontSize: 16,
+    fontFamily: GoogleFonts.mPlusRounded1c().fontFamily,
+  );
+
+  static TextStyle largePoppinFont = TextStyle(
+    fontSize: 32,
+    fontWeight: FontWeight.bold,
+    fontFamily: GoogleFonts.poppins().fontFamily,
   );
 }
