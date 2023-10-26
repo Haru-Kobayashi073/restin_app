@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/pages/auth/sign_in_page.dart';
 import 'package:search_roof_top_app/pages/home/main_page.dart';
@@ -42,19 +41,12 @@ class FirstLaunchPage extends HookConsumerWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
                     'Restin',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: GoogleFonts.poppins().fontFamily,
-                    ),
+                    style: AppTextStyle.largePoppinFont,
                   ),
                 ),
                 Text(
                   '手軽に休憩場所を探そう',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: GoogleFonts.mPlusRounded1c().fontFamily,
-                  ),
+                  style: AppTextStyle.mPlusFont,
                 ),
               ],
             ),
