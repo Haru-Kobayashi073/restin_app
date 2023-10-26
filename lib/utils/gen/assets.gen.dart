@@ -15,8 +15,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/add.svg
   String get add => 'assets/icons/add.svg';
 
+  /// File path: assets/icons/back.svg
+  String get back => 'assets/icons/back.svg';
+
   /// File path: assets/icons/change-map-type.svg
   String get changeMapType => 'assets/icons/change-map-type.svg';
+
+  /// File path: assets/icons/check_circle.svg
+  String get checkCircle => 'assets/icons/check_circle.svg';
 
   /// File path: assets/icons/comment.svg
   String get comment => 'assets/icons/comment.svg';
@@ -57,7 +63,9 @@ class $AssetsIconsGen {
   /// List of all assets
   List<String> get values => [
         add,
+        back,
         changeMapType,
+        checkCircle,
         comment,
         cross,
         currentPosition,
