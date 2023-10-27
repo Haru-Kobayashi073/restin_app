@@ -1,4 +1,4 @@
-package com.example.search_roof_top_app
+package com.restin
 
 import io.flutter.embedding.android.FlutterActivity
 
