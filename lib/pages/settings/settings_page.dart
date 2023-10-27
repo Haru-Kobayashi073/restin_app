@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/features/auth/auth.dart';
+import 'package:search_roof_top_app/features/setting/setting.dart';
 import 'package:search_roof_top_app/pages/auth/sign_in_page.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
 
@@ -27,25 +28,38 @@ class SettingsPage extends HookConsumerWidget {
       body: ListView(
         children: [
           ListTile(
-            title: const Text('プライバシーポリシー'),
-            onTap: () {},
+            title: const Text('利用規約'),
+            onTap: () async => ref.read(termsSiteLaunchProvider).call(),
           ),
           ListTile(
-            title: const Text('利用規約'),
-            onTap: () {},
+            title: const Text('プライバシーポリシー'),
+            onTap: () async => ref.read(privacySiteLaunchProvider).call(),
           ),
           isAuthenticated
               ? ListTile(
                   title: const Text('ログアウト'),
-                  onTap: () => ref.read(signOut).call(
-                    onSuccess: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        SignInPage.route(canPop: false),
-                        (route) => false,
-                      );
-                    },
-                  ),
+                  onTap: () async {
+                    await showDialog<void>(
+                      context: context,
+                      builder: (_) => CommonDialog(
+                        title: '本当にログアウトしますか？',
+                        cancelText: 'キャンセル',
+                        okText: 'はい',
+                        onPressed: () {
+                          Navigator.pop(context);
+                          ref.read(signOut).call(
+                            onSuccess: () {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                SignInPage.route(canPop: false),
+                                (route) => false,
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    );
+                  },
                 )
               : ListTile(
                   title: const Text('ログイン'),
