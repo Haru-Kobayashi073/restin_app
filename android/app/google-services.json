@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:597548665604:android:c9e3cccd77c280b2031e51",
+        "mobilesdk_app_id": "1:597548665604:android:287180ad7a96d563031e51",
         "android_client_info": {
-          "package_name": "com.example.search_roof_top_app"
+          "package_name": "com.restin"
         }
       },
       "oauth_client": [

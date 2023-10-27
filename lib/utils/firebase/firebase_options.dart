@@ -42,7 +42,7 @@ class DefaultFirebaseOptions {
           'DefaultFirebaseOptions have not been configured for linux - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
-      // ignore: no_default_cases
+        // ignore: no_default_cases
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -52,7 +52,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCW6ShOmtxuFZxYGIofKEU27HUmO6zfI_I',
-    appId: '1:597548665604:android:c9e3cccd77c280b2031e51',
+    appId: '1:597548665604:android:287180ad7a96d563031e51',
     messagingSenderId: '597548665604',
     projectId: 'search-roof-top-app',
     storageBucket: 'search-roof-top-app.appspot.com',
@@ -60,11 +60,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDtSsvDy3cIukyYutoilWBSpUXqQobEqi0',
-    appId: '1:597548665604:ios:80b664b10146a1d4031e51',
+    appId: '1:597548665604:ios:9372c5091089c07b031e51',
     messagingSenderId: '597548665604',
     projectId: 'search-roof-top-app',
     storageBucket: 'search-roof-top-app.appspot.com',
-    iosClientId: '597548665604-olfor4058v3s4ge84pjoia9919lvlao1.apps.googleusercontent.com',
-    iosBundleId: 'com.example.searchRoofTopApp',
+    iosBundleId: 'com.restin',
   );
 }
