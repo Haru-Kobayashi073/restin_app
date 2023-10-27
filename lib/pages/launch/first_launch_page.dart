@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:search_roof_top_app/features/setting/setting.dart';
 import 'package:search_roof_top_app/pages/auth/sign_in_page.dart';
 import 'package:search_roof_top_app/pages/home/main_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
@@ -53,22 +54,94 @@ class FirstLaunchPage extends HookConsumerWidget {
             Column(
               children: [
                 CommonButton(
-                  onPressed: () => Navigator.push(context, SignInPage.route()),
+                  onPressed: () async {
+                    await showDialog<void>(
+                      context: context,
+                      builder: (_) => CommonDialog(
+                        title: 'Restinの利用規約とプライバシーポリシーに同意して次に進む',
+                        cancelText: '同意しない',
+                        okText: '同意する',
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.push(context, SignInPage.route());
+                        },
+                      ),
+                    );
+                  },
                   text: 'ログイン',
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: CommonButton(
-                    onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MainPage.route(),
-                        (route) => false,
-                      );
-                    },
-                    color: ColorName.white,
-                    text: 'スキップ',
-                  ),
+                CommonButton(
+                  onPressed: () async {
+                    await showDialog<void>(
+                      context: context,
+                      builder: (_) => CommonDialog(
+                        title: 'Restinの利用規約とプライバシーポリシーに同意して次に進む',
+                        cancelText: '同意しない',
+                        okText: '同意する',
+                        onPressed: () async {
+                          Navigator.pop(context);
+                          await Navigator.pushAndRemoveUntil(
+                            context,
+                            MainPage.route(),
+                            (route) => false,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  color: ColorName.white,
+                  text: 'スキップ',
+                ),
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    const Text(
+                      'Restinの利用には、',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                    TextButton(
+                      onPressed: () async =>
+                          ref.read(termsSiteLaunchProvider).call(),
+                      style: ButtonStyle(
+                        padding: MaterialStateProperty.all(EdgeInsets.zero),
+                        minimumSize: MaterialStateProperty.all(Size.zero),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: const Text(
+                        '利用規約',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: ColorName.black,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                    const Text(
+                      'と',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                    TextButton(
+                      onPressed: () async =>
+                          ref.read(privacySiteLaunchProvider).call(),
+                      style: ButtonStyle(
+                        padding: MaterialStateProperty.all(EdgeInsets.zero),
+                        minimumSize: MaterialStateProperty.all(Size.zero),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: const Text(
+                        'プライバシーポリシー',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: ColorName.black,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                    const Text(
+                      'が適用されます',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                  ],
                 ),
               ],
             ),

@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/features/auth/auth.dart';
 import 'package:search_roof_top_app/features/google_map/google_map.dart';
+import 'package:search_roof_top_app/pages/auth/sign_in_page.dart';
 import 'package:search_roof_top_app/pages/map/add_marker_option_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
@@ -47,7 +48,16 @@ class CreateMarkerDialog extends HookConsumerWidget {
           showDialog<void>(
             context: context,
             builder: (_) {
-              return const SignInDialog(isTwicePop: true);
+              return CommonDialog(
+                isTwicePop: true,
+                title: 'ログインが必要です。ログイン画面に遷移しますか？',
+                cancelText: 'キャンセル',
+                okText: 'はい',
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.push(context, SignInPage.route());
+                },
+              );
             },
           );
         }

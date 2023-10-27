@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/features/auth/auth.dart';
+import 'package:search_roof_top_app/pages/auth/sign_in_page.dart';
 import 'package:search_roof_top_app/pages/comment/components/comment_components.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
@@ -25,7 +26,15 @@ class CommentButton extends HookConsumerWidget {
         await showDialog<void>(
           context: context,
           builder: (_) {
-            return const SignInDialog();
+            return CommonDialog(
+              title: 'ログインが必要です。ログイン画面に遷移しますか？',
+              cancelText: 'キャンセル',
+              okText: 'はい',
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(context, SignInPage.route());
+              },
+            );
           },
         );
       }

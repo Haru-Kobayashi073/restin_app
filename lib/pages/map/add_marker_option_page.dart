@@ -13,8 +13,6 @@ import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
 import 'package:tuple/tuple.dart';
 
-import 'components/map_components.dart';
-
 class AddMarkerOptionPage extends HookConsumerWidget {
   const AddMarkerOptionPage({
     super.key,
@@ -41,7 +39,15 @@ class AddMarkerOptionPage extends HookConsumerWidget {
       onWillPop: () async {
         final cancel = await showDialog<bool>(
           context: context,
-          builder: (_) => const CancelDialog(),
+          builder: (_) => CommonDialog(
+            title: 'キャンセルしますか？\n入力した内容は保存されません。',
+            cancelText: 'キャンセル',
+            okText: 'はい',
+            onPressed: () {
+              Navigator.of(context).pop(true);
+              Navigator.of(context).pop();
+            },
+          ),
         );
         if (cancel == true) {
           ref.read(markersProvider).remove(marker);
