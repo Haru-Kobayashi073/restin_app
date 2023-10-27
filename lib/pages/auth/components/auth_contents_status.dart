@@ -15,51 +15,50 @@ class AuthContentsStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return index == 2
-        ? SizedBox(
-            width: context.deviceWidth * 0.4,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 1,
-                    color: ColorName.darkGrey,
-                  ),
+        ? Expanded(
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  height: 1,
+                  color: ColorName.darkGrey,
                 ),
-                Container(
-                  width: 32,
-                  height: 32,
-                  margin: const EdgeInsets.all(4),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: currentContent ? ColorName.black : ColorName.white,
-                    shape: BoxShape.circle,
-                    border: currentContent
-                        ? null
-                        : Border.all(
-                            color: ColorName.darkGrey,
-                          ),
-                  ),
-                  child: isDone
-                      ? const Icon(Icons.check, color: ColorName.darkGrey)
-                      : Text(
-                          index.toString(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            color: currentContent
-                                ? ColorName.white
-                                : ColorName.darkGrey,
-                          ),
+              ),
+              Container(
+                width: 32,
+                height: 32,
+                margin: const EdgeInsets.all(4),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: currentContent ? ColorName.black : ColorName.white,
+                  shape: BoxShape.circle,
+                  border: currentContent
+                      ? null
+                      : Border.all(
+                          color: ColorName.darkGrey,
                         ),
                 ),
-                Expanded(
-                  child: Container(
-                    height: 1,
-                    color: ColorName.darkGrey,
-                  ),
+                child: isDone
+                    ? const Icon(Icons.check, color: ColorName.darkGrey)
+                    : Text(
+                        index.toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          color: currentContent
+                              ? ColorName.white
+                              : ColorName.darkGrey,
+                        ),
+                      ),
+              ),
+              Expanded(
+                child: Container(
+                  height: 1,
+                  color: ColorName.darkGrey,
                 ),
-              ],
-            ),
-          )
+              ),
+            ],
+          ),
+        )
         : Container(
             width: 32,
             height: 32,
