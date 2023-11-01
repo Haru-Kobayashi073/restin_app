@@ -26,9 +26,8 @@ class EditProfilePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final imgInfo = useState<Tuple2<String?, File?>>(const Tuple2(null, null));
     final loading = useState<bool>(false);
-    final userNameController = useTextEditingController(
-      text: userData.userName,
-    );
+    final userNameController =
+        useTextEditingController(text: userData.userName);
 
     return Scaffold(
       appBar: const HomeAppBar(),
@@ -85,8 +84,8 @@ class EditProfilePage extends HookConsumerWidget {
                   await updateUserData(
                     userName: userNameController.text,
                     imgInfo: Tuple2(
-                      imgInfo.value.item1!,
-                      imgInfo.value.item2!,
+                      imgInfo.value.item1.toString(),
+                      imgInfo.value.item2,
                     ),
                     ref: ref,
                     context: context,
@@ -109,7 +108,7 @@ class EditProfilePage extends HookConsumerWidget {
 
   Future<void> updateUserData({
     String? userName,
-    Tuple2<String, File>? imgInfo,
+    Tuple2<String?, File?>? imgInfo,
     required WidgetRef ref,
     required BuildContext context,
   }) async {

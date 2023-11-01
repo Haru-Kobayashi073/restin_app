@@ -10,7 +10,7 @@ import 'package:tuple/tuple.dart';
 final updateUserDataProvider = Provider.autoDispose<
     Future<void> Function({
       String? userName,
-      Tuple2<String, File>? imgInfo,
+      Tuple2<String?, File?>? imgInfo,
       required VoidCallback onSuccess,
     })>(
   (ref) => ({
