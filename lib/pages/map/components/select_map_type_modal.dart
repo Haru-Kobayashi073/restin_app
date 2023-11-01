@@ -77,7 +77,7 @@ class SelectMapTypeModal extends ConsumerWidget {
                           ),
                         ),
                         child: Container(
-                          height: 64,
+                          height: context.deviceHeight * 0.1,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
@@ -126,7 +126,7 @@ class SelectMapTypeModal extends ConsumerWidget {
                           ),
                         ),
                         child: Container(
-                          height: 64,
+                          height: context.deviceHeight * 0.1,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
