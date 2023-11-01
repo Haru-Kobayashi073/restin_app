@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show TargetPlatform, defaultTargetPlatform, kIsWeb;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -50,17 +51,17 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCW6ShOmtxuFZxYGIofKEU27HUmO6zfI_I',
-    appId: '1:597548665604:android:287180ad7a96d563031e51',
+  static final FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.get('FIREBASE_ANDROID_API_KEY'),
+    appId: '1:597548665604:android:7db785d642322bb5031e51',
     messagingSenderId: '597548665604',
     projectId: 'search-roof-top-app',
     storageBucket: 'search-roof-top-app.appspot.com',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDtSsvDy3cIukyYutoilWBSpUXqQobEqi0',
-    appId: '1:597548665604:ios:9372c5091089c07b031e51',
+  static final FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.get('FIREBASE_IOS_API_KEY'),
+    appId: '1:597548665604:ios:9882d1765709d88a031e51',
     messagingSenderId: '597548665604',
     projectId: 'search-roof-top-app',
     storageBucket: 'search-roof-top-app.appspot.com',
