@@ -62,6 +62,7 @@ class MarkerDetailModal extends HookConsumerWidget {
                     Text(
                       markerData.title,
                       style: AppTextStyle.markerListTiltle,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Row(
                       children: [
@@ -108,6 +109,8 @@ class MarkerDetailModal extends HookConsumerWidget {
                           ),
                         ),
                         IconButton(
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
                           onPressed: () {
                             showModalBottomSheet<void>(
                               isScrollControlled: true,
@@ -200,7 +203,8 @@ class MarkerDetailModal extends HookConsumerWidget {
                   ),
                 ),
                 markerData.imageUrl != null
-                    ? Padding(
+                    ? Container(
+                      alignment: Alignment.center,
                         padding: const EdgeInsets.only(top: 16, bottom: 64),
                         child: CachedNetworkImage(
                           imageUrl: markerData.imageUrl!,

@@ -17,7 +17,7 @@ abstract class UserRepository {
 
   Future<void> updateUserData({
     String? userName,
-    Tuple2<String, File>? imgInfo,
+    Tuple2<String?, File?>? imgInfo,
   });
 
   Future<List<MarkerData>?> fetchUserMarkers(String? uid);

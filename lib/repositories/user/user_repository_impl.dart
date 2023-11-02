@@ -67,28 +67,35 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<void> updateUserData({
     String? userName,
-    Tuple2<String, File>? imgInfo,
+    Tuple2<String?, File?>? imgInfo,
   }) async {
     final uid = currentUser!.uid;
-    if (imgInfo != null || userName != null) {
+    if (imgInfo != null && imgInfo.item1 != null && imgInfo.item2 != null) {
       final reference =
-          _storage.ref().child('users').child(uid).child(imgInfo!.item1);
-      await reference.putFile(imgInfo.item2);
+          _storage.ref().child('users').child(uid).child(imgInfo.item1!);
+      await reference.putFile(imgInfo.item2!);
+      final imageUrl = await reference.getDownloadURL();
+      await _firestore.collection('users').doc(uid).update({
+        'imageUrl': imageUrl,
+      });
+    } else if (userName != null) {
+      await _firestore.collection('users').doc(uid).update(
+        {'userName': userName},
+      );
+    } else if (imgInfo != null &&
+        imgInfo.item1 != null &&
+        imgInfo.item2 != null &&
+        userName != null) {
+      final reference =
+          _storage.ref().child('users').child(uid).child(imgInfo.item1!);
+      await reference.putFile(imgInfo.item2!);
       final imageUrl = await reference.getDownloadURL();
       await _firestore.collection('users').doc(uid).update(
-            userName.isNull
-                ? imageUrl.isEmpty
-                    ? {}
-                    : {
-                        'imageUrl': imageUrl,
-                      }
-                : imageUrl.isEmpty
-                    ? {'userName': userName}
-                    : {
-                        'userName': userName,
-                        'imageUrl': imageUrl,
-                      },
-          );
+        {
+          'userName': userName,
+          'imageUrl': imageUrl,
+        },
+      );
     }
   }
 

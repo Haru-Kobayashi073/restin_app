@@ -201,32 +201,45 @@ class AddMarkerOptionPage extends HookConsumerWidget {
                       ),
                     ),
                     onPressed: () async {
-                      ref.read(markersProvider).remove(marker);
-                      final newMarker = Marker(
-                        markerId: marker.markerId,
-                        position: marker.position,
-                        infoWindow: InfoWindow(
-                          title: markerTitleController.text,
-                          snippet: descriptionController.text,
+                      final willCreate = await showDialog<bool>(
+                        context: context,
+                        builder: (_) => CommonDialog(
+                          title: '作成されたマーカーは全てのユーザーが閲覧することができます。',
+                          cancelText: 'キャンセル',
+                          okText: '確認',
+                          onPressed: () {
+                            Navigator.of(context).pop(true);
+                          },
                         ),
                       );
-                      ref.read(markersProvider.notifier).state.add(newMarker);
-                      await ref.read(createMarkerProvider).call(
-                            marker: newMarker,
-                            imageUrl: imgInfo.value.item1 ?? '',
-                            onSuccess: () {
-                              ref.invalidate(fetchAllMarkersProvider);
-                              ScaffoldMessengerService.showSuccessSnackBar(
-                                context,
-                                'マーカーが追加されました!',
-                              );
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MainPage.route(),
-                                (route) => false,
-                              );
-                            },
-                          );
+                      if (willCreate == true) {
+                        ref.read(markersProvider).remove(marker);
+                        final newMarker = Marker(
+                          markerId: marker.markerId,
+                          position: marker.position,
+                          infoWindow: InfoWindow(
+                            title: markerTitleController.text,
+                            snippet: descriptionController.text,
+                          ),
+                        );
+                        ref.read(markersProvider.notifier).state.add(newMarker);
+                        await ref.read(createMarkerProvider).call(
+                              marker: newMarker,
+                              imageUrl: imgInfo.value.item1 ?? '',
+                              onSuccess: () {
+                                ref.invalidate(fetchAllMarkersProvider);
+                                ScaffoldMessengerService.showSuccessSnackBar(
+                                  context,
+                                  'マーカーが追加されました!',
+                                );
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MainPage.route(),
+                                  (route) => false,
+                                );
+                              },
+                            );
+                      }
                     },
                     child: const Text(
                       '保存',
