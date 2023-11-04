@@ -56,7 +56,8 @@ class CommentForm extends HookConsumerWidget {
                       commentController.clear();
                     }
                   },
-                  padding: const EdgeInsets.only(right: 8),
+                  alignment: Alignment.bottomCenter,
+                  padding: const EdgeInsets.only(right: 8, top: 32),
                   icon: const Icon(Icons.send, color: ColorName.amber),
                 ),
               ],
