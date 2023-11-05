@@ -27,11 +27,13 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Camera Library Access Warning</string>
+	<string>アプリに表示・使用するための写真や動画を撮影する目的でリクエストします。</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+	<string>「許可」すると位置情報を元に、サービスを快適にご利用いただけます。あなたの位置情報が他人にシェアされることはありません。</string>
+	<key>NSUserTrackingUsageDescription</key>
+    <string>「許可」するとお客様のデータがシステム改善の一部に使われます</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Photo Library Access Warning</string>
+	<string>「許可」するとサービス内で画像を投稿することができます。ライブラリ内をシステムに監視されることはありません。</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
