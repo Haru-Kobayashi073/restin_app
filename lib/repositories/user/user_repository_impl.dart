@@ -170,4 +170,14 @@ class UserRepositoryImpl implements UserRepository {
       return [];
     }
   }
+
+  @override
+  Future<void> deleteUser() async {
+    final uid = currentUser?.uid;
+    final deleteUserData = {
+      'uid': uid,
+      'createdAt': Timestamp.now(),
+    };
+    await _firestore.collection('delete_users').doc(uid).set(deleteUserData);
+  }
 }
