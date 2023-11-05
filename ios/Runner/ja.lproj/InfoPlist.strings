@@ -1,0 +1,13 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by 小林春 on 2023/11/05.
+  
+*/
+NSPhotoLibraryUsageDescription = "「許可」するとサービス内で画像を投稿することができます。ライブラリ内をシステムに監視されることはありません。";
+NSUserTrackingUsageDescription = "「許可」するとお客様のデータがシステム改善の一部に使われます";
+NSLocationWhenInUseUsageDescription = "「許可」すると位置情報を元に、サービスを快適にご利用いただけます。あなたの位置情報が他人にシェアされることはありません。";
+NSCameraUsageDescription = "アプリに表示・使用するための写真や動画を撮影する目的でリクエストします。";
+NSLocalNetworkUsageDescription = "このAppで使用中のネットワークのデバイス検索および接続ができるようになります。";
+

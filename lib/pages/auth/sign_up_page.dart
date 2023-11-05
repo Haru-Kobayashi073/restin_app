@@ -34,7 +34,7 @@ class SignUpPage extends HookConsumerWidget {
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: CommonTextField(
             controller: emailController,
-            keyboardType: TextInputType.name,
+            keyboardType: TextInputType.emailAddress,
             focusNode: emailFocusNode,
             onFieldSubmitted: (_) =>
                 FocusScope.of(context).requestFocus(passwordFocusNode),

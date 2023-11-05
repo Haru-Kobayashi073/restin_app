@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/features/auth/sign_in.dart';
+import 'package:search_roof_top_app/features/setting/get_tracking_transparency.dart';
 import 'package:search_roof_top_app/pages/auth/components/auth_components.dart';
 import 'package:search_roof_top_app/pages/auth/send_reset_password_email_page.dart';
 import 'package:search_roof_top_app/pages/auth/sign_up_page.dart';
@@ -21,6 +23,16 @@ class SignInPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(getTrackingTransparencyProvider).call();
+
+      /// 位置情報の許可を確認
+      final permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        await Geolocator.requestPermission();
+      }
+    });
+
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordFocusNode = useFocusNode();

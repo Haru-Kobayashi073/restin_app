@@ -26,12 +26,16 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>This App will allow you to search for and connect to devices on the network you are using.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Camera Library Access Warning</string>
+	<string>Requests are made for the purpose of taking photos and videos for display and use in the application.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+	<string>If you allow, you can use the service comfortably based on your location information. Your location information will not be shared with others.</string>
+	<key>NSUserTrackingUsageDescription</key>
+    <string>if you allow,  your data to be used as part of system improvements</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Photo Library Access Warning</string>
+	<string>if you allow, allows you to post images within the service. The system will not monitor your library.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

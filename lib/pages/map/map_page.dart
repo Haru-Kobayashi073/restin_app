@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/features/google_map/google_map.dart';
+import 'package:search_roof_top_app/features/setting/setting.dart';
 import 'package:search_roof_top_app/pages/map/components/map_components.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
 
@@ -35,6 +36,8 @@ class MapPage extends HookConsumerWidget {
     useEffect(
       () {
         Future(() async {
+          await ref.read(getTrackingTransparencyProvider).call();
+
           /// 位置情報の許可を確認
           final permission = await Geolocator.checkPermission();
           if (permission == LocationPermission.denied) {

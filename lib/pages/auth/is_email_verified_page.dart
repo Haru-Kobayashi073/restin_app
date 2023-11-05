@@ -51,7 +51,7 @@ class IsEmailVerifiedPage extends HookConsumerWidget {
                   (_) => false,
                 ),
                 text: '情報入力画面へ',
-              )
+              ),
             ],
           )
         : AuthPageWrapper(
