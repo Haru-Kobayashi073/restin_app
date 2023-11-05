@@ -133,7 +133,7 @@ class AuthPageWrapper extends HookConsumerWidget {
                     : const SizedBox(),
                 Column(
                   children: children,
-                )
+                ),
               ],
             ),
           ),

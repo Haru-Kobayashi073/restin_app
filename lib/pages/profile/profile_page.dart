@@ -47,7 +47,7 @@ class ProfilePage extends HookConsumerWidget {
                         ),
                       ),
                     )
-                  : const SizedBox()
+                  : const SizedBox(),
             ],
             title: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -121,7 +121,7 @@ class ProfilePage extends HookConsumerWidget {
                                     ),
                                   ),
                                 )
-                              : const SizedBox()
+                              : const SizedBox(),
                         ],
                       ),
                     ),
