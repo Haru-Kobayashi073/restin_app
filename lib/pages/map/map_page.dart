@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:geolocator/geolocator.dart';
@@ -19,6 +20,14 @@ class MapPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    Future<void> initPlugin() async {
+      final status = await AppTrackingTransparency.trackingAuthorizationStatus;
+      if (status == TrackingStatus.notDetermined) {
+        await Future<void>.delayed(const Duration(milliseconds: 200));
+        await AppTrackingTransparency.requestTrackingAuthorization();
+      }
+    }
+
     late StreamSubscription<Position> positionStream;
     late Position position;
 
@@ -35,6 +44,8 @@ class MapPage extends HookConsumerWidget {
     useEffect(
       () {
         Future(() async {
+
+          await initPlugin();
           /// 位置情報の許可を確認
           final permission = await Geolocator.checkPermission();
           if (permission == LocationPermission.denied) {
