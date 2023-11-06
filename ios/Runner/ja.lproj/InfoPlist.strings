@@ -10,4 +10,5 @@ NSUserTrackingUsageDescription = "「許可」するとお客様のデータが�
 NSLocationWhenInUseUsageDescription = "「許可」すると位置情報を元に、サービスを快適にご利用いただけます。あなたの位置情報が他人にシェアされることはありません。";
 NSCameraUsageDescription = "アプリに表示・使用するための写真や動画を撮影する目的でリクエストします。";
 NSLocalNetworkUsageDescription = "このAppで使用中のネットワークのデバイス検索および接続ができるようになります。";
+NSLocationAlwaysAndWhenInUseUsageDescription = "このアプリの利用には、「常に許可」を選択するとサービスを快適にご利用いただけます。";
 

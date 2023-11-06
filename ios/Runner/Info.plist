@@ -30,6 +30,8 @@
 	<string>This App will allow you to search for and connect to devices on the network you are using.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Requests are made for the purpose of taking photos and videos for display and use in the application.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>To use this application, please select "Always allow" to use the service comfortably.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>If you allow, you can use the service comfortably based on your location information. Your location information will not be shared with others.</string>
 	<key>NSUserTrackingUsageDescription</key>
