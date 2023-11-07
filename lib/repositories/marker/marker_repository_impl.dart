@@ -51,7 +51,19 @@ class MarkerRepositoryImpl implements MarkerRepository {
 
   @override
   Stream<List<MarkerData>> fetchAllMarkers() async* {
-    final response = await _firestore.collection('markers').get();
+    QuerySnapshot<Map<String, dynamic>> response;
+    final uid = currentUser?.uid;
+    final userSnapshot = await _firestore.collection('users').doc(uid).get();
+    final blockedUids =
+        userSnapshot.data()?['blockedUids'] as List<dynamic>? ?? [];
+    if (blockedUids.isNotEmpty) {
+      response = await _firestore
+          .collection('markers')
+          .where('creatorId', whereNotIn: blockedUids)
+          .get();
+    } else {
+      response = await _firestore.collection('markers').get();
+    }
     final list = <MarkerData>[];
     for (final document in response.docs) {
       final data = MarkerData.fromJson(document.data());
