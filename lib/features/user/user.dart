@@ -1,3 +1,4 @@
+export 'block_user.dart';
 export 'create_user_data.dart';
 export 'delete_user.dart';
 export 'fetch_book_mark_markers.dart';

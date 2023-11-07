@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:search_roof_top_app/features/user/user.dart';
+import 'package:search_roof_top_app/pages/home/main_page.dart';
 import 'package:search_roof_top_app/pages/profile/components/profile_components.dart';
 import 'package:search_roof_top_app/pages/profile/edit_profile_page.dart';
 import 'package:search_roof_top_app/pages/profile/user_post_page.dart';
@@ -36,25 +37,54 @@ class ProfilePage extends HookConsumerWidget {
             backgroundColor: ColorName.white,
             centerTitle: false,
             actions: [
-              userId.isNull || myUid == userId
-                  ? Container(
-                      margin: const EdgeInsets.only(right: 12),
-                      child: IconButton(
+              Container(
+                margin: const EdgeInsets.only(right: 12),
+                child: userId.isNull || myUid == userId
+                    ? IconButton(
                         icon: SvgPicture.asset(Assets.icons.setting, width: 66),
                         onPressed: () => Navigator.push(
                           context,
                           SettingsPage.route(),
                         ),
+                      )
+                    : IconButton(
+                        icon: const Icon(Icons.block),
+                        onPressed: () async {
+                          await showDialog<void>(
+                            context: context,
+                            builder: (_) {
+                              return CommonDialog(
+                                title: 'このユーザーをブロックしますか？',
+                                cancelText: 'いいえ',
+                                okText: 'はい',
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  ref.read(blockUserProvider).call(
+                                        blockedUid: userId!,
+                                        onSuccess: () {
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MainPage.route(),
+                                            (_) => false,
+                                          );
+                                          // ScaffoldMessengerService
+                                          //     .showSuccessSnackBar(
+                                          //   context,
+                                          //   'ブロックしました',
+                                          // );
+                                        },
+                                      );
+                                },
+                              );
+                            },
+                          );
+                        },
                       ),
-                    )
-                  : const SizedBox(),
-            ],
-            title: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: Text(
-                data.userName ?? '名前を設定しましょう',
-                style: AppTextStyle.profilePageUserName,
               ),
+            ],
+            title: Text(
+              data.userName ?? '名前を設定しましょう',
+              style: AppTextStyle.profilePageUserName,
             ),
           ),
           body: DefaultTabController(

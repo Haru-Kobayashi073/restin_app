@@ -180,4 +180,19 @@ class UserRepositoryImpl implements UserRepository {
     };
     await _firestore.collection('delete_users').doc(uid).set(deleteUserData);
   }
+
+  @override
+  Future<void> blockUser({required String blockedUid}) async {
+    final uid = currentUser?.uid;
+    final userRef = _firestore.collection('users').doc(uid);
+    final userSnapshot = await userRef.get();
+    final blockedUids =
+        userSnapshot.data()?['blockedUids'] as List<dynamic>? ?? [];
+    if (!blockedUids.contains(blockedUid)) {
+      blockedUids.add(blockedUid);
+    }
+    await userRef.update({
+      'blockedUids': blockedUids,
+    });
+  }
 }

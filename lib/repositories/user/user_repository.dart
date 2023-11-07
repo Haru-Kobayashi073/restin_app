@@ -27,4 +27,6 @@ abstract class UserRepository {
   Future<List<MarkerData>?> fetchUserBookMarkMarkers(String? uid);
 
   Future<void>deleteUser();
+
+  Future<void>blockUser({required String blockedUid});
 }

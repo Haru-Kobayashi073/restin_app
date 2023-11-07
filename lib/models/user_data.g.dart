@@ -15,6 +15,9 @@ _$_UserData _$$_UserDataFromJson(Map<String, dynamic> json) => _$_UserData(
       bookMarkMarkerIds: (json['bookMarkMarkerIds'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      blockedUids: (json['blockedUids'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       markersCounts: json['markersCounts'] as int,
     );
 
@@ -26,5 +29,6 @@ Map<String, dynamic> _$$_UserDataToJson(_$_UserData instance) =>
       'imageUrl': instance.imageUrl,
       'createdAt': instance.createdAt,
       'bookMarkMarkerIds': instance.bookMarkMarkerIds,
+      'blockedUids': instance.blockedUids,
       'markersCounts': instance.markersCounts,
     };

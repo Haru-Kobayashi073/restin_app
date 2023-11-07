@@ -12,6 +12,7 @@ abstract class UserData with _$UserData {
     String? imageUrl,
     required dynamic createdAt,
     List<String>? bookMarkMarkerIds,
+    List<String>? blockedUids,
     required int markersCounts,
   }) = _UserData;
 
