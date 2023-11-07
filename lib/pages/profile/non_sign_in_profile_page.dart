@@ -38,7 +38,7 @@ class NonSignInProfilePage extends HookConsumerWidget {
           ),
         ],
         title: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 32),
+          padding: EdgeInsets.symmetric(horizontal: 16),
           child: Text(
             '未設定',
             style: AppTextStyle.profilePageUserName,
