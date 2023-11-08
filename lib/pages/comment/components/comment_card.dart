@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:search_roof_top_app/features/setting/setting.dart';
 import 'package:search_roof_top_app/features/user/user.dart';
 import 'package:search_roof_top_app/models/comment.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
@@ -56,9 +57,35 @@ class CommentCard extends HookConsumerWidget {
                           ),
                         ],
                       ),
-                      Text(
-                        formatTimeAgo(comment.createdAt),
-                        style: AppTextStyle.commentCreatedAt,
+                      Row(
+                        children: [
+                          Text(
+                            formatTimeAgo(comment.createdAt),
+                            style: AppTextStyle.commentCreatedAt,
+                          ),
+                          const SizedBox(width: 8),
+                          IconButton(
+                            onPressed: () async {
+                              await showDialog<void>(
+                                context: context,
+                                builder: (_) {
+                                  return CommonDialog(
+                                    title: 'この投稿を報告しますか？',
+                                    cancelText: 'いいえ',
+                                    okText: 'はい',
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      ref.read(submitFragFormProvider).call();
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
+                            icon: const Icon(Icons.flag_outlined),
+                          ),
+                        ],
                       ),
                     ],
                   ),

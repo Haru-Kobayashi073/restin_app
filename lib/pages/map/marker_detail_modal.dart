@@ -4,6 +4,7 @@ import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/features/auth/auth.dart';
 import 'package:search_roof_top_app/features/google_map/google_map.dart';
+import 'package:search_roof_top_app/features/setting/setting.dart';
 import 'package:search_roof_top_app/features/user/user.dart';
 import 'package:search_roof_top_app/models/marker_data.dart';
 import 'package:search_roof_top_app/pages/auth/sign_in_page.dart';
@@ -59,10 +60,12 @@ class MarkerDetailModal extends HookConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      markerData.title,
-                      style: AppTextStyle.markerListTiltle,
-                      overflow: TextOverflow.ellipsis,
+                    Expanded(
+                      child: Text(
+                        markerData.title,
+                        style: AppTextStyle.markerListTiltle,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     Row(
                       children: [
@@ -76,7 +79,7 @@ class MarkerDetailModal extends HookConsumerWidget {
                             );
                           },
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 14),
+                            padding: const EdgeInsets.only(right: 8),
                             child: ref
                                 .watch(
                                   fetchUserDataProvider(markerData.creatorId),
@@ -109,7 +112,7 @@ class MarkerDetailModal extends HookConsumerWidget {
                           ),
                         ),
                         IconButton(
-                          padding: EdgeInsets.zero,
+                          padding: const EdgeInsets.only(right: 4),
                           constraints: const BoxConstraints(),
                           onPressed: () {
                             showModalBottomSheet<void>(
@@ -132,6 +135,8 @@ class MarkerDetailModal extends HookConsumerWidget {
                           icon: const Icon(FontAwesome.commenting_o),
                         ),
                         IconButton(
+                          padding: const EdgeInsets.only(right: 4),
+                          constraints: const BoxConstraints(),
                           onPressed: () async {
                             if (isAuthenticated) {
                               final isSaved = await ref
@@ -168,7 +173,27 @@ class MarkerDetailModal extends HookConsumerWidget {
                                   color: ColorName.amber,
                                 )
                               : const Icon(Icons.bookmark_outline),
-                          padding: const EdgeInsets.only(right: 8),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            await showDialog<void>(
+                              context: context,
+                              builder: (_) {
+                                return CommonDialog(
+                                  title: 'この投稿を報告しますか？',
+                                  cancelText: 'いいえ',
+                                  okText: 'はい',
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    ref.read(submitFragFormProvider).call();
+                                  },
+                                );
+                              },
+                            );
+                          },
+                          padding: const EdgeInsets.only(right: 4),
+                          constraints: const BoxConstraints(),
+                          icon: const Icon(Icons.flag_outlined),
                         ),
                         GestureDetector(
                           onTap: () => Navigator.pop(context),
@@ -204,7 +229,7 @@ class MarkerDetailModal extends HookConsumerWidget {
                 ),
                 markerData.imageUrl != null
                     ? Container(
-                      alignment: Alignment.center,
+                        alignment: Alignment.center,
                         padding: const EdgeInsets.only(top: 16, bottom: 64),
                         child: CachedNetworkImage(
                           imageUrl: markerData.imageUrl!,
