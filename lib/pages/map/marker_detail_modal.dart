@@ -91,10 +91,10 @@ class MarkerDetailModal extends HookConsumerWidget {
                                               CachedNetworkImageProvider(
                                             user.imageUrl.toString(),
                                           ),
-                                          radius: 14,
+                                          radius: 16,
                                         )
                                       : CircleAvatar(
-                                          radius: 14,
+                                          radius: 16,
                                           child: SvgPicture.asset(
                                             Assets.icons.person,
                                           ),
@@ -144,7 +144,6 @@ class MarkerDetailModal extends HookConsumerWidget {
                   ),
                 ),
                 Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     IconButton(
                       padding: const EdgeInsets.only(right: 4),
