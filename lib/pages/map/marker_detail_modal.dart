@@ -79,7 +79,7 @@ class MarkerDetailModal extends HookConsumerWidget {
                             );
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(right: 8),
+                            padding: const EdgeInsets.only(right: 16),
                             child: ref
                                 .watch(
                                   fetchUserDataProvider(markerData.creatorId),
@@ -111,90 +111,6 @@ class MarkerDetailModal extends HookConsumerWidget {
                                 ),
                           ),
                         ),
-                        IconButton(
-                          padding: const EdgeInsets.only(right: 4),
-                          constraints: const BoxConstraints(),
-                          onPressed: () {
-                            showModalBottomSheet<void>(
-                              isScrollControlled: true,
-                              useRootNavigator: true,
-                              context: context,
-                              backgroundColor: ColorName.white,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(15),
-                                ),
-                              ),
-                              builder: (BuildContext context) {
-                                return CommentPage(
-                                  markerId: markerData.markerId,
-                                );
-                              },
-                            );
-                          },
-                          icon: const Icon(FontAwesome.commenting_o),
-                        ),
-                        IconButton(
-                          padding: const EdgeInsets.only(right: 4),
-                          constraints: const BoxConstraints(),
-                          onPressed: () async {
-                            if (isAuthenticated) {
-                              final isSaved = await ref
-                                  .read(switchBookMarkProvider)
-                                  .call(markerId: markerData.markerId);
-                              ref
-                                ..invalidate(fetchAllMarkersProvider)
-                                ..invalidate(fetchBookMarkMarkersProvider);
-                              displaySnackBar(isSaved: isSaved);
-                            } else {
-                              await showDialog<void>(
-                                context: context,
-                                builder: (_) {
-                                  return CommonDialog(
-                                    title: 'ログインが必要です。ログイン画面に遷移しますか？',
-                                    cancelText: 'キャンセル',
-                                    okText: 'はい',
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      Navigator.push(
-                                        context,
-                                        SignInPage.route(),
-                                      );
-                                    },
-                                  );
-                                },
-                              );
-                            }
-                          },
-                          icon: isSaved
-                              ? const Icon(
-                                  Icons.bookmark_outlined,
-                                  weight: 0.2,
-                                  color: ColorName.amber,
-                                )
-                              : const Icon(Icons.bookmark_outline),
-                        ),
-                        IconButton(
-                          onPressed: () async {
-                            await showDialog<void>(
-                              context: context,
-                              builder: (_) {
-                                return CommonDialog(
-                                  title: 'この投稿を報告しますか？',
-                                  cancelText: 'いいえ',
-                                  okText: 'はい',
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    ref.read(submitFragFormProvider).call();
-                                  },
-                                );
-                              },
-                            );
-                          },
-                          padding: const EdgeInsets.only(right: 4),
-                          constraints: const BoxConstraints(),
-                          icon: const Icon(Icons.flag_outlined),
-                        ),
                         GestureDetector(
                           onTap: () => Navigator.pop(context),
                           child: Container(
@@ -212,7 +128,7 @@ class MarkerDetailModal extends HookConsumerWidget {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -226,6 +142,95 @@ class MarkerDetailModal extends HookConsumerWidget {
                       ),
                     ],
                   ),
+                ),
+                Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      padding: const EdgeInsets.only(right: 4),
+                      constraints: const BoxConstraints(),
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                          isScrollControlled: true,
+                          useRootNavigator: true,
+                          context: context,
+                          backgroundColor: ColorName.white,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(15),
+                            ),
+                          ),
+                          builder: (BuildContext context) {
+                            return CommentPage(
+                              markerId: markerData.markerId,
+                            );
+                          },
+                        );
+                      },
+                      icon: const Icon(FontAwesome.commenting_o),
+                    ),
+                    IconButton(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      constraints: const BoxConstraints(),
+                      onPressed: () async {
+                        if (isAuthenticated) {
+                          final isSaved = await ref
+                              .read(switchBookMarkProvider)
+                              .call(markerId: markerData.markerId);
+                          ref
+                            ..invalidate(fetchAllMarkersProvider)
+                            ..invalidate(fetchBookMarkMarkersProvider);
+                          displaySnackBar(isSaved: isSaved);
+                        } else {
+                          await showDialog<void>(
+                            context: context,
+                            builder: (_) {
+                              return CommonDialog(
+                                title: 'ログインが必要です。ログイン画面に遷移しますか？',
+                                cancelText: 'キャンセル',
+                                okText: 'はい',
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    SignInPage.route(),
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        }
+                      },
+                      icon: isSaved
+                          ? const Icon(
+                              Icons.bookmark_outlined,
+                              weight: 0.2,
+                              color: ColorName.amber,
+                            )
+                          : const Icon(Icons.bookmark_outline),
+                    ),
+                    IconButton(
+                      onPressed: () async {
+                        await showDialog<void>(
+                          context: context,
+                          builder: (_) {
+                            return CommonDialog(
+                              title: 'この投稿を報告しますか？',
+                              cancelText: 'いいえ',
+                              okText: 'はい',
+                              onPressed: () {
+                                Navigator.pop(context);
+                                ref.read(submitFragFormProvider).call();
+                              },
+                            );
+                          },
+                        );
+                      },
+                      padding: const EdgeInsets.only(right: 4),
+                      constraints: const BoxConstraints(),
+                      icon: const Icon(Icons.flag_outlined),
+                    ),
+                  ],
                 ),
                 markerData.imageUrl != null
                     ? Container(
