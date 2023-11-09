@@ -17,15 +17,8 @@ class FirstLaunchPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final isFirstLaunch =
-          ref.watch(sharedPreferencesServiceProvider).getIsFirstLaunch();
-      if (isFirstLaunch) {
-        ref
-            .read(sharedPreferencesServiceProvider)
-            .setIsFirstLaunch(isFirstLaunch: false);
-      }
-    });
+    final isFirstLaunch =
+        ref.watch(sharedPreferencesServiceProvider).getIsFirstLaunch();
 
     return Scaffold(
       appBar: const HomeAppBar(),
@@ -62,6 +55,11 @@ class FirstLaunchPage extends HookConsumerWidget {
                         cancelText: '同意しない',
                         okText: '同意する',
                         onPressed: () {
+                          if (isFirstLaunch) {
+                            ref
+                                .read(sharedPreferencesServiceProvider)
+                                .setIsFirstLaunch(isFirstLaunch: false);
+                          }
                           Navigator.pop(context);
                           Navigator.push(context, SignInPage.route());
                         },
@@ -78,9 +76,14 @@ class FirstLaunchPage extends HookConsumerWidget {
                         title: 'Restinの利用規約とプライバシーポリシーに同意して次に進む',
                         cancelText: '同意しない',
                         okText: '同意する',
-                        onPressed: () async {
+                        onPressed: () {
+                          if (isFirstLaunch) {
+                            ref
+                                .read(sharedPreferencesServiceProvider)
+                                .setIsFirstLaunch(isFirstLaunch: false);
+                          }
                           Navigator.pop(context);
-                          await Navigator.pushAndRemoveUntil(
+                          Navigator.pushAndRemoveUntil(
                             context,
                             MainPage.route(),
                             (route) => false,
