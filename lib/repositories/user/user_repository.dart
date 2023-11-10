@@ -10,7 +10,7 @@ abstract class UserRepository {
 
   Future<void> createUserData(
     String? userName,
-    Tuple2<String, File>? imgInfo,
+    Tuple2<String?, File?>? imgInfo,
   );
 
   Future<UserData> fetchUserData(String? uid);
