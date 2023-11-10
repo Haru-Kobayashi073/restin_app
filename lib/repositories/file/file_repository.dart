@@ -6,7 +6,7 @@ import 'package:tuple/tuple.dart';
 abstract class FileRepository {
   User? get currentUser;
 
-  Future<Tuple2<String, File>> pickImageAndUpload();
+  Future<Tuple2<String?, File?>> pickImageAndUpload();
 
   Future<void> deleteFile(String url);
 }

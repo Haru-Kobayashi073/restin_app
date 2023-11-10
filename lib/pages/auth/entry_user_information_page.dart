@@ -73,8 +73,8 @@ class EntryUserInformationPage extends HookConsumerWidget {
               await createUserData(
                 userName: userNameController.text,
                 imgInfo: Tuple2(
-                  imgInfo.value.item1!,
-                  imgInfo.value.item2!,
+                  imgInfo.value.item1,
+                  imgInfo.value.item2,
                 ),
                 ref: ref,
                 context: context,
@@ -120,7 +120,7 @@ class EntryUserInformationPage extends HookConsumerWidget {
 
   Future<void> createUserData({
     String? userName,
-    Tuple2<String, File>? imgInfo,
+    Tuple2<String?, File?>? imgInfo,
     required WidgetRef ref,
     required BuildContext context,
   }) async {

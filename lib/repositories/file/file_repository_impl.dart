@@ -27,12 +27,15 @@ class FileRepositoryImpl implements FileRepository {
   User? get currentUser => _auth.currentUser;
 
   @override
-  Future<Tuple2<String, File>> pickImageAndUpload() async {
+  Future<Tuple2<String?, File?>> pickImageAndUpload() async {
     final picker = ImagePicker();
     final fileName = returnJpgFileName();
     final uid = currentUser!.uid;
     final image = await picker.pickImage(source: ImageSource.gallery);
-    final file = File(image!.path);
+    if (image == null) {
+      return const Tuple2(null, null);
+    }
+    final file = File(image.path);
     final storageRef = _storage.ref().child('users').child(uid).child(fileName);
     await storageRef.putFile(file);
     final imageUrl = await storageRef.getDownloadURL();

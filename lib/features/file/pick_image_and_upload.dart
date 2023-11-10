@@ -7,7 +7,7 @@ import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:tuple/tuple.dart';
 
 final pickImageAndUploadProvider = Provider.autoDispose<
-    Future<Tuple2<String, File>>>(
+    Future<Tuple2<String?, File?>>>(
   (ref) async {
     final read = ref.read;
     final isNetworkCheck = await isNetworkConnected();

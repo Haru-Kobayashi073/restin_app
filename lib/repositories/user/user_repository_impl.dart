@@ -34,15 +34,15 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<void> createUserData(
     String? userName,
-    Tuple2<String, File>? imgInfo,
+    Tuple2<String?, File?>? imgInfo,
   ) async {
     String? imageUrl;
     final uid = currentUser!.uid;
     final createdAtTimestamp = Timestamp.fromDate(DateTime.now());
-    if (imgInfo != null && imgInfo.item1.isNotEmpty) {
+    if (imgInfo != null && imgInfo.item1 != null && imgInfo.item2 != null) {
       final reference =
-          _storage.ref().child('users').child(uid).child(imgInfo.item1);
-      await reference.putFile(imgInfo.item2);
+          _storage.ref().child('users').child(uid).child(imgInfo.item1!);
+      await reference.putFile(imgInfo.item2!);
       imageUrl = await reference.getDownloadURL();
     }
     await _firestore.collection('users').doc(currentUser?.uid).set(
