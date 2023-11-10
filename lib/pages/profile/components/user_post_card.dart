@@ -61,6 +61,10 @@ class UserPostCard extends HookConsumerWidget {
                   padding: const EdgeInsets.only(top: 16),
                   child: CachedNetworkImage(
                     imageUrl: markerData.imageUrl!,
+                    progressIndicatorBuilder: (_, url, downloadProgress) =>
+                        CircularProgressIndicator(
+                      value: downloadProgress.progress,
+                    ),
                   ),
                 )
               : const SizedBox(),
@@ -118,9 +122,8 @@ class UserPostCard extends HookConsumerWidget {
                   mapController?.animateCamera(
                     CameraUpdate.newCameraPosition(
                       CameraPosition(
-                        target: read(
-                          tappedMarkerPositionProvider.notifier,
-                        ).state!,
+                        target:
+                            read(tappedMarkerPositionProvider.notifier).state!,
                         zoom: 18,
                       ),
                     ),
