@@ -48,49 +48,73 @@ class FirstLaunchPage extends HookConsumerWidget {
               children: [
                 CommonButton(
                   onPressed: () async {
-                    await showDialog<void>(
-                      context: context,
-                      builder: (_) => CommonDialog(
-                        title: 'Restinの利用規約とプライバシーポリシーに同意して次に進む',
-                        cancelText: '同意しない',
-                        okText: '同意する',
-                        onPressed: () {
-                          if (isFirstLaunch) {
+                    if (!isFirstLaunch) {
+                      Navigator.pop(context);
+                      await Navigator.pushAndRemoveUntil(
+                        context,
+                        MainPage.route(),
+                        (route) => false,
+                      );
+                    } else {
+                      if (!context.mounted) {
+                        return;
+                      }
+                      await showDialog<void>(
+                        context: context,
+                        builder: (_) => CommonDialog(
+                          title: 'Restinの利用規約とプライバシーポリシーに同意して次に進む',
+                          cancelText: '同意しない',
+                          okText: '同意する',
+                          onPressed: () {
                             ref
                                 .read(sharedPreferencesServiceProvider)
                                 .setIsFirstLaunch(isFirstLaunch: false);
-                          }
-                          Navigator.pop(context);
-                          Navigator.push(context, SignInPage.route());
-                        },
-                      ),
-                    );
+                            Navigator.pop(context);
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              SignInPage.route(),
+                              (route) => false,
+                            );
+                          },
+                        ),
+                      );
+                    }
                   },
                   text: 'ログイン',
                 ),
                 CommonButton(
                   onPressed: () async {
-                    await showDialog<void>(
-                      context: context,
-                      builder: (_) => CommonDialog(
-                        title: 'Restinの利用規約とプライバシーポリシーに同意して次に進む',
-                        cancelText: '同意しない',
-                        okText: '同意する',
-                        onPressed: () {
-                          if (isFirstLaunch) {
+                    if (!isFirstLaunch) {
+                      Navigator.pop(context);
+                      await Navigator.pushAndRemoveUntil(
+                        context,
+                        MainPage.route(),
+                        (route) => false,
+                      );
+                    } else {
+                      if (!context.mounted) {
+                        return;
+                      }
+                      await showDialog<void>(
+                        context: context,
+                        builder: (_) => CommonDialog(
+                          title: 'Restinの利用規約とプライバシーポリシーに同意して次に進む',
+                          cancelText: '同意しない',
+                          okText: '同意する',
+                          onPressed: () {
                             ref
                                 .read(sharedPreferencesServiceProvider)
                                 .setIsFirstLaunch(isFirstLaunch: false);
-                          }
-                          Navigator.pop(context);
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MainPage.route(),
-                            (route) => false,
-                          );
-                        },
-                      ),
-                    );
+                            Navigator.pop(context);
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MainPage.route(),
+                              (route) => false,
+                            );
+                          },
+                        ),
+                      );
+                    }
                   },
                   color: ColorName.white,
                   text: 'スキップ',
