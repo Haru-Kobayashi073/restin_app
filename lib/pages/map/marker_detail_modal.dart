@@ -237,6 +237,11 @@ class MarkerDetailModal extends HookConsumerWidget {
                         padding: const EdgeInsets.only(top: 16, bottom: 64),
                         child: CachedNetworkImage(
                           imageUrl: markerData.imageUrl!,
+                          progressIndicatorBuilder:
+                              (_, url, downloadProgress) =>
+                                  CircularProgressIndicator(
+                            value: downloadProgress.progress,
+                          ),
                         ),
                       )
                     : const SizedBox(height: 100),
