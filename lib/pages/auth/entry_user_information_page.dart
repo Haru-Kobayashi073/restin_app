@@ -127,9 +127,6 @@ class EntryUserInformationPage extends HookConsumerWidget {
           userName: userName,
           imgInfo: imgInfo,
           onSuccess: () async {
-            ref.read(scaffoldMessengerServiceProvider).showSuccessSnackBar(
-                  '新規登録が完了しました!',
-                );
             await Navigator.pushAndRemoveUntil(
               context,
               MainPage.route(isAuthenticated: true),
