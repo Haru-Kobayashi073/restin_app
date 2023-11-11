@@ -31,9 +31,15 @@ final createMarkerCommentProvider = Provider.autoDispose<
           message: 'Maybe your network is disconnected. Please check yours.',
         );
         throw exception;
+      } else if (comment.isEmpty) {
+        ref
+            .read(scaffoldMessengerServiceProvider)
+            .showExceptionSnackBar('コメントが空です');
       }
-
       debugPrint('コメント作成エラー: $e');
+      ref
+            .read(scaffoldMessengerServiceProvider)
+            .showExceptionSnackBar('コメントの作成に失敗しました');
     } finally {
       read(overlayLoadingWidgetProvider.notifier).update((state) => false);
     }
