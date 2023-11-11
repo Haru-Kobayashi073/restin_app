@@ -67,11 +67,6 @@ class ProfilePage extends HookConsumerWidget {
                                             MainPage.route(),
                                             (_) => false,
                                           );
-                                          // ScaffoldMessengerService
-                                          //     .showSuccessSnackBar(
-                                          //   context,
-                                          //   'ブロックしました',
-                                          // );
                                         },
                                       );
                                 },
