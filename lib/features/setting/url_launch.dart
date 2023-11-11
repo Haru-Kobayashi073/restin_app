@@ -13,7 +13,7 @@ final termsSiteLaunchProvider = Provider<Future<void> Function()>(
     final isNetworkCheck = await isNetworkConnected();
     try {
       await launchUrl(Uri.parse(termsUrl));
-    } on Exception catch (e) {
+    } on AppException catch (e) {
       if (!isNetworkCheck) {
         const exception = AppException(
           message: 'Maybe your network is disconnected. Please check yours.',
@@ -30,7 +30,7 @@ final privacySiteLaunchProvider = Provider<Future<void> Function()>(
     final isNetworkCheck = await isNetworkConnected();
     try {
       await launchUrl(Uri.parse(privacyPolicyUrl));
-    } on Exception catch (e) {
+    } on AppException catch (e) {
       if (!isNetworkCheck) {
         const exception = AppException(
           message: 'Maybe your network is disconnected. Please check yours.',

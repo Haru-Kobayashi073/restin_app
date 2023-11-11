@@ -11,14 +11,14 @@ final submitFragFormProvider = Provider<Future<void> Function()>(
     final isNetworkCheck = await isNetworkConnected();
     try {
       await launchUrl(Uri.parse(flagForm));
-    } on Exception catch (e) {
+    } on AppException catch (e) {
       if (!isNetworkCheck) {
         const exception = AppException(
           message: 'Maybe your network is disconnected. Please check yours.',
         );
         throw exception;
       }
-      debugPrint('利用規約ページエラー: $e');
+      debugPrint('報告ページエラー: $e');
     }
   },
 );
