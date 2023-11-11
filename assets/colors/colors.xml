@@ -9,5 +9,6 @@
   <color name="amber">#FFC107</color>
   <color name="light_amber">#FFFBEB</color>
   <color name="red">#F05465</color>
+  <color name="green">#4CAF50</color>
   <color name="yellow_brown">#998E6B</color>
 </resources>
