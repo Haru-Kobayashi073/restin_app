@@ -1,43 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
+import 'package:search_roof_top_app/widgets/widgets.dart';
+
+final scaffoldMessengerServiceProvider =
+    Provider.autoDispose(ScaffoldMessengerService.new);
 
 class ScaffoldMessengerService {
-  ScaffoldMessengerService._();
+  ScaffoldMessengerService(this._ref);
+
+  final AutoDisposeProviderRef<ScaffoldMessengerService> _ref;
+
+  GlobalKey<ScaffoldMessengerState> get scaffoldKey =>
+      _ref.read(scaffoldMessengerKeyProvider);
 
   /// スナックバーを表示する。
-  static ScaffoldFeatureController<SnackBar, SnackBarClosedReason>
-      showSuccessSnackBar(
-    BuildContext context,
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSuccessSnackBar(
     String message, {
     bool removeCurrentSnackBar = true,
     Duration duration = defaultSnackBarDuration,
   }) {
+    final scaffoldMessengerState = scaffoldKey.currentState!;
     if (removeCurrentSnackBar) {
-      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      scaffoldMessengerState.removeCurrentSnackBar();
     }
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        behavior: defaultSnackBarBehavior,
+    return scaffoldMessengerState.showSnackBar(
+      CommonSnackBar(
+        message: message,
         duration: duration,
       ),
     );
   }
 
-  static ScaffoldFeatureController<SnackBar, SnackBarClosedReason>
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason>
       showExceptionSnackBar(
-    BuildContext context,
     String message, {
     bool removeCurrentSnackBar = true,
     Duration duration = defaultSnackBarDuration,
   }) {
+    final scaffoldMessengerState = scaffoldKey.currentState!;
     if (removeCurrentSnackBar) {
-      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      scaffoldMessengerState.removeCurrentSnackBar();
     }
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        behavior: defaultSnackBarBehavior,
+    return scaffoldMessengerState.showSnackBar(
+      CommonSnackBar(
+        message: message,
+        isSuccess: false,
         duration: duration,
       ),
     );
@@ -46,13 +54,10 @@ class ScaffoldMessengerService {
   /// Exception 起点でスナックバーを表示する。
   /// Dart の Exception 型の場合は toString() 冒頭を取り除いて
   /// 差し支えのないメッセージに置換しておく。
-  static ScaffoldFeatureController<SnackBar, SnackBarClosedReason>
-      showSnackBarByException(Exception e, BuildContext context) {
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason>
+      showSnackBarByException(Exception e) {
     final message =
         e.toString().replaceAll('Exception: ', '').replaceAll('Exception', '');
-    return showExceptionSnackBar(
-      context,
-      message.ifIsEmpty(generalExceptionMessage),
-    );
+    return showExceptionSnackBar(message.ifIsEmpty(generalExceptionMessage));
   }
 }
