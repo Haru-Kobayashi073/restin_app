@@ -32,6 +32,7 @@ class AddMarkerOptionPage extends HookConsumerWidget {
     final markerTitleController = useTextEditingController();
     final descriptionController = useTextEditingController();
     final detailFocusNode = useFocusNode();
+    final formKey = useFormStateKey();
     final imgInfo = useState<Tuple2<String?, File?>>(const Tuple2(null, null));
     final loading = useState<bool>(false);
 
@@ -59,198 +60,221 @@ class AddMarkerOptionPage extends HookConsumerWidget {
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: SizedBox(
-                    height: context.deviceHeight - context.deviceHeight * 0.8,
-                    child: GoogleMap(
-                      mapType: selectedMapType,
-                      myLocationEnabled: true,
-                      myLocationButtonEnabled: false,
-                      initialCameraPosition: CameraPosition(
-                        target: marker.position,
-                        zoom: 16,
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: SizedBox(
+                      height: context.deviceHeight - context.deviceHeight * 0.8,
+                      child: GoogleMap(
+                        mapType: selectedMapType,
+                        myLocationEnabled: true,
+                        myLocationButtonEnabled: false,
+                        initialCameraPosition: CameraPosition(
+                          target: marker.position,
+                          zoom: 16,
+                        ),
+                        markers: ref.watch(markersProvider).toSet(),
                       ),
-                      markers: ref.watch(markersProvider).toSet(),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: CommonTextField(
-                    controller: markerTitleController,
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(detailFocusNode),
-                    autofocus: true,
-                    labelText: '地点名',
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: CommonTextField(
+                      controller: markerTitleController,
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (_) =>
+                          FocusScope.of(context).requestFocus(detailFocusNode),
+                      validator: Validator.common,
+                      autofocus: true,
+                      labelText: '地点名',
+                    ),
                   ),
-                ),
-                CommonTextField(
-                  controller: descriptionController,
-                  keyboardType: TextInputType.multiline,
-                  textInputAction: TextInputAction.done,
-                  focusNode: detailFocusNode,
-                  labelText: '詳細',
-                ),
-                imgInfo.value.item1 == null
-                    ? GestureDetector(
-                        onTap: () async {
-                          loading.value = true;
-                          imgInfo.value =
-                              await ref.read(pickImageAndUploadProvider);
-                          loading.value = false;
-                        },
-                        child: Stack(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.fromLTRB(0, 16, 10, 10),
-                              height: 80,
-                              width: 80,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: ColorName.mediumGrey,
-                                image: !imgInfo.value.item1.isNull
-                                    ? DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: CachedNetworkImageProvider(
-                                          imgInfo.value.item1!,
-                                        ),
-                                      )
-                                    : null,
-                              ),
-                              child: loading.value == false
-                                  ? imgInfo.value.item1.isNull
-                                      ? Center(
-                                          child: SvgPicture.asset(
-                                            Assets.icons.picture,
-                                            width: 32,
-                                            color: ColorName.darkGrey,
+                  CommonTextField(
+                    controller: descriptionController,
+                    keyboardType: TextInputType.multiline,
+                    textInputAction: TextInputAction.done,
+                    focusNode: detailFocusNode,
+                    validator: Validator.common,
+                    labelText: '詳細',
+                  ),
+                  imgInfo.value.item1 == null
+                      ? GestureDetector(
+                          onTap: () async {
+                            loading.value = true;
+                            imgInfo.value =
+                                await ref.read(pickImageAndUploadProvider);
+                            loading.value = false;
+                          },
+                          child: Stack(
+                            children: [
+                              Container(
+                                margin:
+                                    const EdgeInsets.fromLTRB(0, 16, 10, 10),
+                                height: 80,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: ColorName.mediumGrey,
+                                  image: !imgInfo.value.item1.isNull
+                                      ? DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: CachedNetworkImageProvider(
+                                            imgInfo.value.item1!,
                                           ),
                                         )
-                                      : const SizedBox()
-                                  : Container(
-                                      padding: const EdgeInsets.all(24),
-                                      child: const CircularProgressIndicator(),
-                                    ),
-                            ),
-                            imgInfo.value.item1.isNull
-                                ? Positioned(
-                                    bottom: 0,
-                                    right: 0,
-                                    child: Container(
-                                      width: 28,
-                                      height: 28,
-                                      padding: const EdgeInsets.all(4),
-                                      decoration: const BoxDecoration(
-                                        color: ColorName.amber,
-                                        shape: BoxShape.circle,
+                                      : null,
+                                ),
+                                child: loading.value == false
+                                    ? imgInfo.value.item1.isNull
+                                        ? Center(
+                                            child: SvgPicture.asset(
+                                              Assets.icons.picture,
+                                              width: 32,
+                                              color: ColorName.darkGrey,
+                                            ),
+                                          )
+                                        : const SizedBox()
+                                    : Container(
+                                        padding: const EdgeInsets.all(24),
+                                        child:
+                                            const CircularProgressIndicator(),
                                       ),
-                                      child: SvgPicture.asset(Assets.icons.add),
-                                    ),
-                                  )
-                                : const SizedBox(),
-                          ],
-                        ),
-                      )
-                    : Container(
-                        margin: const EdgeInsets.fromLTRB(0, 16, 10, 10),
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: ColorName.mediumGrey,
-                          image: !imgInfo.value.item1.isNull
-                              ? DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: CachedNetworkImageProvider(
-                                    imgInfo.value.item1!,
-                                  ),
-                                )
-                              : null,
-                        ),
-                        child: loading.value == false
-                            ? imgInfo.value.item1.isNull
-                                ? Center(
-                                    child: SvgPicture.asset(
-                                      Assets.icons.picture,
-                                      width: 32,
-                                      color: ColorName.darkGrey,
-                                    ),
-                                  )
-                                : const SizedBox()
-                            : Container(
-                                padding: const EdgeInsets.all(24),
-                                child: const CircularProgressIndicator(),
                               ),
-                      ),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 24),
-                  height: 48,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorName.amber,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    onPressed: () async {
-                      final willCreate = await showDialog<bool>(
-                        context: context,
-                        builder: (_) => CommonDialog(
-                          title: '作成されたマーカーは全てのユーザーが閲覧することができます。',
-                          cancelText: 'キャンセル',
-                          okText: '確認',
-                          onPressed: () {
-                            Navigator.of(context).pop(true);
-                          },
+                              imgInfo.value.item1.isNull
+                                  ? Positioned(
+                                      bottom: 0,
+                                      right: 0,
+                                      child: Container(
+                                        width: 28,
+                                        height: 28,
+                                        padding: const EdgeInsets.all(4),
+                                        decoration: const BoxDecoration(
+                                          color: ColorName.amber,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child:
+                                            SvgPicture.asset(Assets.icons.add),
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                            ],
+                          ),
+                        )
+                      : Container(
+                          margin: const EdgeInsets.fromLTRB(0, 16, 10, 10),
+                          height: 80,
+                          width: 80,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: ColorName.mediumGrey,
+                            image: !imgInfo.value.item1.isNull
+                                ? DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: CachedNetworkImageProvider(
+                                      imgInfo.value.item1!,
+                                    ),
+                                  )
+                                : null,
+                          ),
+                          child: loading.value == false
+                              ? imgInfo.value.item1.isNull
+                                  ? Center(
+                                      child: SvgPicture.asset(
+                                        Assets.icons.picture,
+                                        width: 32,
+                                        color: ColorName.darkGrey,
+                                      ),
+                                    )
+                                  : const SizedBox()
+                              : Container(
+                                  padding: const EdgeInsets.all(24),
+                                  child: const CircularProgressIndicator(),
+                                ),
                         ),
-                      );
-                      if (willCreate == true) {
-                        ref.read(markersProvider).remove(marker);
-                        final newMarker = Marker(
-                          markerId: marker.markerId,
-                          position: marker.position,
-                          infoWindow: InfoWindow(
-                            title: markerTitleController.text,
-                            snippet: descriptionController.text,
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 24),
+                    height: 48,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorName.amber,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onPressed: () async {
+                        final willCreate = await showDialog<bool>(
+                          context: context,
+                          builder: (_) => const CommonDialog(
+                            title: '作成されたマーカーは全てのユーザーが閲覧することができます。',
+                            cancelText: 'キャンセル',
+                            okText: '確認',
                           ),
                         );
-                        ref.read(markersProvider.notifier).state.add(newMarker);
-                        await ref.read(createMarkerProvider).call(
-                              marker: newMarker,
-                              imageUrl: imgInfo.value.item1 ?? '',
-                              onSuccess: () {
-                                ref.invalidate(fetchAllMarkersProvider);
-                                ref
-                                    .read(scaffoldMessengerServiceProvider)
-                                    .showSuccessSnackBar('マーカーが追加されました!');
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MainPage.route(),
-                                  (route) => false,
-                                );
-                              },
+                        if (willCreate == true) {
+                          if (formKey.currentState!.validate()) {
+                            ref.read(markersProvider).remove(marker);
+                            final newMarker = Marker(
+                              markerId: marker.markerId,
+                              position: marker.position,
+                              infoWindow: InfoWindow(
+                                title: markerTitleController.text,
+                                snippet: descriptionController.text,
+                              ),
                             );
-                      }
-                    },
-                    child: const Text(
-                      '保存',
-                      style: AppTextStyle.saveMarkerText,
+                            ref
+                                .read(markersProvider.notifier)
+                                .state
+                                .add(newMarker);
+                            if (!context.mounted) {
+                              return;
+                            }
+                            await createMarker(
+                              marker: newMarker,
+                              ref: ref,
+                              context: context,
+                            );
+                          }
+                        }
+                      },
+                      child: const Text(
+                        '保存',
+                        style: AppTextStyle.saveMarkerText,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> createMarker({
+    required Marker marker,
+    Tuple2<String?, File?>? imgInfo,
+    required WidgetRef ref,
+    required BuildContext context,
+  }) async {
+    await ref.read(createMarkerProvider).call(
+          marker: marker,
+          imageUrl: imgInfo?.item1 ?? '',
+          onSuccess: () {
+            ref.invalidate(fetchAllMarkersProvider);
+            Navigator.pushAndRemoveUntil(
+              context,
+              MainPage.route(),
+              (route) => false,
+            );
+          },
+        );
   }
 }
