@@ -29,7 +29,8 @@ final blockUserProvider = Provider<
         throw exception;
       }
       debugPrint('ブロックエラー: $e');
-      read(scaffoldMessengerServiceProvider).showSuccessSnackBar('ブロックに失敗しました');
+      read(scaffoldMessengerServiceProvider)
+          .showExceptionSnackBar('ブロックに失敗しました');
     }
   },
 );

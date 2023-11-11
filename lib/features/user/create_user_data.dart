@@ -38,7 +38,7 @@ final createUserDataProvider = Provider.autoDispose<
       }
       debugPrint('ユーザー作成エラー: $e');
       read(scaffoldMessengerServiceProvider)
-          .showSuccessSnackBar('ユーザー作成に失敗しました');
+          .showExceptionSnackBar('ユーザー作成に失敗しました');
     } finally {
       read(overlayLoadingWidgetProvider.notifier).update((state) => false);
     }
