@@ -18,7 +18,10 @@ final switchBookMarkProvider = Provider<
     try {
       final isSaved = await read(userRepositoryImplProvider)
           .switchBookMark(markerId: markerId);
-      debugPrint('保存しました/削除しました。');
+      debugPrint(isSaved ? '保存しました' : '解除しました');
+      ref.read(scaffoldMessengerServiceProvider).showSuccessSnackBar(
+            isSaved ? '保存しました' : '解除しました',
+          );
       return isSaved;
     } on FirebaseAuthException catch (e) {
       if (!isNetworkCheck) {
