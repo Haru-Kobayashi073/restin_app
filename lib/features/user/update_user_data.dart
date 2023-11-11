@@ -27,15 +27,23 @@ final updateUserDataProvider = Provider.autoDispose<
         imgInfo: imgInfo,
       );
       onSuccess();
-      debugPrint('プロフィール画像の登録/情報の更新が完了しました');
+      debugPrint('情報の更新が完了しました');
+      read(scaffoldMessengerServiceProvider)
+          .showSuccessSnackBar('情報の更新が完了しました');
     } on AppException catch (e) {
       if (!isNetworkCheck) {
         const exception = AppException(
           message: 'Maybe your network is disconnected. Please check yours.',
         );
         throw exception;
+      } else if (imgInfo == null && userName.isNull) {
+        ref
+            .read(scaffoldMessengerServiceProvider)
+            .showExceptionSnackBar('データが足りません');
       }
-      debugPrint('登録/更新エラー: $e');
+      debugPrint('更新エラー: $e');
+      read(scaffoldMessengerServiceProvider)
+          .showExceptionSnackBar('情報の更新に失敗しました');
     } finally {
       read(overlayLoadingWidgetProvider.notifier).update((state) => false);
     }

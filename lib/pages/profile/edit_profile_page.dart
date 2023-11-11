@@ -79,23 +79,15 @@ class EditProfilePage extends HookConsumerWidget {
             ),
             CommonButton(
               onPressed: () async {
-                if (imgInfo.value.item1 != null ||
-                    userNameController.text.isNotEmpty) {
-                  await updateUserData(
-                    userName: userNameController.text,
-                    imgInfo: Tuple2(
-                      imgInfo.value.item1.toString(),
-                      imgInfo.value.item2,
-                    ),
-                    ref: ref,
-                    context: context,
-                  );
-                  ref.invalidate(fetchUserDataProvider);
-                } else {
-                  ref
-                      .read(scaffoldMessengerServiceProvider)
-                      .showSuccessSnackBar('データが足りません。');
-                }
+                await updateUserData(
+                  userName: userNameController.text,
+                  imgInfo: Tuple2(
+                    imgInfo.value.item1.toString(),
+                    imgInfo.value.item2,
+                  ),
+                  ref: ref,
+                  context: context,
+                );
               },
               text: '保存',
             ),
@@ -115,9 +107,8 @@ class EditProfilePage extends HookConsumerWidget {
     await read(updateUserDataProvider).call(
       userName: userName,
       imgInfo: imgInfo,
-      onSuccess: () async {
-        read(scaffoldMessengerServiceProvider)
-            .showSuccessSnackBar('更新が完了しました!');
+      onSuccess: () {
+        ref.invalidate(fetchUserDataProvider);
         Navigator.pop(context);
       },
     );
