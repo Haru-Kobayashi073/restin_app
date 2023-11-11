@@ -20,6 +20,8 @@ final deleteUserProvider = Provider<
       await read(userRepositoryImplProvider).deleteUser();
       onSuccess();
       debugPrint('ユーザーを削除しました');
+      read(scaffoldMessengerServiceProvider)
+          .showSuccessSnackBar('ユーザー削除が完了しました');
     } on FirebaseAuthException catch (e) {
       if (!isNetworkCheck) {
         const exception = AppException(
@@ -27,6 +29,8 @@ final deleteUserProvider = Provider<
         );
         throw exception;
       }
+      read(scaffoldMessengerServiceProvider)
+          .showExceptionSnackBar('ユーザー削除に失敗しました');
       debugPrint('ユーザー削除エラー: $e');
     }
   },
