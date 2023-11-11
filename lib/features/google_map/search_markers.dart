@@ -41,7 +41,7 @@ final searchMarkersProvider = FutureProvider.autoDispose
         }
         return list;
       });
-      debugPrint('全マーカーを取得しました。');
+      debugPrint('マーカーの検索が完了しました');
       return list;
     } on AppException catch (e) {
       if (!isNetworkCheck) {
@@ -51,7 +51,7 @@ final searchMarkersProvider = FutureProvider.autoDispose
         throw exception;
       }
 
-      debugPrint('全マーカーの取得エラー: $e');
+      debugPrint('マーカーの検索エラー: $e');
       rethrow;
     }
   },
