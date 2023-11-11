@@ -81,10 +81,9 @@ class EntryUserInformationPage extends HookConsumerWidget {
               );
             } else if (imgInfo.value.item1 == null ||
                 userNameController.text.isEmpty) {
-              ScaffoldMessengerService.showSuccessSnackBar(
-                context,
-                '情報を入力またはスキップしてください',
-              );
+              ref.read(scaffoldMessengerServiceProvider).showSuccessSnackBar(
+                    '情報を入力またはスキップしてください',
+                  );
             }
           },
           text: '登録',
@@ -128,10 +127,9 @@ class EntryUserInformationPage extends HookConsumerWidget {
           userName: userName,
           imgInfo: imgInfo,
           onSuccess: () async {
-            ScaffoldMessengerService.showSuccessSnackBar(
-              context,
-              '新規登録が完了しました!',
-            );
+            ref.read(scaffoldMessengerServiceProvider).showSuccessSnackBar(
+                  '新規登録が完了しました!',
+                );
             await Navigator.pushAndRemoveUntil(
               context,
               MainPage.route(isAuthenticated: true),

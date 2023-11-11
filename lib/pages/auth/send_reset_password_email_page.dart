@@ -50,10 +50,9 @@ class SendResetPasswordEmailPage extends HookConsumerWidget {
                 await ref.read(sendResetPasswordEmail).call(
                       email: emailController.text,
                       onSuccess: () async {
-                        ScaffoldMessengerService.showSuccessSnackBar(
-                          context,
-                          'メールが送信されました!',
-                        );
+                        ref
+                            .read(scaffoldMessengerServiceProvider)
+                            .showSuccessSnackBar('メールが送信されました!');
                         await Navigator.pushAndRemoveUntil(
                           context,
                           SignInPage.route(),

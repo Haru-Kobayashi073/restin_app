@@ -26,17 +26,9 @@ class MarkerDetailModal extends HookConsumerWidget {
     final isAuthenticated = ref.read(isAuthenticatedProvider);
     void displaySnackBar({required bool? isSaved}) {
       Navigator.pop(context);
-      if (isSaved != null) {
-        ScaffoldMessengerService.showSuccessSnackBar(
-          context,
-          isSaved ? '保存しました' : '保存を解除しました',
-        );
-      } else {
-        ScaffoldMessengerService.showExceptionSnackBar(
-          context,
-          'エラーが発生しました',
-        );
-      }
+      ref.read(scaffoldMessengerServiceProvider).showSuccessSnackBar(
+            isSaved != null ? (isSaved ? '保存しました' : '保存を解除しました') : 'エラーが発生しました',
+          );
     }
 
     return Padding(

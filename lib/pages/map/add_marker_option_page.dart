@@ -228,10 +228,9 @@ class AddMarkerOptionPage extends HookConsumerWidget {
                               imageUrl: imgInfo.value.item1 ?? '',
                               onSuccess: () {
                                 ref.invalidate(fetchAllMarkersProvider);
-                                ScaffoldMessengerService.showSuccessSnackBar(
-                                  context,
-                                  'マーカーが追加されました!',
-                                );
+                                ref
+                                    .read(scaffoldMessengerServiceProvider)
+                                    .showSuccessSnackBar('マーカーが追加されました!');
                                 Navigator.pushAndRemoveUntil(
                                   context,
                                   MainPage.route(),

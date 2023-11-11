@@ -92,10 +92,9 @@ class EditProfilePage extends HookConsumerWidget {
                   );
                   ref.invalidate(fetchUserDataProvider);
                 } else {
-                  ScaffoldMessengerService.showSuccessSnackBar(
-                    context,
-                    'データが足りません。',
-                  );
+                  ref
+                      .read(scaffoldMessengerServiceProvider)
+                      .showSuccessSnackBar('データが足りません。');
                 }
               },
               text: '保存',
@@ -112,16 +111,15 @@ class EditProfilePage extends HookConsumerWidget {
     required WidgetRef ref,
     required BuildContext context,
   }) async {
-    await ref.read(updateUserDataProvider).call(
-          userName: userName,
-          imgInfo: imgInfo,
-          onSuccess: () async {
-            ScaffoldMessengerService.showSuccessSnackBar(
-              context,
-              '更新が完了しました!',
-            );
-            Navigator.pop(context);
-          },
-        );
+    final read = ref.read;
+    await read(updateUserDataProvider).call(
+      userName: userName,
+      imgInfo: imgInfo,
+      onSuccess: () async {
+        read(scaffoldMessengerServiceProvider)
+            .showSuccessSnackBar('更新が完了しました!');
+        Navigator.pop(context);
+      },
+    );
   }
 }

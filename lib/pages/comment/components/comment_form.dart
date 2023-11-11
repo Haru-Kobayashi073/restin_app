@@ -79,10 +79,9 @@ class CommentForm extends HookConsumerWidget {
           comment: comment,
           onSuccess: () {
             Navigator.pop(context);
-            ScaffoldMessengerService.showSuccessSnackBar(
-              context,
-              'コメントを投稿しました',
-            );
+            ref
+                .read(scaffoldMessengerServiceProvider)
+                .showSuccessSnackBar('コメントを投稿しました');
             ref.invalidate(fetchMarkersCommentsProvider(markerId));
           },
         );

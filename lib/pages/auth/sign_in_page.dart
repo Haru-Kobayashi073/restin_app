@@ -134,10 +134,9 @@ class SignInPage extends HookConsumerWidget {
                             email: emailController.text,
                             password: passwordController.text,
                             onSuccess: () async {
-                              ScaffoldMessengerService.showSuccessSnackBar(
-                                context,
-                                'ログインしました!',
-                              );
+                              ref
+                                  .read(scaffoldMessengerServiceProvider)
+                                  .showSuccessSnackBar('ログインしました!');
                               await Navigator.pushAndRemoveUntil(
                                 context,
                                 MainPage.route(isAuthenticated: true),
