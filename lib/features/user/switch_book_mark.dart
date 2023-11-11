@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/repositories/user/user_repository_impl.dart';
@@ -23,7 +22,7 @@ final switchBookMarkProvider = Provider<
             isSaved ? '保存しました' : '解除しました',
           );
       return isSaved;
-    } on FirebaseAuthException catch (e) {
+    } on AppException catch (e) {
       if (!isNetworkCheck) {
         const exception = AppException(
           message: 'Maybe your network is disconnected. Please check yours.',
@@ -31,6 +30,8 @@ final switchBookMarkProvider = Provider<
         throw exception;
       }
       debugPrint('保存エラー: $e');
+      read(scaffoldMessengerServiceProvider)
+          .showExceptionSnackBar('保存に失敗しました');
     }
     return null;
   },
