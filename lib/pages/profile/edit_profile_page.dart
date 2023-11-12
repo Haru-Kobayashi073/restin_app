@@ -25,7 +25,6 @@ class EditProfilePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final imgInfo = useState<Tuple2<String?, File?>>(const Tuple2(null, null));
-    final loading = useState<bool>(false);
     final userNameController =
         useTextEditingController(text: userData.userName);
 
@@ -42,32 +41,27 @@ class EditProfilePage extends HookConsumerWidget {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: GestureDetector(
                     onTap: () async {
-                      loading.value = true;
                       imgInfo.value =
                           await ref.read(pickImageAndUploadProvider);
-                      loading.value = false;
                     },
-                    child: loading.value == false
-                        ? !imgInfo.value.item1.isNull
+                    child: !imgInfo.value.item1.isNull
+                        ? CircleAvatar(
+                            radius: context.deviceWidth * 0.18,
+                            backgroundImage: CachedNetworkImageProvider(
+                              imgInfo.value.item1!,
+                            ),
+                          )
+                        : userData.imageUrl.isNull
                             ? CircleAvatar(
                                 radius: context.deviceWidth * 0.18,
-                                backgroundImage: CachedNetworkImageProvider(
-                                  imgInfo.value.item1!,
-                                ),
+                                child: SvgPicture.asset(Assets.icons.picture),
                               )
-                            : userData.imageUrl.isNull
-                                ? CircleAvatar(
-                                    radius: context.deviceWidth * 0.18,
-                                    child:
-                                        SvgPicture.asset(Assets.icons.picture),
-                                  )
-                                : CircleAvatar(
-                                    radius: context.deviceWidth * 0.18,
-                                    backgroundImage: CachedNetworkImageProvider(
-                                      userData.imageUrl!,
-                                    ),
-                                  )
-                        : const CircularProgressIndicator(),
+                            : CircleAvatar(
+                                radius: context.deviceWidth * 0.18,
+                                backgroundImage: CachedNetworkImageProvider(
+                                  userData.imageUrl!,
+                                ),
+                              ),
                   ),
                 ),
                 CommonTextField(

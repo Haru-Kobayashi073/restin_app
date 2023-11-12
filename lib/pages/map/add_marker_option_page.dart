@@ -34,7 +34,6 @@ class AddMarkerOptionPage extends HookConsumerWidget {
     final detailFocusNode = useFocusNode();
     final formKey = useFormStateKey();
     final imgInfo = useState<Tuple2<String?, File?>>(const Tuple2(null, null));
-    final loading = useState<bool>(false);
 
     return WillPopScope(
       onWillPop: () async {
@@ -105,10 +104,8 @@ class AddMarkerOptionPage extends HookConsumerWidget {
                   imgInfo.value.item1 == null
                       ? GestureDetector(
                           onTap: () async {
-                            loading.value = true;
                             imgInfo.value =
                                 await ref.read(pickImageAndUploadProvider);
-                            loading.value = false;
                           },
                           child: Stack(
                             children: [
@@ -129,21 +126,15 @@ class AddMarkerOptionPage extends HookConsumerWidget {
                                         )
                                       : null,
                                 ),
-                                child: loading.value == false
-                                    ? imgInfo.value.item1.isNull
-                                        ? Center(
-                                            child: SvgPicture.asset(
-                                              Assets.icons.picture,
-                                              width: 32,
-                                              color: ColorName.darkGrey,
-                                            ),
-                                          )
-                                        : const SizedBox()
-                                    : Container(
-                                        padding: const EdgeInsets.all(24),
-                                        child:
-                                            const CircularProgressIndicator(),
-                                      ),
+                                child: imgInfo.value.item1.isNull
+                                    ? Center(
+                                        child: SvgPicture.asset(
+                                          Assets.icons.picture,
+                                          width: 32,
+                                          color: ColorName.darkGrey,
+                                        ),
+                                      )
+                                    : const SizedBox(),
                               ),
                               imgInfo.value.item1.isNull
                                   ? Positioned(
@@ -181,20 +172,15 @@ class AddMarkerOptionPage extends HookConsumerWidget {
                                   )
                                 : null,
                           ),
-                          child: loading.value == false
-                              ? imgInfo.value.item1.isNull
-                                  ? Center(
-                                      child: SvgPicture.asset(
-                                        Assets.icons.picture,
-                                        width: 32,
-                                        color: ColorName.darkGrey,
-                                      ),
-                                    )
-                                  : const SizedBox()
-                              : Container(
-                                  padding: const EdgeInsets.all(24),
-                                  child: const CircularProgressIndicator(),
-                                ),
+                          child: imgInfo.value.item1.isNull
+                              ? Center(
+                                  child: SvgPicture.asset(
+                                    Assets.icons.picture,
+                                    width: 32,
+                                    color: ColorName.darkGrey,
+                                  ),
+                                )
+                              : const SizedBox(),
                         ),
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 24),
