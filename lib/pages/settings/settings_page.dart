@@ -18,11 +18,6 @@ class SettingsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final signOut = ref
-        .read(
-          signOutControllerProvider.notifier,
-        )
-        .signOutProvider;
     final isAuthenticated = ref.read(isAuthenticatedProvider.notifier).state;
 
     return Scaffold(
@@ -49,7 +44,7 @@ class SettingsPage extends HookConsumerWidget {
                         okText: 'はい',
                         onPressed: () {
                           Navigator.pop(context);
-                          ref.read(signOut).call(
+                          ref.read(signOutProvider).call(
                             onSuccess: () {
                               Navigator.pushAndRemoveUntil(
                                 context,
@@ -81,7 +76,7 @@ class SettingsPage extends HookConsumerWidget {
                           Navigator.pop(context);
                           ref.read(deleteUserProvider).call(
                             onSuccess: () {
-                              ref.read(signOut).call(
+                              ref.read(signOutProvider).call(
                                 onSuccess: () {
                                   Navigator.pushAndRemoveUntil(
                                     context,
