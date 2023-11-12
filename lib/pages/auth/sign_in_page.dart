@@ -152,7 +152,7 @@ class SignInPage extends HookConsumerWidget {
                     );
                   },
                   color: ColorName.white,
-                  text: '新規登録',
+                  text: '新規登録はこちら',
                 ),
               ],
             ),
