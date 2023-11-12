@@ -22,4 +22,12 @@ class Validator {
     }
     return null;
   }
+
+  /// 通常情報入力時のバリデーション
+  static String? common(String? value) {
+    if (value == null || value.isEmpty) {
+      return '情報を入力してください';
+    }
+    return null;
+  }
 }

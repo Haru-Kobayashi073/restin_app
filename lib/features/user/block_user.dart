@@ -18,8 +18,9 @@ final blockUserProvider = Provider<
     final isNetworkCheck = await isNetworkConnected();
     try {
       await read(userRepositoryImplProvider).blockUser(blockedUid: blockedUid);
-      debugPrint('$blockedUidをブロックしました');
       onSuccess();
+      debugPrint('$blockedUidをブロックしました');
+      read(scaffoldMessengerServiceProvider).showSuccessSnackBar('ブロックが完了しました');
     } on Exception catch (e) {
       if (!isNetworkCheck) {
         const exception = AppException(
@@ -28,6 +29,8 @@ final blockUserProvider = Provider<
         throw exception;
       }
       debugPrint('ブロックエラー: $e');
+      read(scaffoldMessengerServiceProvider)
+          .showExceptionSnackBar('ブロックに失敗しました');
     }
   },
 );

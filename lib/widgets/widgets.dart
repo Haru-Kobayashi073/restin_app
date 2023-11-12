@@ -1,5 +1,6 @@
 export 'common_button.dart';
 export 'common_dialog.dart';
+export 'common_snack_bar.dart';
 export 'common_text_field.dart';
 export 'error_page.dart';
 export 'home_app_bar.dart';

@@ -25,7 +25,6 @@ class EditProfilePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final imgInfo = useState<Tuple2<String?, File?>>(const Tuple2(null, null));
-    final loading = useState<bool>(false);
     final userNameController =
         useTextEditingController(text: userData.userName);
 
@@ -42,32 +41,27 @@ class EditProfilePage extends HookConsumerWidget {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: GestureDetector(
                     onTap: () async {
-                      loading.value = true;
                       imgInfo.value =
                           await ref.read(pickImageAndUploadProvider);
-                      loading.value = false;
                     },
-                    child: loading.value == false
-                        ? !imgInfo.value.item1.isNull
+                    child: !imgInfo.value.item1.isNull
+                        ? CircleAvatar(
+                            radius: context.deviceWidth * 0.18,
+                            backgroundImage: CachedNetworkImageProvider(
+                              imgInfo.value.item1!,
+                            ),
+                          )
+                        : userData.imageUrl.isNull
                             ? CircleAvatar(
                                 radius: context.deviceWidth * 0.18,
-                                backgroundImage: CachedNetworkImageProvider(
-                                  imgInfo.value.item1!,
-                                ),
+                                child: SvgPicture.asset(Assets.icons.picture),
                               )
-                            : userData.imageUrl.isNull
-                                ? CircleAvatar(
-                                    radius: context.deviceWidth * 0.18,
-                                    child:
-                                        SvgPicture.asset(Assets.icons.picture),
-                                  )
-                                : CircleAvatar(
-                                    radius: context.deviceWidth * 0.18,
-                                    backgroundImage: CachedNetworkImageProvider(
-                                      userData.imageUrl!,
-                                    ),
-                                  )
-                        : const CircularProgressIndicator(),
+                            : CircleAvatar(
+                                radius: context.deviceWidth * 0.18,
+                                backgroundImage: CachedNetworkImageProvider(
+                                  userData.imageUrl!,
+                                ),
+                              ),
                   ),
                 ),
                 CommonTextField(
@@ -79,24 +73,15 @@ class EditProfilePage extends HookConsumerWidget {
             ),
             CommonButton(
               onPressed: () async {
-                if (imgInfo.value.item1 != null ||
-                    userNameController.text.isNotEmpty) {
-                  await updateUserData(
-                    userName: userNameController.text,
-                    imgInfo: Tuple2(
-                      imgInfo.value.item1.toString(),
-                      imgInfo.value.item2,
-                    ),
-                    ref: ref,
-                    context: context,
-                  );
-                  ref.invalidate(fetchUserDataProvider);
-                } else {
-                  ScaffoldMessengerService.showSuccessSnackBar(
-                    context,
-                    'データが足りません。',
-                  );
-                }
+                await updateUserData(
+                  userName: userNameController.text,
+                  imgInfo: Tuple2(
+                    imgInfo.value.item1.toString(),
+                    imgInfo.value.item2,
+                  ),
+                  ref: ref,
+                  context: context,
+                );
               },
               text: '保存',
             ),
@@ -112,16 +97,14 @@ class EditProfilePage extends HookConsumerWidget {
     required WidgetRef ref,
     required BuildContext context,
   }) async {
-    await ref.read(updateUserDataProvider).call(
-          userName: userName,
-          imgInfo: imgInfo,
-          onSuccess: () async {
-            ScaffoldMessengerService.showSuccessSnackBar(
-              context,
-              '更新が完了しました!',
-            );
-            Navigator.pop(context);
-          },
-        );
+    final read = ref.read;
+    await read(updateUserDataProvider).call(
+      userName: userName,
+      imgInfo: imgInfo,
+      onSuccess: () {
+        ref.invalidate(fetchUserDataProvider);
+        Navigator.pop(context);
+      },
+    );
   }
 }

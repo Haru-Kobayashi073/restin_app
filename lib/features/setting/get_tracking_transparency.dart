@@ -13,7 +13,7 @@ final getTrackingTransparencyProvider = Provider<Future<void> Function()>(
         await AppTrackingTransparency.requestTrackingAuthorization();
       }
       debugPrint('トラッキングトランスペアレンシーの許可状況: $status');
-    } on Exception catch (e) {
+    } on AppException catch (e) {
       if (!isNetworkCheck) {
         const exception = AppException(
           message: 'Maybe your network is disconnected. Please check yours.',

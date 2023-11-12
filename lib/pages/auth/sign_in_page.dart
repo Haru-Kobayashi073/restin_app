@@ -36,7 +36,6 @@ class SignInPage extends HookConsumerWidget {
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordFocusNode = useFocusNode();
-    final signIn = ref.read(signInControllerProvider.notifier).signInProvider;
     final obscurePassword = useToggle(true);
     final formKey = useFormStateKey();
 
@@ -130,14 +129,10 @@ class SignInPage extends HookConsumerWidget {
                 CommonButton(
                   onPressed: () async {
                     if (formKey.currentState!.validate()) {
-                      await ref.read(signIn).call(
+                      await ref.read(signInProvider).call(
                             email: emailController.text,
                             password: passwordController.text,
                             onSuccess: () async {
-                              ScaffoldMessengerService.showSuccessSnackBar(
-                                context,
-                                'ログインしました!',
-                              );
                               await Navigator.pushAndRemoveUntil(
                                 context,
                                 MainPage.route(isAuthenticated: true),
@@ -157,7 +152,7 @@ class SignInPage extends HookConsumerWidget {
                     );
                   },
                   color: ColorName.white,
-                  text: '新規登録',
+                  text: '新規登録はこちら',
                 ),
               ],
             ),

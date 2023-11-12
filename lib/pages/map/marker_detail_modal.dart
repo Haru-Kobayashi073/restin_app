@@ -24,20 +24,6 @@ class MarkerDetailModal extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isSaved = ref.watch(isSavedProvider(markerData));
     final isAuthenticated = ref.read(isAuthenticatedProvider);
-    void displaySnackBar({required bool? isSaved}) {
-      Navigator.pop(context);
-      if (isSaved != null) {
-        ScaffoldMessengerService.showSuccessSnackBar(
-          context,
-          isSaved ? '保存しました' : '保存を解除しました',
-        );
-      } else {
-        ScaffoldMessengerService.showExceptionSnackBar(
-          context,
-          'エラーが発生しました',
-        );
-      }
-    }
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -173,13 +159,16 @@ class MarkerDetailModal extends HookConsumerWidget {
                       constraints: const BoxConstraints(),
                       onPressed: () async {
                         if (isAuthenticated) {
-                          final isSaved = await ref
+                          await ref
                               .read(switchBookMarkProvider)
                               .call(markerId: markerData.markerId);
                           ref
                             ..invalidate(fetchAllMarkersProvider)
                             ..invalidate(fetchBookMarkMarkersProvider);
-                          displaySnackBar(isSaved: isSaved);
+                          if (!context.mounted) {
+                            return;
+                          }
+                          Navigator.pop(context);
                         } else {
                           await showDialog<void>(
                             context: context,

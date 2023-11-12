@@ -20,9 +20,6 @@ class SendResetPasswordEmailPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final emailController = useTextEditingController();
     final formKey = useFormStateKey();
-    final sendResetPasswordEmail = ref
-        .read(sendPasswordResetEmailControllerProvider.notifier)
-        .sendResetPasswordEmailProvider;
 
     return AuthPageWrapper(
       formKey: formKey,
@@ -47,13 +44,9 @@ class SendResetPasswordEmailPage extends HookConsumerWidget {
           child: CommonButton(
             onPressed: () async {
               if (formKey.currentState!.validate()) {
-                await ref.read(sendResetPasswordEmail).call(
+                await ref.read(sendResetPasswordEmailProvider).call(
                       email: emailController.text,
                       onSuccess: () async {
-                        ScaffoldMessengerService.showSuccessSnackBar(
-                          context,
-                          'メールが送信されました!',
-                        );
                         await Navigator.pushAndRemoveUntil(
                           context,
                           SignInPage.route(),

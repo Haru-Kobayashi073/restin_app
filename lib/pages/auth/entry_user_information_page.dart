@@ -24,7 +24,6 @@ class EntryUserInformationPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userNameController = useTextEditingController();
     final imgInfo = useState<Tuple2<String?, File?>>(const Tuple2(null, null));
-    final loading = useState<bool>(false);
 
     return AuthPageWrapper(
       canPop: false,
@@ -35,27 +34,18 @@ class EntryUserInformationPage extends HookConsumerWidget {
           alignment: Alignment.centerLeft,
           child: GestureDetector(
             onTap: () async {
-              loading.value = true;
               imgInfo.value = await ref.read(pickImageAndUploadProvider);
-              loading.value = false;
             },
-            child: loading.value == false
-                ? !imgInfo.value.item1.isNull
-                    ? CircleAvatar(
-                        radius: context.deviceWidth * 0.14,
-                        backgroundImage: CachedNetworkImageProvider(
-                          imgInfo.value.item1!,
-                        ),
-                      )
-                    : CircleAvatar(
-                        radius: context.deviceWidth * 0.14,
-                        child: SvgPicture.asset(Assets.icons.picture),
-                      )
-                : Container(
-                    padding: const EdgeInsets.all(32),
-                    width: context.deviceWidth * 0.28,
-                    height: context.deviceWidth * 0.28,
-                    child: const CircularProgressIndicator(),
+            child: !imgInfo.value.item1.isNull
+                ? CircleAvatar(
+                    radius: context.deviceWidth * 0.14,
+                    backgroundImage: CachedNetworkImageProvider(
+                      imgInfo.value.item1!,
+                    ),
+                  )
+                : CircleAvatar(
+                    radius: context.deviceWidth * 0.14,
+                    child: SvgPicture.asset(Assets.icons.picture),
                   ),
           ),
         ),
@@ -81,10 +71,9 @@ class EntryUserInformationPage extends HookConsumerWidget {
               );
             } else if (imgInfo.value.item1 == null ||
                 userNameController.text.isEmpty) {
-              ScaffoldMessengerService.showSuccessSnackBar(
-                context,
-                '情報を入力またはスキップしてください',
-              );
+              ref.read(scaffoldMessengerServiceProvider).showSuccessSnackBar(
+                    '情報を入力またはスキップしてください',
+                  );
             }
           },
           text: '登録',
@@ -128,10 +117,6 @@ class EntryUserInformationPage extends HookConsumerWidget {
           userName: userName,
           imgInfo: imgInfo,
           onSuccess: () async {
-            ScaffoldMessengerService.showSuccessSnackBar(
-              context,
-              '新規登録が完了しました!',
-            );
             await Navigator.pushAndRemoveUntil(
               context,
               MainPage.route(isAuthenticated: true),
