@@ -51,7 +51,7 @@ final signInProvider = Provider.autoDispose<
       }
       debugPrint('ログインエラー: $e');
       read(scaffoldMessengerServiceProvider)
-          .showExceptionSnackBar('ログインに失敗しました');
+          .showExceptionSnackBar(e.toJapanese);
     } finally {
       read(overlayLoadingWidgetProvider.notifier).update((state) => false);
     }

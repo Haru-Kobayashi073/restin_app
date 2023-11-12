@@ -52,7 +52,7 @@ final signUpProvider = Provider.autoDispose<
       }
       debugPrint('新規登録エラー: $e');
       read(scaffoldMessengerServiceProvider)
-          .showExceptionSnackBar('新規登録に失敗しました');
+          .showExceptionSnackBar(e.toJapanese);
     } finally {
       read(overlayLoadingWidgetProvider.notifier).update((state) => false);
     }
