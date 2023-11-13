@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:search_roof_top_app/features/auth/auth.dart';
 import 'package:search_roof_top_app/features/user/user.dart';
+import 'package:search_roof_top_app/pages/auth/sign_in_page.dart';
 import 'package:search_roof_top_app/pages/home/main_page.dart';
 import 'package:search_roof_top_app/pages/profile/components/profile_components.dart';
 import 'package:search_roof_top_app/pages/profile/edit_profile_page.dart';
@@ -26,6 +28,7 @@ class ProfilePage extends HookConsumerWidget {
     const tabs = ['投稿', '保存'];
     final myUid =
         ref.watch(sharedPreferencesServiceProvider).getAuthCredentials();
+    final isAuthenticated = ref.read(isAuthenticatedProvider);
 
     return user.when(
       data: (data) {
@@ -53,24 +56,37 @@ class ProfilePage extends HookConsumerWidget {
                           await showDialog<void>(
                             context: context,
                             builder: (_) {
-                              return CommonDialog(
-                                title: 'このユーザーをブロックしますか？',
-                                cancelText: 'いいえ',
-                                okText: 'はい',
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  ref.read(blockUserProvider).call(
-                                        blockedUid: userId!,
-                                        onSuccess: () {
-                                          Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MainPage.route(),
-                                            (_) => false,
-                                          );
-                                        },
-                                      );
-                                },
-                              );
+                              return isAuthenticated
+                                  ? CommonDialog(
+                                      title: 'このユーザーをブロックしますか？',
+                                      cancelText: 'いいえ',
+                                      okText: 'はい',
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        ref.read(blockUserProvider).call(
+                                              blockedUid: userId!,
+                                              onSuccess: () {
+                                                Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MainPage.route(),
+                                                  (_) => false,
+                                                );
+                                              },
+                                            );
+                                      },
+                                    )
+                                  : CommonDialog(
+                                      title: 'ログインが必要です。ログイン画面に遷移しますか？',
+                                      cancelText: 'キャンセル',
+                                      okText: 'はい',
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        Navigator.push(
+                                          context,
+                                          SignInPage.route(),
+                                        );
+                                      },
+                                    );
                             },
                           );
                         },
