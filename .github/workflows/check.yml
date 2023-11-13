@@ -39,6 +39,15 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: set .env
+        run: |
+          touch .env
+          echo "GOOGLE_MAPS_API_KEY_FOR_IOS=${{ secrets.GOOGLE_MAPS_API_KEY_FOR_IOS }}" >> .env
+          echo "GOOGLE_MAPS_API_KEY_FOR_ANDROID=${{ secrets.GOOGLE_MAPS_API_KEY_FOR_ANDROID }}" >> .env
+          echo "FIREBASE_IOS_API_KEY=${{ secrets.FIREBASE_IOS_API_KEY }}" >> .env
+          echo "FIREBASE_AONDROID_API_KEY=${{ secrets.FIREBASE_AONDROID_API_KEY }}" >> .env
+          cat -e .env
+
       - name: Run flutter version
         run: flutter --version
 
@@ -96,6 +105,15 @@ jobs:
         with:
           channel: 'stable'
           cache: true
+
+      - name: set .env
+        run: |
+          touch .env
+          echo "GOOGLE_MAPS_API_KEY_FOR_IOS=${{ secrets.GOOGLE_MAPS_API_KEY_FOR_IOS }}" >> .env
+          echo "GOOGLE_MAPS_API_KEY_FOR_ANDROID=${{ secrets.GOOGLE_MAPS_API_KEY_FOR_ANDROID }}" >> .env
+          echo "FIREBASE_IOS_API_KEY=${{ secrets.FIREBASE_IOS_API_KEY }}" >> .env
+          echo "FIREBASE_AONDROID_API_KEY=${{ secrets.FIREBASE_AONDROID_API_KEY }}" >> .env
+          cat -e .env
 
       - name: Run flutter version
         run: flutter --version
