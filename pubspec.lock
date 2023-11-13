@@ -153,6 +153,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  change:
+    dependency: transitive
+    description:
+      name: change
+      sha256: "75b6e28073433946a987e6082d00f08676a8260a6aa68cac8594c10611e7e9b9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.2"
   characters:
     dependency: transitive
     description:
@@ -169,6 +177,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  cider:
+    dependency: "direct dev"
+    description:
+      name: cider
+      sha256: "918ded9f4473d8042247b9e66a90101eb5ff72935c31df5d511a55f14e085ef0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.4"
   cli_util:
     dependency: transitive
     description:
@@ -920,6 +936,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  markdown:
+    dependency: transitive
+    description:
+      name: markdown
+      sha256: acf35edccc0463a9d7384e437c015a3535772e09714cf60e07eeef3a15870dcd
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.1.1"
+  marker:
+    dependency: transitive
+    description:
+      name: marker
+      sha256: "3dadd01f3b0ffae148ffb3b1bc04290a98e54a465cddbab59727bd2a9fe57750"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
   matcher:
     dependency: transitive
     description:
@@ -1136,6 +1168,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  rfc_6901:
+    dependency: transitive
+    description:
+      name: rfc_6901
+      sha256: df1bbfa3d023009598f19636d6114c6ac1e0b7bb7bf6a260f0e6e6ce91416820
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   riverpod:
     dependency: transitive
     description:
@@ -1485,6 +1525,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  version_manipulation:
+    dependency: transitive
+    description:
+      name: version_manipulation
+      sha256: "9ef166939794d5bd80309cc6dbfe33c9f81674ba1c73ac117a866fd2dc746846"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
   watcher:
     dependency: transitive
     description:

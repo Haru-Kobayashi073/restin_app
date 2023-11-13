@@ -49,6 +49,7 @@ dependencies:
 
 dev_dependencies:
   build_runner:
+  cider: ^0.2.4
   flutter_gen_runner:
   flutter_launcher_icons: ^0.13.1
   flutter_lints: ^2.0.0
