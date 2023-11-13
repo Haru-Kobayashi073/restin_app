@@ -8,14 +8,8 @@ Restinとは、休憩場所を手軽に見つけられるSNSのようなマッ�
 <br>
 
 ## 画像 / Images
-<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-13 at 21.40.50.png" width="200">
-<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-13 at 21.49.16.png" width="200">
-<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-14 at 00.15.46.png" width="200">
-<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-13 at 21.50.55.png" width="200">
-<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-13 at 21.51.03.png" width="200">
-<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-13 at 21.56.46.png" width="200">
-<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-14 at 00.13.09.png" width="200">
-<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-14 at 00.14.12.png" width="200">
+<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-13 at 21.40.50.png" width="200"><img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-13 at 21.49.16.png" width="200"><img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-14 at 00.15.46.png" width="200"><img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-13 at 21.50.55.png" width="200">
+<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-13 at 21.51.03.png" width="200"><img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-13 at 21.56.46.png" width="200"><img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-14 at 00.13.09.png" width="200"><img src="./images/Simulator Screenshot - iPhone 15 Pro - 2023-11-14 at 00.14.12.png" width="200">
 
 <br>
 <br>
@@ -99,27 +93,27 @@ Restinとは、休憩場所を手軽に見つけられるSNSのようなマッ�
 <br>
 
 ## こだわった部分 / The part I was particular about
-`1\. 初期画面で認証をスキップできる点`
+`1. 初期画面で認証をスキップできる点`
 
 ログインという工程があることでの離脱率を避けるためにスキップできる機能を追加しました。
 
 <br>
 
-`2\. 新規登録の手順の長さを分かりやすくした点`
+`2. 新規登録の手順の長さを分かりやすくした点`
 
 各工程で図を設けることで、あと何段階工程があるのかをわかりやすくすることでUXを向上しました。
 詳しい画像は遷移図を参照してください。
 
 <br>
 
-`3\.マーカー作成時に立てたい場所のプレビューを同じ画面で表示した点`
+`3.マーカー作成時に立てたい場所のプレビューを同じ画面で表示した点`
 
 マーカーの詳細情報を入力する際に、前の画面でどこにマーカーを立てたか見に戻りたいけど、手間がかかるという不満を解消するために工夫しました。
 詳しい画像は遷移図を参照してください。
 
 <br>
 
-`4\.重要なアクションをする際に確認モーダルを表示した点`
+`4.重要なアクションをする際に確認モーダルを表示した点`
 
 マーカーを作成する際、マーカーの作成をキャンセルする際、ログアウトする際、アカウント削除をする際など。
 
@@ -129,7 +123,7 @@ Restinとは、休憩場所を手軽に見つけられるSNSのようなマッ�
 
 <br>
 
-`5\.アクション後にしっかりとエラーハンドリングをし、SnackBarを表示した点`
+`5.アクション後にしっかりとエラーハンドリングをし、SnackBarを表示した点`
 
 ログイン時に全てのエラーをまとめるのではなく、「パスワードは半角英数字を組み合わせてください」や「メールアドレスの形式が正しくありません」など、一つ一つ丁寧に表示することで、ユーザーの理解が追いつき、離脱率の低下に繋げられると思いました。
 
