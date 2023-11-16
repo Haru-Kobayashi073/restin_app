@@ -57,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  background_fetch:
+    dependency: transitive
+    description:
+      name: background_fetch
+      sha256: f70b28a0f7a3156195e9742229696f004ea3bf10f74039b7bf4c78a74fbda8a4
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -478,6 +486,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_background_geolocation:
+    dependency: "direct main"
+    description:
+      name: flutter_background_geolocation
+      sha256: "2cf8bb73ff5caf98d6a1ad4e5aa8a690f084c70c4fa3d33c26aabee2ae3798ae"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.13.4"
   flutter_blurhash:
     dependency: transitive
     description:
