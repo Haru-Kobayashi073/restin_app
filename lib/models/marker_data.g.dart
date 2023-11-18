@@ -19,6 +19,7 @@ _$_MarkerData _$$_MarkerDataFromJson(Map<String, dynamic> json) =>
       bookMarkedUserIds: (json['bookMarkedUserIds'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      isGeofenceActive: json['isGeofenceActive'] as bool?,
     );
 
 Map<String, dynamic> _$$_MarkerDataToJson(_$_MarkerData instance) =>
@@ -32,4 +33,5 @@ Map<String, dynamic> _$$_MarkerDataToJson(_$_MarkerData instance) =>
       'latitude': instance.latitude,
       'longitude': instance.longitude,
       'bookMarkedUserIds': instance.bookMarkedUserIds,
+      'isGeofenceActive': instance.isGeofenceActive,
     };
