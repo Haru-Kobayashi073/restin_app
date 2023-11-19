@@ -21,4 +21,8 @@ abstract class MarkerRepository {
   });
 
   Future<List<Comment>> fetchMarkersComments({required String markerId});
+
+  Future<void> changeGeofenceStatus({required String markerId});
+
+  Future<bool> fetchGeofenceStatus({required String markerId});
 }

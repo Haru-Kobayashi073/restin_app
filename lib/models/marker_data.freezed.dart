@@ -29,6 +29,7 @@ mixin _$MarkerData {
   double get latitude => throw _privateConstructorUsedError;
   double get longitude => throw _privateConstructorUsedError;
   List<String>? get bookMarkedUserIds => throw _privateConstructorUsedError;
+  bool? get isGeofenceActive => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +52,8 @@ abstract class $MarkerDataCopyWith<$Res> {
       String? imageUrl,
       double latitude,
       double longitude,
-      List<String>? bookMarkedUserIds});
+      List<String>? bookMarkedUserIds,
+      bool? isGeofenceActive});
 }
 
 /// @nodoc
@@ -76,6 +78,7 @@ class _$MarkerDataCopyWithImpl<$Res, $Val extends MarkerData>
     Object? latitude = null,
     Object? longitude = null,
     Object? bookMarkedUserIds = freezed,
+    Object? isGeofenceActive = freezed,
   }) {
     return _then(_value.copyWith(
       creatorId: null == creatorId
@@ -114,6 +117,10 @@ class _$MarkerDataCopyWithImpl<$Res, $Val extends MarkerData>
           ? _value.bookMarkedUserIds
           : bookMarkedUserIds // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      isGeofenceActive: freezed == isGeofenceActive
+          ? _value.isGeofenceActive
+          : isGeofenceActive // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -135,7 +142,8 @@ abstract class _$$_MarkerDataCopyWith<$Res>
       String? imageUrl,
       double latitude,
       double longitude,
-      List<String>? bookMarkedUserIds});
+      List<String>? bookMarkedUserIds,
+      bool? isGeofenceActive});
 }
 
 /// @nodoc
@@ -158,6 +166,7 @@ class __$$_MarkerDataCopyWithImpl<$Res>
     Object? latitude = null,
     Object? longitude = null,
     Object? bookMarkedUserIds = freezed,
+    Object? isGeofenceActive = freezed,
   }) {
     return _then(_$_MarkerData(
       creatorId: null == creatorId
@@ -196,6 +205,10 @@ class __$$_MarkerDataCopyWithImpl<$Res>
           ? _value._bookMarkedUserIds
           : bookMarkedUserIds // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      isGeofenceActive: freezed == isGeofenceActive
+          ? _value.isGeofenceActive
+          : isGeofenceActive // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -212,7 +225,8 @@ class _$_MarkerData implements _MarkerData {
       this.imageUrl,
       required this.latitude,
       required this.longitude,
-      final List<String>? bookMarkedUserIds})
+      final List<String>? bookMarkedUserIds,
+      this.isGeofenceActive})
       : _bookMarkedUserIds = bookMarkedUserIds;
 
   factory _$_MarkerData.fromJson(Map<String, dynamic> json) =>
@@ -246,8 +260,11 @@ class _$_MarkerData implements _MarkerData {
   }
 
   @override
+  final bool? isGeofenceActive;
+
+  @override
   String toString() {
-    return 'MarkerData(creatorId: $creatorId, markerId: $markerId, createdAt: $createdAt, title: $title, description: $description, imageUrl: $imageUrl, latitude: $latitude, longitude: $longitude, bookMarkedUserIds: $bookMarkedUserIds)';
+    return 'MarkerData(creatorId: $creatorId, markerId: $markerId, createdAt: $createdAt, title: $title, description: $description, imageUrl: $imageUrl, latitude: $latitude, longitude: $longitude, bookMarkedUserIds: $bookMarkedUserIds, isGeofenceActive: $isGeofenceActive)';
   }
 
   @override
@@ -270,7 +287,9 @@ class _$_MarkerData implements _MarkerData {
             (identical(other.longitude, longitude) ||
                 other.longitude == longitude) &&
             const DeepCollectionEquality()
-                .equals(other._bookMarkedUserIds, _bookMarkedUserIds));
+                .equals(other._bookMarkedUserIds, _bookMarkedUserIds) &&
+            (identical(other.isGeofenceActive, isGeofenceActive) ||
+                other.isGeofenceActive == isGeofenceActive));
   }
 
   @JsonKey(ignore: true)
@@ -285,7 +304,8 @@ class _$_MarkerData implements _MarkerData {
       imageUrl,
       latitude,
       longitude,
-      const DeepCollectionEquality().hash(_bookMarkedUserIds));
+      const DeepCollectionEquality().hash(_bookMarkedUserIds),
+      isGeofenceActive);
 
   @JsonKey(ignore: true)
   @override
@@ -311,7 +331,8 @@ abstract class _MarkerData implements MarkerData {
       final String? imageUrl,
       required final double latitude,
       required final double longitude,
-      final List<String>? bookMarkedUserIds}) = _$_MarkerData;
+      final List<String>? bookMarkedUserIds,
+      final bool? isGeofenceActive}) = _$_MarkerData;
 
   factory _MarkerData.fromJson(Map<String, dynamic> json) =
       _$_MarkerData.fromJson;
@@ -334,6 +355,8 @@ abstract class _MarkerData implements MarkerData {
   double get longitude;
   @override
   List<String>? get bookMarkedUserIds;
+  @override
+  bool? get isGeofenceActive;
   @override
   @JsonKey(ignore: true)
   _$$_MarkerDataCopyWith<_$_MarkerData> get copyWith =>

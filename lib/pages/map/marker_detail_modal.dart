@@ -9,6 +9,7 @@ import 'package:search_roof_top_app/features/user/user.dart';
 import 'package:search_roof_top_app/models/marker_data.dart';
 import 'package:search_roof_top_app/pages/auth/sign_in_page.dart';
 import 'package:search_roof_top_app/pages/comment/comment_page.dart';
+import 'package:search_roof_top_app/pages/map/components/map_components.dart';
 import 'package:search_roof_top_app/pages/profile/profile_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
@@ -130,93 +131,134 @@ class MarkerDetailModal extends HookConsumerWidget {
                   ),
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(
-                      padding: const EdgeInsets.only(right: 4),
-                      constraints: const BoxConstraints(),
-                      onPressed: () {
-                        showModalBottomSheet<void>(
-                          isScrollControlled: true,
-                          useRootNavigator: true,
-                          context: context,
-                          backgroundColor: ColorName.white,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(15),
-                            ),
-                          ),
-                          builder: (BuildContext context) {
-                            return CommentPage(
-                              markerId: markerData.markerId,
-                            );
-                          },
-                        );
-                      },
-                      icon: const Icon(FontAwesome.commenting_o),
-                    ),
-                    IconButton(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      constraints: const BoxConstraints(),
-                      onPressed: () async {
-                        if (isAuthenticated) {
-                          await ref
-                              .read(switchBookMarkProvider)
-                              .call(markerId: markerData.markerId);
-                          ref
-                            ..invalidate(fetchAllMarkersProvider)
-                            ..invalidate(fetchBookMarkMarkersProvider);
-                          if (!context.mounted) {
-                            return;
-                          }
-                          Navigator.pop(context);
-                        } else {
-                          await showDialog<void>(
-                            context: context,
-                            builder: (_) {
-                              return CommonDialog(
-                                title: 'ログインが必要です。ログイン画面に遷移しますか？',
-                                cancelText: 'キャンセル',
-                                okText: 'はい',
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    SignInPage.route(),
-                                  );
-                                },
-                              );
-                            },
-                          );
-                        }
-                      },
-                      icon: isSaved
-                          ? const Icon(
-                              Icons.bookmark_outlined,
-                              weight: 0.2,
-                              color: ColorName.amber,
-                            )
-                          : const Icon(Icons.bookmark_outline),
-                    ),
-                    IconButton(
-                      onPressed: () async {
-                        await showDialog<void>(
-                          context: context,
-                          builder: (_) {
-                            return CommonDialog(
-                              title: 'この投稿を報告しますか？',
-                              cancelText: 'いいえ',
-                              okText: 'はい',
-                              onPressed: () {
-                                Navigator.pop(context);
-                                ref.read(submitFragFormProvider).call();
+                    Row(
+                      children: [
+                        IconButton(
+                          padding: const EdgeInsets.only(right: 4),
+                          constraints: const BoxConstraints(),
+                          onPressed: () {
+                            showModalBottomSheet<void>(
+                              isScrollControlled: true,
+                              useRootNavigator: true,
+                              context: context,
+                              backgroundColor: ColorName.white,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(15),
+                                ),
+                              ),
+                              builder: (BuildContext context) {
+                                return CommentPage(
+                                  markerId: markerData.markerId,
+                                );
                               },
                             );
                           },
-                        );
-                      },
-                      padding: const EdgeInsets.only(right: 4),
-                      constraints: const BoxConstraints(),
-                      icon: const Icon(Icons.flag_outlined),
+                          icon: const Icon(FontAwesome.commenting_o),
+                        ),
+                        IconButton(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          constraints: const BoxConstraints(),
+                          onPressed: () async {
+                            if (isAuthenticated) {
+                              await ref
+                                  .read(switchBookMarkProvider)
+                                  .call(markerId: markerData.markerId);
+                              ref
+                                ..invalidate(fetchAllMarkersProvider)
+                                ..invalidate(fetchBookMarkMarkersProvider);
+                              if (!context.mounted) {
+                                return;
+                              }
+                              Navigator.pop(context);
+                            } else {
+                              await showDialog<void>(
+                                context: context,
+                                builder: (_) {
+                                  return CommonDialog(
+                                    title: 'ログインが必要です。ログイン画面に遷移しますか？',
+                                    cancelText: 'キャンセル',
+                                    okText: 'はい',
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                        context,
+                                        SignInPage.route(),
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            }
+                          },
+                          icon: isSaved
+                              ? const Icon(
+                                  Icons.bookmark_outlined,
+                                  weight: 0.2,
+                                  color: ColorName.amber,
+                                )
+                              : const Icon(Icons.bookmark_outline),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            await showDialog<void>(
+                              context: context,
+                              builder: (_) {
+                                return CommonDialog(
+                                  title: 'この投稿を報告しますか？',
+                                  cancelText: 'いいえ',
+                                  okText: 'はい',
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    ref.read(submitFragFormProvider).call();
+                                  },
+                                );
+                              },
+                            );
+                          },
+                          padding: const EdgeInsets.only(right: 4),
+                          constraints: const BoxConstraints(),
+                          icon: const Icon(Icons.flag_outlined),
+                        ),
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: () => showDialog<void>(
+                        context: context,
+                        builder: (_) => const GeofenceActiveDialog(),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4,
+                          horizontal: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: markerData.isGeofenceActive == true
+                              ? ColorName.amber
+                              : ColorName.mediumGrey,
+                        ),
+                        alignment: Alignment.center,
+                        child: Row(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(right: 4),
+                              child: Icon(Icons.info_outline_rounded),
+                            ),
+                            Text(
+                              markerData.isGeofenceActive == true
+                                  ? '現在、使用されています'
+                                  : '現在、使用されていません',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),

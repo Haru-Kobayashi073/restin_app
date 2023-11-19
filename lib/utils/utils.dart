@@ -7,6 +7,7 @@ export 'dialog.dart';
 export 'exceptions/exceptions.dart';
 export 'extensions/extensions.dart';
 export 'firebase/firebase.dart';
+export 'flutter_background_geolocation.dart';
 export 'gen/assets.gen.dart';
 export 'gen/colors.gen.dart';
 export 'global_key.dart';

@@ -11,7 +11,7 @@ enum TabType { home, profile }
 final tabTypeProvider =
     StateProvider.autoDispose<TabType>((ref) => TabType.home);
 
-class MainPage extends HookConsumerWidget {
+class MainPage extends StatefulHookConsumerWidget {
   const MainPage({super.key, this.isAuthenticated = false});
   final bool isAuthenticated;
 
@@ -22,11 +22,26 @@ class MainPage extends HookConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _MainPageState();
+}
+
+class _MainPageState extends ConsumerState<MainPage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.wait<void>([
+      ref.read(flutterBackgroundGeolocationServiceProvider).initialize(),
+    ]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final tabType = ref.watch(tabTypeProvider);
     final screens = [
       const MapPage(),
-      isAuthenticated ? const ProfilePage() : const NonSignInProfilePage(),
+      widget.isAuthenticated
+          ? const ProfilePage()
+          : const NonSignInProfilePage(),
     ];
 
     return Scaffold(

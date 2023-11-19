@@ -15,6 +15,7 @@ abstract class MarkerData with _$MarkerData {
     required double latitude,
     required double longitude,
     List<String>? bookMarkedUserIds,
+    bool? isGeofenceActive,
   }) = _MarkerData;
 
   factory MarkerData.fromJson(Map<String, dynamic> json) =>
