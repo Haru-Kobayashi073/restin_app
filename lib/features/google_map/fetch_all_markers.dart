@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
+    as bg;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/models/marker_data.dart';
@@ -40,30 +42,43 @@ final fetchAllMarkersProvider =
     final isNetworkCheck = await isNetworkConnected();
     try {
       final response =
-          read(markerRepositoryImplProvider).fetchAllMarkers().map((event) {
+          read(markerRepositoryImplProvider).fetchAllMarkers().map((markers) {
         final list = <Marker>[];
-        for (final document in event) {
+        final geofences = <bg.Geofence>[];
+        for (final marker in markers) {
           list.add(
             Marker(
-              markerId: MarkerId(document.markerId),
+              markerId: MarkerId(marker.markerId),
               position: LatLng(
-                document.latitude,
-                document.longitude,
+                marker.latitude,
+                marker.longitude,
               ),
               infoWindow: InfoWindow(
-                title: document.title,
-                snippet: document.description,
+                title: marker.title,
+                snippet: marker.description,
               ),
               consumeTapEvents: true,
               onTap: () {
                 ref.read(showModalProvider).call(
                       context: context,
-                      markerData: document,
+                      markerData: marker,
                     );
               },
             ),
           );
+          geofences.add(
+            bg.Geofence(
+              identifier: marker.markerId,
+              radius: markerCircleRadius,
+              latitude: marker.latitude,
+              longitude: marker.longitude,
+              notifyOnEntry: true,
+              notifyOnExit: true,
+            ),
+          );
         }
+        read(flutterBackgroundGeolocationServiceProvider)
+            .addGeofences(geofences);
         return list;
       });
       debugPrint('全マーカーを取得しました。');
@@ -82,8 +97,41 @@ final fetchAllMarkersProvider =
   },
 );
 
-final fetchAllMarkerDataProvider =
-    StreamProvider.autoDispose<List<MarkerData>>(
+final fetchAllCirclesProvider =
+    StreamProvider.family<List<Circle>, List<Marker>>(
+  (ref, markers) async* {
+    final isNetworkCheck = await isNetworkConnected();
+    try {
+      final list = <Circle>[];
+      for (final marker in markers) {
+        list.add(
+          Circle(
+            circleId: CircleId(marker.markerId.value),
+            center: marker.position,
+            strokeColor: ColorName.amber.withOpacity(0.8),
+            fillColor: ColorName.amber.withOpacity(0.2),
+            strokeWidth: 2,
+            radius: markerCircleRadius,
+          ),
+        );
+      }
+      debugPrint('全サークルを取得しました。');
+      yield list;
+    } on AppException catch (e) {
+      if (!isNetworkCheck) {
+        const exception = AppException(
+          message: 'Maybe your network is disconnected. Please check yours.',
+        );
+        throw exception;
+      }
+
+      debugPrint('全サークルの取得エラー: $e');
+      rethrow;
+    }
+  },
+);
+
+final fetchAllMarkerDataProvider = StreamProvider.autoDispose<List<MarkerData>>(
   (ref) async* {
     final read = ref.read;
     final isNetworkCheck = await isNetworkConnected();
