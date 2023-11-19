@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:geolocator/geolocator.dart';
@@ -7,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/features/google_map/google_map.dart';
 import 'package:search_roof_top_app/features/setting/setting.dart';
 import 'package:search_roof_top_app/pages/map/components/map_components.dart';
+import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
 
 class MapPage extends HookConsumerWidget {
@@ -22,10 +24,11 @@ class MapPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     late StreamSubscription<Position> positionStream;
     late Position position;
+    final watch = ref.watch;
 
     /// 画面上のGoogleMapを制御
     void onMapCreated(GoogleMapController controller) {
-      ref.watch(mapControllerProvider.notifier).state = controller;
+      watch(mapControllerProvider.notifier).state = controller;
     }
 
     const locationSettings = LocationSettings(
@@ -50,7 +53,7 @@ class MapPage extends HookConsumerWidget {
           );
 
           /// Providerに位置情報を格納
-          ref.watch(currentSpotProvider.notifier).state = LatLng(
+          watch(currentSpotProvider.notifier).state = LatLng(
             position.latitude,
             position.longitude,
           );
@@ -66,13 +69,18 @@ class MapPage extends HookConsumerWidget {
                 : '${position.latitude}, ${position.longitude}',
           );
         });
+
         return positionStream.cancel;
       },
       [],
     );
 
-    final currentSpot = ref.watch(currentSpotProvider);
-    final selectedMapType = ref.watch(selectedMapTypeProvider);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      watch(flutterBackgroundGeolocationServiceProvider).eventOnGeofence();
+    });
+
+    final currentSpot = watch(currentSpotProvider);
+    final selectedMapType = watch(selectedMapTypeProvider);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -81,30 +89,35 @@ class MapPage extends HookConsumerWidget {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : ref.watch(fetchAllMarkersProvider(context)).when(
-                data: (markers) {
-                  return GoogleMap(
-                    onMapCreated: onMapCreated,
-                    mapType: selectedMapType,
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: false,
-                    initialCameraPosition: CameraPosition(
-                      target: ref.watch(currentSpotProvider) ??
-                          const LatLng(
-                            35.658034,
-                            139.701636,
-                          ),
-                      zoom: 14,
-                    ),
-                    markers: markers.toSet(),
-                  );
-                },
-                error: (error, stackTrace) => ErrorPage(
-                  error: error,
-                  onTapReload: () => ref.invalidate(fetchAllMarkersProvider),
-                ),
-                loading: () => const Loading(),
+          : watch(fetchAllMarkersProvider(context)).when(
+              data: (markers) {
+                return GoogleMap(
+                  onMapCreated: onMapCreated,
+                  mapType: selectedMapType,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: false,
+                  initialCameraPosition: CameraPosition(
+                    target: watch(currentSpotProvider) ??
+                        const LatLng(
+                          35.658034,
+                          139.701636,
+                        ),
+                    zoom: 14,
+                  ),
+                  markers: markers.toSet(),
+                  circles: watch(fetchAllCirclesProvider(markers)).when(
+                    data: (data) => data.toSet(),
+                    error: (error, stackTrace) => {},
+                    loading: () => {},
+                  ),
+                );
+              },
+              error: (error, stackTrace) => ErrorPage(
+                error: error,
+                onTapReload: () => ref.invalidate(fetchAllMarkersProvider),
               ),
+              loading: () => const Loading(),
+            ),
     );
   }
 }
