@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +33,12 @@ class AddMarkerOptionPage extends HookConsumerWidget {
     final formKey = useFormStateKey();
     final imgInfo = useState<Tuple2<String?, File?>>(const Tuple2(null, null));
 
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false, // 戻るキーの動作で戻ることを一旦防ぐ
+      onPopInvoked: (didPop) async {
+        if (didPop) {
+          return;
+        }
         final cancel = await showDialog<bool>(
           context: context,
           builder: (_) => CommonDialog(
@@ -52,7 +54,6 @@ class AddMarkerOptionPage extends HookConsumerWidget {
         if (cancel == true) {
           ref.read(markersProvider).remove(marker);
         }
-        return cancel ?? false;
       },
       child: Scaffold(
         appBar: const HomeAppBar(),
@@ -131,7 +132,6 @@ class AddMarkerOptionPage extends HookConsumerWidget {
                                         child: SvgPicture.asset(
                                           Assets.icons.picture,
                                           width: 32,
-                                          color: ColorName.darkGrey,
                                         ),
                                       )
                                     : const SizedBox(),
@@ -177,7 +177,6 @@ class AddMarkerOptionPage extends HookConsumerWidget {
                                   child: SvgPicture.asset(
                                     Assets.icons.picture,
                                     width: 32,
-                                    color: ColorName.darkGrey,
                                   ),
                                 )
                               : const SizedBox(),

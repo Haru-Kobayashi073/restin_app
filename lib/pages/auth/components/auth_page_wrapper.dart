@@ -49,8 +49,8 @@ class AuthPageWrapper extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return WillPopScope(
-      onWillPop: () async => canPop,
+    return PopScope(
+      canPop: canPop,
       child: Scaffold(
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(32),
