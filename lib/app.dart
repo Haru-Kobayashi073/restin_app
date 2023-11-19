@@ -14,6 +14,7 @@ class App extends HookConsumerWidget {
       scaffoldMessengerKey: ref.watch(scaffoldMessengerKeyProvider),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        useMaterial3: false,
         primarySwatch: Colors.amber,
         scaffoldBackgroundColor: ColorName.white,
       ),
@@ -22,8 +23,8 @@ class App extends HookConsumerWidget {
         return GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: MediaQuery(
-            // 端末依存のフォントスケールを 1 に固定する
-            data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+            data: MediaQuery.of(context)
+                .copyWith(textScaler: TextScaler.noScaling),
             child: Stack(
               children: [
                 if (child != null) child,
