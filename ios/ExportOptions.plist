@@ -11,7 +11,7 @@
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>com.restin</key>
-		<string>app_distribution_profile</string>
+		<string>restin_profile_20231119</string>
 	</dict>
 	<key>signingCertificate</key>
 	<string>Apple Distribution</string>
