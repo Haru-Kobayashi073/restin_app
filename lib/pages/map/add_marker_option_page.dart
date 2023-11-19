@@ -195,39 +195,39 @@ class AddMarkerOptionPage extends HookConsumerWidget {
                         ),
                       ),
                       onPressed: () async {
-                        final willCreate = await showDialog<bool>(
+                        await showDialog<void>(
                           context: context,
-                          builder: (_) => const CommonDialog(
+                          builder: (_) => CommonDialog(
                             title: '作成されたマーカーは全てのユーザーが閲覧することができます。',
                             cancelText: 'キャンセル',
                             okText: '確認',
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                ref.read(markersProvider).remove(marker);
+                                final newMarker = Marker(
+                                  markerId: marker.markerId,
+                                  position: marker.position,
+                                  infoWindow: InfoWindow(
+                                    title: markerTitleController.text,
+                                    snippet: descriptionController.text,
+                                  ),
+                                );
+                                ref
+                                    .read(markersProvider.notifier)
+                                    .state
+                                    .add(newMarker);
+                                if (!context.mounted) {
+                                  return;
+                                }
+                                await createMarker(
+                                  marker: newMarker,
+                                  ref: ref,
+                                  context: context,
+                                );
+                              }
+                            },
                           ),
                         );
-                        if (willCreate == true) {
-                          if (formKey.currentState!.validate()) {
-                            ref.read(markersProvider).remove(marker);
-                            final newMarker = Marker(
-                              markerId: marker.markerId,
-                              position: marker.position,
-                              infoWindow: InfoWindow(
-                                title: markerTitleController.text,
-                                snippet: descriptionController.text,
-                              ),
-                            );
-                            ref
-                                .read(markersProvider.notifier)
-                                .state
-                                .add(newMarker);
-                            if (!context.mounted) {
-                              return;
-                            }
-                            await createMarker(
-                              marker: newMarker,
-                              ref: ref,
-                              context: context,
-                            );
-                          }
-                        }
                       },
                       child: const Text(
                         '保存',
