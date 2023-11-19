@@ -125,4 +125,30 @@ class MarkerRepositoryImpl implements MarkerRepository {
     }
     return list;
   }
+
+  @override
+  Future<void> changeGeofenceStatus({required String markerId}) async {
+    final markerRef = _firestore.collection('markers').doc(markerId);
+    final markerSnapshot = await markerRef.get();
+    var isGeofenceActive = markerSnapshot.data()?['isGeofenceActive'] as bool?;
+
+    if (isGeofenceActive == true) {
+      isGeofenceActive = false;
+    } else {
+      isGeofenceActive = true;
+    }
+
+    await markerRef.update({
+      'isGeofenceActive': isGeofenceActive,
+    });
+  }
+
+  @override
+  Future<bool> fetchGeofenceStatus({required String markerId}) async {
+    final markerRef = _firestore.collection('markers').doc(markerId);
+    final response = await markerRef.get();
+    final isGeofenceActive =
+        response.data()?['isGeofenceActive'] as bool? ?? false;
+    return isGeofenceActive;
+  }
 }
