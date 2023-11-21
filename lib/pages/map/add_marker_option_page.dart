@@ -220,6 +220,7 @@ class AddMarkerOptionPage extends HookConsumerWidget {
                                 }
                                 await createMarker(
                                   marker: newMarker,
+                                  imgInfo: imgInfo.value,
                                   ref: ref,
                                   context: context,
                                 );
