@@ -75,9 +75,9 @@ class MapPage extends HookConsumerWidget {
       [],
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      watch(flutterBackgroundGeolocationServiceProvider).eventOnGeofence();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   watch(flutterBackgroundGeolocationServiceProvider).eventOnGeofence();
+    // });
 
     final currentSpot = watch(currentSpotProvider);
     final selectedMapType = watch(selectedMapTypeProvider);
