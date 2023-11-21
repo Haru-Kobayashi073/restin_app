@@ -105,11 +105,11 @@ class MapPage extends HookConsumerWidget {
                     zoom: 14,
                   ),
                   markers: markers.toSet(),
-                  circles: watch(fetchAllCirclesProvider(markers)).when(
-                    data: (data) => data.toSet(),
-                    error: (error, stackTrace) => {},
-                    loading: () => {},
-                  ),
+                  // circles: watch(fetchAllCirclesProvider(markers)).when(
+                  //   data: (data) => data.toSet(),
+                  //   error: (error, stackTrace) => {},
+                  //   loading: () => {},
+                  // ),
                 );
               },
               error: (error, stackTrace) => ErrorPage(
