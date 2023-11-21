@@ -72,7 +72,7 @@ class MarkerDetailModal extends HookConsumerWidget {
                                   fetchUserDataProvider(markerData.creatorId),
                                 )
                                 .when(
-                                  data: (user) => user.imageUrl != null
+                                  data: (user) => user.imageUrl != ''
                                       ? CircleAvatar(
                                           backgroundImage:
                                               CachedNetworkImageProvider(
@@ -262,7 +262,7 @@ class MarkerDetailModal extends HookConsumerWidget {
                     ),
                   ],
                 ),
-                markerData.imageUrl != null
+                markerData.imageUrl != ''
                     ? Container(
                         alignment: Alignment.center,
                         padding: const EdgeInsets.only(top: 16, bottom: 64),
