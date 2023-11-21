@@ -8,7 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/features/google_map/google_map.dart';
 import 'package:search_roof_top_app/features/setting/setting.dart';
 import 'package:search_roof_top_app/pages/map/components/map_components.dart';
-import 'package:search_roof_top_app/utils/utils.dart';
+// import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
 
 class MapPage extends HookConsumerWidget {
@@ -75,9 +75,9 @@ class MapPage extends HookConsumerWidget {
       [],
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      watch(flutterBackgroundGeolocationServiceProvider).eventOnGeofence();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   watch(flutterBackgroundGeolocationServiceProvider).eventOnGeofence();
+    // });
 
     final currentSpot = watch(currentSpotProvider);
     final selectedMapType = watch(selectedMapTypeProvider);

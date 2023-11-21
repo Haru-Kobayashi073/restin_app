@@ -77,8 +77,8 @@ final fetchAllMarkersProvider =
             ),
           );
         }
-        read(flutterBackgroundGeolocationServiceProvider)
-            .addGeofences(geofences);
+        // read(flutterBackgroundGeolocationServiceProvider)
+        //     .addGeofences(geofences);
         return list;
       });
       debugPrint('全マーカーを取得しました。');
