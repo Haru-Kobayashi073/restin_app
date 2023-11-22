@@ -34,12 +34,12 @@
 	<string>Requests are made for the purpose of taking photos and videos for display and use in the application.</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>This App will allow you to search for and connect to devices on the network you are using.</string>
-	<!-- <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>To use this application, please select "Always allow" to use the service comfortably.</string> -->
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>To use this application, please select "Always allow" to use the service comfortably.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>If you allow, you can use the service comfortably based on your location information. Your location information will not be shared with others.</string>
-	<!-- <key>NSMotionUsageDescription</key>
-	<string>If you allow, you can use the service comfortably based on your location information. Your motion will not be shared with others.</string> -->
+	<key>NSMotionUsageDescription</key>
+	<string>If you allow, you can use the service comfortably based on your location information. Your motion will not be shared with others.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>if you allow, allows you to post images within the service. The system will not monitor your library.</string>
 	<key>NSUserTrackingUsageDescription</key>
