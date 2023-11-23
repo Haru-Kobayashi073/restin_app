@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
     as bg;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:search_roof_top_app/features/google_map/google_map.dart';
+import 'package:search_roof_top_app/utils/utils.dart';
 
 final flutterBackgroundGeolocationServiceProvider =
     Provider<FlutterBackgroundGeolocationService>(
@@ -35,10 +35,17 @@ class FlutterBackgroundGeolocationService {
         enableHeadless: true,
         foregroundService: true,
       ),
-    ).then((bg.State state) {
-      if (!state.enabled) {
-        bg.BackgroundGeolocation.start();
-      }
+    );
+
+    await bg.BackgroundGeolocation.start().then((value) async {
+      logger.i('BackgroundGeolocation started');
+    }).catchError((dynamic error) async {
+      logger.e('BackgroundGeolocation error: $error');
+    });
+
+    bg.BackgroundGeolocation.onGeofence((bg.GeofenceEvent event) async {
+      logger.d('GeofenceEvent: catch the event');
+      await eventOnGeofence(event);
     });
   }
 
@@ -53,23 +60,21 @@ class FlutterBackgroundGeolocationService {
     }
   }
 
-  Future<void> eventOnGeofence() async {
-    bg.BackgroundGeolocation.onGeofence((bg.GeofenceEvent event) {
-      if (event.action == 'ENTER') {
-        if (isEnterOver) {
-          ref.read(changeGeofenceStatusProvider).call(
-                markerId: event.identifier,
-              );
-          debugPrint('GeofenceEvent: [--ENTER--]$event');
-          isEnterOver = false;
-        }
-      } else if (event.action == 'EXIT') {
-        ref.read(changeGeofenceStatusProvider).call(
-              markerId: event.identifier,
-            );
-        debugPrint('GeofenceEvent: [--EXIT--]$event');
-        isEnterOver = true;
+  Future<void> eventOnGeofence(bg.GeofenceEvent event) async {
+    if (event.action == 'ENTER') {
+      if (isEnterOver) {
+        // ref.read(changeGeofenceStatusProvider).call(
+        //       markerId: event.identifier,
+        //     );
+        logger.d('GeofenceEvent: [--ENTER--]$event');
+        isEnterOver = false;
       }
-    });
+    } else if (event.action == 'EXIT') {
+      // ref.read(changeGeofenceStatusProvider).call(
+      //       markerId: event.identifier,
+      //     );
+      logger.d('GeofenceEvent: [--EXIT--]$event');
+      isEnterOver = true;
+    }
   }
 }
