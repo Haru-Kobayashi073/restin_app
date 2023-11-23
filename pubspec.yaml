@@ -40,6 +40,7 @@ dependencies:
   image_picker: ^1.0.4
   intl: ^0.18.1
   json_annotation:
+  logger: ^2.0.2+1
   material_floating_search_bar_2: ^0.5.0
   package_info_plus: ^4.0.2
   shared_preferences: ^2.1.2
