@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
     as bg;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:search_roof_top_app/features/google_map/google_map.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 
 final flutterBackgroundGeolocationServiceProvider =
@@ -44,7 +45,7 @@ class FlutterBackgroundGeolocationService {
     });
 
     bg.BackgroundGeolocation.onGeofence((bg.GeofenceEvent event) async {
-      logger.d('GeofenceEvent: catch the event');
+      logger.d('GeofenceEvent: catch the event: $event');
       await eventOnGeofence(event);
     });
   }
@@ -63,16 +64,16 @@ class FlutterBackgroundGeolocationService {
   Future<void> eventOnGeofence(bg.GeofenceEvent event) async {
     if (event.action == 'ENTER') {
       if (isEnterOver) {
-        // ref.read(changeGeofenceStatusProvider).call(
-        //       markerId: event.identifier,
-        //     );
+        await ref.read(changeGeofenceStatusProvider).call(
+              markerId: event.identifier,
+            );
         logger.d('GeofenceEvent: [--ENTER--]$event');
         isEnterOver = false;
       }
     } else if (event.action == 'EXIT') {
-      // ref.read(changeGeofenceStatusProvider).call(
-      //       markerId: event.identifier,
-      //     );
+      await ref.read(changeGeofenceStatusProvider).call(
+            markerId: event.identifier,
+          );
       logger.d('GeofenceEvent: [--EXIT--]$event');
       isEnterOver = true;
     }
