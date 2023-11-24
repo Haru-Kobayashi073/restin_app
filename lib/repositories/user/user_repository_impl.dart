@@ -10,20 +10,15 @@ import 'package:search_roof_top_app/repositories/user/user_repository.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:tuple/tuple.dart';
 
-final userRepositoryImplProvider = Provider<UserRepository>(
-  (ref) => UserRepositoryImpl(
-    ref.watch(authProvider),
-    ref.watch(firestoreProvider),
-    ref.watch(storageProvider),
-  ),
-);
+final userRepositoryImplProvider =
+    Provider<UserRepository>(UserRepositoryImpl.new);
 
 class UserRepositoryImpl implements UserRepository {
-  UserRepositoryImpl(
-    this._auth,
-    this._firestore,
-    this._storage,
-  );
+  UserRepositoryImpl(ProviderRef<UserRepository> ref)
+      : _auth = ref.read(authProvider),
+        _firestore = ref.read(firestoreProvider),
+        _storage = ref.read(storageProvider);
+
   final FirebaseAuth _auth;
   final FirebaseFirestore _firestore;
   final FirebaseStorage _storage;
