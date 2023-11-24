@@ -29,9 +29,9 @@ class _MainPageState extends ConsumerState<MainPage> {
   @override
   void initState() {
     super.initState();
-    // Future.wait<void>([
-    //   ref.read(flutterBackgroundGeolocationServiceProvider).initialize(),
-    // ]);
+    Future.wait<void>([
+      ref.read(flutterBackgroundGeolocationServiceProvider).initialize(),
+    ]);
   }
 
   @override
