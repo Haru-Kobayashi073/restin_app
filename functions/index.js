@@ -47,7 +47,10 @@ async function deleteCollectionItems(collectionRef, queryFn) {
  * @param {String} uid - A reference to the collection to delete
  */
 async function deleteValueFromBookMarkedUserIds(uid) {
-  const querySnapshot = await fireStore.collection("markers").where("bookMarkedUserIds", "array-contains", uid).get();
+  const querySnapshot = await fireStore
+    .collection("markers")
+    .where("bookMarkedUserIds", "array-contains", uid)
+    .get();
   let batch = fireStore.batch();
   let count = 0;
 
@@ -83,7 +86,10 @@ async function deleteValueFromBookMarkedUserIds(uid) {
  * @param {Array} deleteMarkersIds - A reference to the collection to delete
  */
 async function deleteValueFromBookMarkMarkerIds(deleteMarkersIds) {
-  const querySnapshot = await fireStore.collection("markers").where("bookMarkMarkerIds", "array-contains", deleteMarkersIds).get();
+  const querySnapshot = await fireStore
+    .collection("markers")
+    .where("bookMarkMarkerIds", "array-contains", deleteMarkersIds)
+    .get();
   let batch = fireStore.batch();
   let count = 0;
 
@@ -115,6 +121,7 @@ async function deleteValueFromBookMarkMarkerIds(deleteMarkersIds) {
 }
 
 exports.deleteUser = functions
+  .runWith({enforceAppCheck: true})
   .region("asia-northeast1")
   .firestore.document("delete_users/{uid}")
   .onCreate(async (snap, _) => {
