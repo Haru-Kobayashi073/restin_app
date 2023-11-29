@@ -21,7 +21,6 @@ class FlutterBackgroundGeolocationService {
 
   final ProviderRef<FlutterBackgroundGeolocationService> ref;
   final bg.BackgroundGeolocation backgroundGeolocation;
-  bool isEnterOver = true;
 
   Future<void> initialize() async {
     await bg.BackgroundGeolocation.ready(
@@ -62,20 +61,21 @@ class FlutterBackgroundGeolocationService {
   }
 
   Future<void> eventOnGeofence(bg.GeofenceEvent event) async {
+    final isUsed = await ref
+        .read(fetchGeofenceStatusProvider)
+        .call(markerId: event.identifier);
     if (event.action == 'ENTER') {
-      if (isEnterOver) {
+      if (!isUsed) {
         await ref.read(changeGeofenceStatusProvider).call(
               markerId: event.identifier,
             );
         logger.d('GeofenceEvent: [--ENTER--]$event');
-        isEnterOver = false;
       }
     } else if (event.action == 'EXIT') {
       await ref.read(changeGeofenceStatusProvider).call(
             markerId: event.identifier,
           );
       logger.d('GeofenceEvent: [--EXIT--]$event');
-      isEnterOver = true;
     }
   }
 }
