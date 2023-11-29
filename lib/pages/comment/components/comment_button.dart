@@ -18,6 +18,12 @@ class CommentButton extends HookConsumerWidget {
         await showModalBottomSheet<void>(
           context: context,
           isScrollControlled: true,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
+            ),
+          ),
           builder: (BuildContext context) {
             return CommentForm(markerId: markerId);
           },
