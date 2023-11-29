@@ -146,7 +146,7 @@ class MarkerDetailModal extends HookConsumerWidget {
                               backgroundColor: ColorName.white,
                               shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(15),
+                                  top: Radius.circular(16),
                                 ),
                               ),
                               builder: (BuildContext context) {
@@ -262,20 +262,31 @@ class MarkerDetailModal extends HookConsumerWidget {
                     ),
                   ],
                 ),
-                markerData.imageUrl != ''
-                    ? Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.only(top: 16, bottom: 64),
-                        child: CachedNetworkImage(
+                Padding(
+                  padding: const EdgeInsets.only(top: 16, bottom: 32),
+                  child: markerData.imageUrl != ''
+                      ? CachedNetworkImage(
                           imageUrl: markerData.imageUrl!,
+                          imageBuilder: (_, imageProvider) => Container(
+                            alignment: Alignment.center,
+                            width: double.infinity,
+                            height: context.deviceHeight * 0.3,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                           progressIndicatorBuilder:
                               (_, url, downloadProgress) =>
                                   CircularProgressIndicator(
                             value: downloadProgress.progress,
                           ),
-                        ),
-                      )
-                    : const SizedBox(height: 100),
+                        )
+                      : const ImageNotFound(),
+                ),
               ],
             ),
           ],
