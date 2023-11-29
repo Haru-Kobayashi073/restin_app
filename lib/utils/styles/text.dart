@@ -32,7 +32,7 @@ class AppTextStyle {
   static const commonButtonText = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,
-    color: ColorName.white,
+    color: ColorName.lightAmber,
   );
 
   static const commonButtonYellow = TextStyle(
