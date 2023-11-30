@@ -9,6 +9,7 @@ import 'package:search_roof_top_app/models/marker_data.dart';
 import 'package:search_roof_top_app/pages/comment/comment_page.dart';
 import 'package:search_roof_top_app/pages/home/main_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
+import 'package:search_roof_top_app/widgets/widgets.dart';
 
 class UserPostCard extends HookConsumerWidget {
   const UserPostCard({super.key, required this.markerData});
@@ -23,7 +24,7 @@ class UserPostCard extends HookConsumerWidget {
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
         color: ColorName.white,
         boxShadow: const [
           BoxShadow(
@@ -36,38 +37,60 @@ class UserPostCard extends HookConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            markerData.title,
-            style: AppTextStyle.markerListTiltle,
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  markerData.title,
+                  style: AppTextStyle.markerListTiltle,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Text(
+                formatTimeAgo(markerData.createdAt),
+                style: AppTextStyle.markerListDescription,
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  markerData.description,
-                  style: AppTextStyle.markerListDescription,
-                ),
-                Text(
-                  formatTimeAgo(markerData.createdAt),
-                  style: AppTextStyle.markerListDescription,
+                Flexible(
+                  child: Text(
+                    markerData.description,
+                    style: AppTextStyle.markerListDescription,
+                    softWrap: true,
+                  ),
                 ),
               ],
             ),
           ),
-          markerData.imageUrl != null
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: CachedNetworkImage(
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: markerData.imageUrl != ''
+                ? CachedNetworkImage(
                     imageUrl: markerData.imageUrl!,
+                    imageBuilder: (_, imageProvider) => Container(
+                      alignment: Alignment.center,
+                      width: double.infinity,
+                      height: context.deviceHeight * 0.3,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                     progressIndicatorBuilder: (_, url, downloadProgress) =>
                         CircularProgressIndicator(
                       value: downloadProgress.progress,
                     ),
-                  ),
-                )
-              : const SizedBox(),
+                  )
+                : const ImageNotFound(),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -80,7 +103,7 @@ class UserPostCard extends HookConsumerWidget {
                     backgroundColor: ColorName.white,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(15),
+                        top: Radius.circular(16),
                       ),
                     ),
                     builder: (BuildContext context) {
@@ -136,10 +159,7 @@ class UserPostCard extends HookConsumerWidget {
                         markerData: markerData,
                       );
                 },
-                icon: SvgPicture.asset(
-                  Assets.icons.marker,
-                  width: 24,
-                ),
+                icon: const Icon(Icons.pin_drop_outlined),
               ),
             ],
           ),

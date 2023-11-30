@@ -14,6 +14,7 @@ export 'global_key.dart';
 export 'helpers/helpers.dart';
 export 'hooks/hooks.dart';
 export 'loading.dart';
+export 'logger.dart';
 export 'scaffold_messanger_service.dart';
 export 'shared_preferences_service.dart';
 export 'styles/styles.dart';

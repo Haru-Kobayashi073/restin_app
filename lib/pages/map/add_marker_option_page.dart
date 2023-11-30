@@ -181,59 +181,45 @@ class AddMarkerOptionPage extends HookConsumerWidget {
                                 )
                               : const SizedBox(),
                         ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 24),
-                    height: 48,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorName.amber,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      onPressed: () async {
-                        await showDialog<void>(
-                          context: context,
-                          builder: (_) => CommonDialog(
-                            title: '作成されたマーカーは全てのユーザーが閲覧することができます。',
-                            cancelText: 'キャンセル',
-                            okText: '確認',
-                            onPressed: () async {
-                              if (formKey.currentState!.validate()) {
-                                ref.read(markersProvider).remove(marker);
-                                final newMarker = Marker(
-                                  markerId: marker.markerId,
-                                  position: marker.position,
-                                  infoWindow: InfoWindow(
-                                    title: markerTitleController.text,
-                                    snippet: descriptionController.text,
-                                  ),
-                                );
-                                ref
-                                    .read(markersProvider.notifier)
-                                    .state
-                                    .add(newMarker);
-                                if (!context.mounted) {
-                                  return;
-                                }
-                                await createMarker(
-                                  marker: newMarker,
-                                  imgInfo: imgInfo.value,
-                                  ref: ref,
-                                  context: context,
-                                );
+                  const SizedBox(height: 8),
+                  CommonButton(
+                    onPressed: () async {
+                      await showDialog<void>(
+                        context: context,
+                        builder: (_) => CommonDialog(
+                          title: '作成されたマーカーは全てのユーザーが閲覧することができます。',
+                          cancelText: 'キャンセル',
+                          okText: '確認',
+                          onPressed: () async {
+                            if (formKey.currentState!.validate()) {
+                              ref.read(markersProvider).remove(marker);
+                              final newMarker = Marker(
+                                markerId: marker.markerId,
+                                position: marker.position,
+                                infoWindow: InfoWindow(
+                                  title: markerTitleController.text,
+                                  snippet: descriptionController.text,
+                                ),
+                              );
+                              ref
+                                  .read(markersProvider.notifier)
+                                  .state
+                                  .add(newMarker);
+                              if (!context.mounted) {
+                                return;
                               }
-                            },
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        '保存',
-                        style: AppTextStyle.saveMarkerText,
-                      ),
-                    ),
+                              await createMarker(
+                                marker: newMarker,
+                                imgInfo: imgInfo.value,
+                                ref: ref,
+                                context: context,
+                              );
+                            }
+                          },
+                        ),
+                      );
+                    },
+                    text: '投稿',
                   ),
                 ],
               ),

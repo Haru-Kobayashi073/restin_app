@@ -6,8 +6,8 @@
 	<array>
 		<string>com.transistorsoft.fetch</string>
 	</array>
-	<!-- <key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/> -->
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -46,6 +46,12 @@
 	<string>if you allow, your data to be used as part of system improvements</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>location</string>
+		<string>processing</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
