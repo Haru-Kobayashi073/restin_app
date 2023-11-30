@@ -9,7 +9,7 @@ import 'package:search_roof_top_app/features/user/user.dart';
 import 'package:search_roof_top_app/models/marker_data.dart';
 import 'package:search_roof_top_app/pages/auth/sign_in_page.dart';
 import 'package:search_roof_top_app/pages/comment/comment_page.dart';
-// import 'package:search_roof_top_app/pages/map/components/map_components.dart';
+import 'package:search_roof_top_app/pages/map/components/map_components.dart';
 import 'package:search_roof_top_app/pages/profile/profile_page.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
@@ -130,9 +130,9 @@ class MarkerDetailModal extends HookConsumerWidget {
                     ],
                   ),
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                     Row(
                       children: [
                         IconButton(
@@ -146,7 +146,7 @@ class MarkerDetailModal extends HookConsumerWidget {
                               backgroundColor: ColorName.white,
                               shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(15),
+                                  top: Radius.circular(16),
                                 ),
                               ),
                               builder: (BuildContext context) {
@@ -224,58 +224,69 @@ class MarkerDetailModal extends HookConsumerWidget {
                         ),
                       ],
                     ),
-                    // GestureDetector(
-                    //   onTap: () => showDialog<void>(
-                    //     context: context,
-                    //     builder: (_) => const GeofenceActiveDialog(),
-                    //   ),
-                    //   child: Container(
-                    //     padding: const EdgeInsets.symmetric(
-                    //       vertical: 4,
-                    //       horizontal: 8,
-                    //     ),
-                    //     decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.circular(8),
-                    //       color: markerData.isGeofenceActive == true
-                    //           ? ColorName.amber
-                    //           : ColorName.mediumGrey,
-                    //     ),
-                    //     alignment: Alignment.center,
-                    //     child: Row(
-                    //       children: [
-                    //         const Padding(
-                    //           padding: EdgeInsets.only(right: 4),
-                    //           child: Icon(Icons.info_outline_rounded),
-                    //         ),
-                    //         Text(
-                    //           markerData.isGeofenceActive == true
-                    //               ? '現在、使用されています'
-                    //               : '現在、使用されていません',
-                    //           style: const TextStyle(
-                    //             fontSize: 12,
-                    //             fontWeight: FontWeight.w600,
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-                //   ],
-                // ),
-                markerData.imageUrl != ''
-                    ? Container(
+                    GestureDetector(
+                      onTap: () => showDialog<void>(
+                        context: context,
+                        builder: (_) => const GeofenceActiveDialog(),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4,
+                          horizontal: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: markerData.isGeofenceActive == true
+                              ? ColorName.amber
+                              : ColorName.mediumGrey,
+                        ),
                         alignment: Alignment.center,
-                        padding: const EdgeInsets.only(top: 16, bottom: 64),
-                        child: CachedNetworkImage(
+                        child: Row(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(right: 4),
+                              child: Icon(Icons.info_outline_rounded),
+                            ),
+                            Text(
+                              markerData.isGeofenceActive == true
+                                  ? '現在、使用されています'
+                                  : '現在、使用されていません',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16, bottom: 32),
+                  child: markerData.imageUrl != ''
+                      ? CachedNetworkImage(
                           imageUrl: markerData.imageUrl!,
+                          imageBuilder: (_, imageProvider) => Container(
+                            alignment: Alignment.center,
+                            width: double.infinity,
+                            height: context.deviceHeight * 0.3,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                           progressIndicatorBuilder:
                               (_, url, downloadProgress) =>
                                   CircularProgressIndicator(
                             value: downloadProgress.progress,
                           ),
-                        ),
-                      )
-                    : const SizedBox(height: 100),
+                        )
+                      : const ImageNotFound(),
+                ),
               ],
             ),
           ],

@@ -16,8 +16,8 @@ class SelectMapTypeModal extends ConsumerWidget {
       decoration: const BoxDecoration(
         color: ColorName.white,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
         ),
       ),
       child: SizedBox(

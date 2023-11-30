@@ -154,11 +154,16 @@ class ProfilePage extends HookConsumerWidget {
                                     ),
                                     style: OutlinedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(4),
+                                        borderRadius: BorderRadius.circular(16),
                                       ),
                                     ),
                                     child: const Text(
                                       'プロフィールを編集',
+                                      style: TextStyle(
+                                        color: ColorName.lightAmber,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
                                     ),
                                   ),
                                 )
