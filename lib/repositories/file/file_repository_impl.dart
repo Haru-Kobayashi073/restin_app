@@ -8,18 +8,13 @@ import 'package:search_roof_top_app/repositories/file/file_repository.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 import 'package:tuple/tuple.dart';
 
-final fileRepositoryImplProvider = Provider<FileRepository>(
-  (ref) => FileRepositoryImpl(
-    ref.watch(authProvider),
-    ref.watch(storageProvider),
-  ),
-);
+final fileRepositoryImplProvider =
+    Provider<FileRepository>(FileRepositoryImpl.new);
 
 class FileRepositoryImpl implements FileRepository {
-  FileRepositoryImpl(
-    this._auth,
-    this._storage,
-  );
+  FileRepositoryImpl(ProviderRef<FileRepository> ref)
+      : _auth = ref.read(authProvider),
+        _storage = ref.read(storageProvider);
   final FirebaseAuth _auth;
   final FirebaseStorage _storage;
 

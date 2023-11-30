@@ -3,16 +3,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/repositories/auth/auth_repository.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 
-final authRepositoryImplProvider = Provider<AuthRepository>(
-  (ref) => AuthRepositoryImpl(ref.watch(authProvider)),
-);
+final authRepositoryImplProvider =
+    Provider<AuthRepository>(AuthRepositoryImpl.new);
 
 final authUserProvider = StreamProvider<User?>(
   (ref) => ref.watch(authRepositoryImplProvider).authStateChanges(),
 );
 
 class AuthRepositoryImpl implements AuthRepository {
-  AuthRepositoryImpl(this._auth);
+  AuthRepositoryImpl(ProviderRef<AuthRepository> ref)
+      : _auth = ref.read(authProvider);
+
   final FirebaseAuth _auth;
 
   @override

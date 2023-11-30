@@ -7,18 +7,14 @@ import 'package:search_roof_top_app/models/marker_data.dart';
 import 'package:search_roof_top_app/repositories/marker/marker_repository.dart';
 import 'package:search_roof_top_app/utils/utils.dart';
 
-final markerRepositoryImplProvider = Provider<MarkerRepository>(
-  (ref) => MarkerRepositoryImpl(
-    ref.watch(authProvider),
-    ref.watch(firestoreProvider),
-  ),
-);
+final markerRepositoryImplProvider =
+    Provider<MarkerRepository>(MarkerRepositoryImpl.new);
 
 class MarkerRepositoryImpl implements MarkerRepository {
-  MarkerRepositoryImpl(
-    this._auth,
-    this._firestore,
-  );
+  MarkerRepositoryImpl(ProviderRef<MarkerRepository> ref)
+      : _auth = ref.read(authProvider),
+        _firestore = ref.read(firestoreProvider);
+
   final FirebaseAuth _auth;
   final FirebaseFirestore _firestore;
 
