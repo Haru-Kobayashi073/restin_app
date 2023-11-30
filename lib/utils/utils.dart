@@ -4,6 +4,7 @@ export 'async_value_error_loading.dart';
 export 'connectivity.dart';
 export 'constants/constants.dart';
 export 'dialog.dart';
+export 'dio.dart';
 export 'exceptions/exceptions.dart';
 export 'extensions/extensions.dart';
 export 'firebase/firebase.dart';
