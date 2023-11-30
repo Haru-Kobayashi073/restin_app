@@ -151,4 +151,9 @@ class MarkerRepositoryImpl implements MarkerRepository {
         response.data()?['isGeofenceActive'] as bool? ?? false;
     return isGeofenceActive;
   }
+
+  @override
+  Future<String> fetchMarkerAddress({required LatLng latLng}) async {
+  return '';
+  }
 }
