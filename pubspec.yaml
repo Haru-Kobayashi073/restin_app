@@ -14,7 +14,7 @@ dependencies:
   cloud_firestore: ^4.13.2
   connectivity_plus: ^5.0.1
   cupertino_icons: ^1.0.2
-  dio: ^5.2.1+1
+  dio: ^5.4.0
 
   firebase_app_check: ^0.2.1+5
   firebase_auth: ^4.9.0
