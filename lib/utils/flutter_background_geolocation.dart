@@ -65,6 +65,9 @@ class FlutterBackgroundGeolocationService {
         .read(fetchGeofenceStatusProvider)
         .call(markerId: event.identifier);
     if (event.action == 'ENTER') {
+      ref
+          .read(scaffoldMessengerServiceProvider)
+          .showSuccessSnackBar('${event.action} 範囲に入りました');
       if (!isUsed) {
         await ref.read(changeGeofenceStatusProvider).call(
               markerId: event.identifier,
@@ -72,6 +75,9 @@ class FlutterBackgroundGeolocationService {
         logger.d('GeofenceEvent: [--ENTER--]$event');
       }
     } else if (event.action == 'EXIT') {
+      ref
+          .read(scaffoldMessengerServiceProvider)
+          .showSuccessSnackBar('${event.action} 範囲から出ました');
       await ref.read(changeGeofenceStatusProvider).call(
             markerId: event.identifier,
           );
