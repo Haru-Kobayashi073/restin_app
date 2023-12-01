@@ -34,12 +34,10 @@ class SearchResultCard extends HookConsumerWidget {
         ),
         tileColor: ColorName.white,
         title: Text(markerData.title),
-        subtitle: Expanded(
-          child: Text(
-            markerData.description,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
+        subtitle: Text(
+          markerData.description,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
         ),
         trailing: SvgPicture.asset(
           Assets.icons.rightArrow,
@@ -68,10 +66,7 @@ class SearchResultCard extends HookConsumerWidget {
           mapController?.showMarkerInfoWindow(
             MarkerId(markerData.markerId),
           );
-          ref.read(showModalProvider).call(
-                context: context,
-                markerData: markerData,
-              );
+          read(showModalProvider).call(markerData: markerData);
         },
       ),
     );
