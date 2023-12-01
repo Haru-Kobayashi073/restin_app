@@ -6,6 +6,10 @@ final dioProvider = Provider<Dio>((ref) {
   dio.options.connectTimeout = const Duration(milliseconds: 5000);
   dio.options.receiveTimeout = const Duration(milliseconds: 3000);
   dio.options.headers['Content-Type'] = 'application/json';
-  dio.interceptors.add(LogInterceptor(responseBody: true));
+  dio.interceptors.add(
+    LogInterceptor(
+      request: false,
+    ),
+  );
   return dio;
 });
