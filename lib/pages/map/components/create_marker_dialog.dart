@@ -37,7 +37,7 @@ class CreateMarkerDialog extends HookConsumerWidget {
 
     final isAuthenticated = ref.read(isAuthenticatedProvider);
     final selectedMapType = ref.watch(selectedMapTypeProvider);
-    final markers = ref.watch(fetchAllMarkersProvider(context));
+    final markers = ref.watch(fetchAllMarkersProvider);
     final tappedPosition = useState<LatLng?>(null);
 
     WidgetsBinding.instance.addPostFrameCallback(

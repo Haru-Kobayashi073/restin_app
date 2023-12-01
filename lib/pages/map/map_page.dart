@@ -84,7 +84,7 @@ class MapPage extends HookConsumerWidget {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : watch(fetchAllMarkersProvider(context)).when(
+          : watch(fetchAllMarkersProvider).when(
               data: (markers) {
                 return GoogleMap(
                   onMapCreated: onMapCreated,

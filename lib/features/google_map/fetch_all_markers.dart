@@ -10,11 +10,9 @@ import 'package:search_roof_top_app/utils/utils.dart';
 
 final showModalProvider = StateProvider.autoDispose<
     Future<void> Function({
-      required BuildContext context,
       required MarkerData markerData,
     })>(
   (ref) => ({
-    required context,
     required markerData,
   }) async {
     await showModalBottomSheet<void>(
@@ -24,9 +22,9 @@ final showModalProvider = StateProvider.autoDispose<
           topRight: Radius.circular(16),
         ),
       ),
-      context: context,
+      context: ref.read(navigatorKeyProvider).currentContext!,
       elevation: 0,
-      builder: (context) {
+      builder: (_) {
         return MarkerDetailModal(
           markerData: markerData,
         );
@@ -35,9 +33,8 @@ final showModalProvider = StateProvider.autoDispose<
   },
 );
 
-final fetchAllMarkersProvider =
-    StreamProvider.family<List<Marker>, BuildContext>(
-  (ref, context) async* {
+final fetchAllMarkersProvider = StreamProvider<List<Marker>>(
+  (ref) async* {
     final read = ref.read;
     final isNetworkCheck = await isNetworkConnected();
     try {
@@ -58,12 +55,9 @@ final fetchAllMarkersProvider =
                 snippet: marker.description,
               ),
               consumeTapEvents: true,
-              onTap: () {
-                ref.read(showModalProvider).call(
-                      context: context,
-                      markerData: marker,
-                    );
-              },
+              onTap: () => read(showModalProvider).call(
+                markerData: marker,
+              ),
             ),
           );
           geofences.add(
