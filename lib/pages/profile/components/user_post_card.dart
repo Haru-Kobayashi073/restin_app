@@ -154,10 +154,7 @@ class UserPostCard extends HookConsumerWidget {
                   mapController
                       ?.showMarkerInfoWindow(MarkerId(markerData.markerId));
 
-                  ref.read(showModalProvider).call(
-                        context: context,
-                        markerData: markerData,
-                      );
+                  read(showModalProvider).call(markerData: markerData);
                 },
                 icon: const Icon(Icons.pin_drop_outlined),
               ),

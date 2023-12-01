@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 import 'package:search_roof_top_app/features/google_map/google_map.dart';
 import 'package:search_roof_top_app/widgets/widgets.dart';
-import 'package:tuple/tuple.dart';
 
 class FloatSearchBar extends HookConsumerWidget {
   const FloatSearchBar({super.key});
@@ -58,9 +57,7 @@ class FloatSearchBar extends HookConsumerWidget {
               children: query.value.isNotEmpty
                   ? ref
                       .watch(
-                        searchMarkerDataProvider(
-                          Tuple2(query.value, context),
-                        ),
+                        searchMarkerDataProvider(query.value),
                       )
                       .when(
                         data: (markers) {
@@ -78,9 +75,7 @@ class FloatSearchBar extends HookConsumerWidget {
                           ErrorPage(
                             error: error,
                             onTapReload: () => ref.invalidate(
-                              searchMarkerDataProvider(
-                                Tuple2(query.value, context),
-                              ),
+                              searchMarkerDataProvider(query.value),
                             ),
                           ),
                         ],
