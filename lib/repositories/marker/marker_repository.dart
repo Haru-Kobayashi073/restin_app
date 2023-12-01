@@ -25,4 +25,6 @@ abstract class MarkerRepository {
   Future<void> changeGeofenceStatus({required String markerId});
 
   Future<bool> fetchGeofenceStatus({required String markerId});
+
+  Future<String> fetchMarkerAddress({required LatLng latLng});
 }

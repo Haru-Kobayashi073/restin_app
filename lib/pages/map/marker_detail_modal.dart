@@ -118,10 +118,14 @@ class MarkerDetailModal extends HookConsumerWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        markerData.description,
-                        style: AppTextStyle.markerListDescription,
+                      Flexible(
+                        child: Text(
+                          markerData.description,
+                          style: AppTextStyle.markerListDescription,
+                          softWrap: true,
+                        ),
                       ),
                       Text(
                         formatTimeAgo(markerData.createdAt),
@@ -136,7 +140,7 @@ class MarkerDetailModal extends HookConsumerWidget {
                     Row(
                       children: [
                         IconButton(
-                          padding: const EdgeInsets.only(right: 4),
+                          padding: EdgeInsets.zero,
                           constraints: const BoxConstraints(),
                           onPressed: () {
                             showModalBottomSheet<void>(
@@ -218,7 +222,7 @@ class MarkerDetailModal extends HookConsumerWidget {
                               },
                             );
                           },
-                          padding: const EdgeInsets.only(right: 4),
+                          padding: EdgeInsets.zero,
                           constraints: const BoxConstraints(),
                           icon: const Icon(Icons.flag_outlined),
                         ),

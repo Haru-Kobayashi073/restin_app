@@ -34,7 +34,13 @@ class SearchResultCard extends HookConsumerWidget {
         ),
         tileColor: ColorName.white,
         title: Text(markerData.title),
-        subtitle: const Text('東京都豊島区南池袋1-28-1'),
+        subtitle: Expanded(
+          child: Text(
+            markerData.description,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+        ),
         trailing: SvgPicture.asset(
           Assets.icons.rightArrow,
           width: 24,
