@@ -54,6 +54,11 @@ final fetchAllMarkersProvider = StreamProvider<List<Marker>>(
                 title: marker.title,
                 snippet: marker.description,
               ),
+              icon: BitmapDescriptor.defaultMarkerWithHue(
+                marker.isGeofenceActive != null && marker.isGeofenceActive!
+                    ? BitmapDescriptor.hueRed
+                    : BitmapDescriptor.hueGreen,
+              ),
               consumeTapEvents: true,
               onTap: () => read(showModalProvider).call(
                 markerData: marker,
