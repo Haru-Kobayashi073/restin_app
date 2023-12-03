@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -52,27 +54,21 @@ class MarkerRepositoryImpl implements MarkerRepository {
   }
 
   @override
-  Stream<List<MarkerData>> fetchAllMarkers() async* {
-    QuerySnapshot<Map<String, dynamic>> response;
+  Stream<QuerySnapshot<Map<String, dynamic>>> fetchAllMarkers() async* {
+    Stream<QuerySnapshot<Map<String, dynamic>>> userSnapshotStream;
     final uid = currentUser?.uid;
     final userSnapshot = await _firestore.collection('users').doc(uid).get();
     final blockedUids =
         userSnapshot.data()?['blockedUids'] as List<dynamic>? ?? [];
     if (blockedUids.isNotEmpty) {
-      response = await _firestore
+      userSnapshotStream = _firestore
           .collection('markers')
           .where('creatorId', whereNotIn: blockedUids)
-          .get();
+          .snapshots();
     } else {
-      response = await _firestore.collection('markers').get();
+      userSnapshotStream = _firestore.collection('markers').snapshots();
     }
-    final list = <MarkerData>[];
-    for (final document in response.docs) {
-      final data = MarkerData.fromJson(document.data());
-      list.add(data);
-    }
-
-    yield list;
+    yield* userSnapshotStream;
   }
 
   @override
