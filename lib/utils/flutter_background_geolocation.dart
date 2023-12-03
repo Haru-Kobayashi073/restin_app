@@ -26,16 +26,19 @@ class FlutterBackgroundGeolocationService {
     await bg.BackgroundGeolocation.ready(
       bg.Config(
         desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
-        distanceFilter: 10,
+        distanceFilter: 5,
         stopOnTerminate: false,
         startOnBoot: true,
-        debug: false,
+        debug: true,
         logLevel: bg.Config.LOG_LEVEL_VERBOSE,
         reset: true,
         enableHeadless: true,
         foregroundService: true,
+        geofenceInitialTriggerEntry: true,
       ),
-    );
+    ).then((value) {
+      bg.BackgroundGeolocation.startGeofences();
+    });
 
     await bg.BackgroundGeolocation.start().then((value) async {
       logger.i('BackgroundGeolocation started');
