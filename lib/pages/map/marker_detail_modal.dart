@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:search_roof_top_app/features/auth/auth.dart';
-import 'package:search_roof_top_app/features/google_map/google_map.dart';
 import 'package:search_roof_top_app/features/setting/setting.dart';
 import 'package:search_roof_top_app/features/user/user.dart';
 import 'package:search_roof_top_app/models/marker_data.dart';
@@ -170,9 +169,6 @@ class MarkerDetailModal extends HookConsumerWidget {
                               await ref
                                   .read(switchBookMarkProvider)
                                   .call(markerId: markerData.markerId);
-                              ref
-                                ..invalidate(fetchAllMarkersProvider)
-                                ..invalidate(fetchBookMarkMarkersProvider);
                               if (!context.mounted) {
                                 return;
                               }
