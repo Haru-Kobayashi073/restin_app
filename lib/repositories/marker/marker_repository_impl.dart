@@ -110,12 +110,27 @@ class MarkerRepositoryImpl implements MarkerRepository {
 
   @override
   Future<List<Comment>> fetchMarkersComments({required String markerId}) async {
-    final snapshot = await _firestore
-        .collection('markers')
-        .doc(markerId)
-        .collection('comments')
-        .orderBy('createdAt', descending: true)
-        .get();
+    QuerySnapshot<Map<String, dynamic>> snapshot;
+    final uid = currentUser?.uid;
+    final userSnapshot = await _firestore.collection('users').doc(uid).get();
+    final blockedUids =
+        userSnapshot.data()?['blockedUids'] as List<dynamic>? ?? [];
+    if (blockedUids.isNotEmpty) {
+      snapshot = await _firestore
+          .collection('markers')
+          .doc(markerId)
+          .collection('comments')
+          .orderBy('createdAt', descending: true)
+          .where('creatorId', whereNotIn: blockedUids)
+          .get();
+    } else {
+      snapshot = await _firestore
+          .collection('markers')
+          .doc(markerId)
+          .collection('comments')
+          .orderBy('createdAt', descending: true)
+          .get();
+    }
     final list = <Comment>[];
     for (final document in snapshot.docs) {
       final data = Comment.fromJson(document.data());

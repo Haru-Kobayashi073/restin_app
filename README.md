@@ -1,4 +1,4 @@
-<style>
+<!-- <style>
   .title_section{
     display: flex;
     align-items: center;
@@ -24,7 +24,7 @@
     img {
       border-radius: 10px; /* 任意の角丸の半径を指定 */
     }
-  </style>
+  </style> -->
 
 # Restin
 
@@ -32,10 +32,10 @@
 <br>
 
 <div class="title_section">
-  <img class="logo_img" src="./assets/images/restin_logo.png">
+  <img class="logo_img" src="./assets/images/restin_logo.png" width="200">
   <div class="spacer"></div>
   <a href="https://apps.apple.com/jp/app/restin/id6470670439">
-    <img class="download-img" src="./images/btn-dl-ios.png">
+    <img class="download-img" src="./images/btn-dl-ios.png" width="200">
   </a>
 </div>
 
