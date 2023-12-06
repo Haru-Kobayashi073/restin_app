@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:search_roof_top_app/models/comment.dart';
@@ -11,7 +14,7 @@ abstract class MarkerRepository {
     required String? imageUrl,
   });
 
-  Stream<List<MarkerData>> fetchAllMarkers();
+  Stream<QuerySnapshot<Map<String, dynamic>>> fetchAllMarkers();
 
   Future<List<MarkerData>> searchMarkers({required String query});
 

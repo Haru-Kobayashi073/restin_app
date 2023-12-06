@@ -34,7 +34,7 @@ void main() {
       imageUrl: imageUrl,
     );
     final response = await markerRepository.fetchAllMarkers().first;
-    expect(response.first.markerId, 'testMarkerId');
+    expect(response.docs.first.data(), 'testMarkerId');
   });
 
   test('SearchMarkers: マーカー作成をし、検索結果が返ってくる', () async {

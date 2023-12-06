@@ -33,55 +33,51 @@ final showModalProvider = StateProvider.autoDispose<
   },
 );
 
-final fetchAllMarkersProvider = StreamProvider<List<Marker>>(
+final fetchAllMarkersProvider = StreamProvider.autoDispose<List<Marker>>(
   (ref) async* {
     final read = ref.read;
     final isNetworkCheck = await isNetworkConnected();
     try {
-      final response =
-          read(markerRepositoryImplProvider).fetchAllMarkers().map((markers) {
-        final list = <Marker>[];
-        final geofences = <bg.Geofence>[];
-        for (final marker in markers) {
-          list.add(
-            Marker(
-              markerId: MarkerId(marker.markerId),
-              position: LatLng(
-                marker.latitude,
-                marker.longitude,
-              ),
-              infoWindow: InfoWindow(
-                title: marker.title,
-                snippet: marker.description,
-              ),
-              icon: BitmapDescriptor.defaultMarkerWithHue(
-                marker.isGeofenceActive != null && marker.isGeofenceActive!
-                    ? BitmapDescriptor.hueRed
-                    : BitmapDescriptor.hueGreen,
-              ),
-              consumeTapEvents: true,
-              onTap: () => read(showModalProvider).call(
-                markerData: marker,
-              ),
+      final response = read(markerRepositoryImplProvider).fetchAllMarkers();
+      // final list = <Marker>[];
+      late List<bg.Geofence> geofences;
+      await for (final marker in response) {
+        final markerList = marker.docs.map((doc) {
+          final data = MarkerData.fromJson(doc.data());
+          return Marker(
+            markerId: MarkerId(data.markerId),
+            position: LatLng(
+              data.latitude,
+              data.longitude,
             ),
-          );
-          geofences.add(
-            bg.Geofence(
-              identifier: marker.markerId,
-              radius: markerCircleRadius,
-              latitude: marker.latitude,
-              longitude: marker.longitude,
-              notifyOnEntry: true,
-              notifyOnExit: true,
+            infoWindow: InfoWindow(
+              title: data.title,
+              snippet: data.description,
             ),
+            icon: BitmapDescriptor.defaultMarkerWithHue(
+              data.isGeofenceActive != null && data.isGeofenceActive!
+                  ? BitmapDescriptor.hueRed
+                  : BitmapDescriptor.hueGreen,
+            ),
+            consumeTapEvents: true,
+            onTap: () => read(showModalProvider).call(markerData: data),
           );
-        }
-        read(flutterBackgroundGeolocationServiceProvider)
-            .addGeofences(geofences);
-        return list;
-      });
+        }).toList();
+        geofences = markerList.map((marker) {
+          return bg.Geofence(
+            identifier: marker.markerId.value,
+            radius: markerCircleRadius,
+            latitude: marker.position.latitude,
+            longitude: marker.position.longitude,
+            notifyOnEntry: true,
+            notifyOnExit: true,
+          );
+        }).toList();
+        yield markerList;
+      }
+      await read(flutterBackgroundGeolocationServiceProvider)
+          .addGeofences(geofences);
       debugPrint('全マーカーを取得しました。');
-      yield* response.asBroadcastStream();
     } on AppException catch (e) {
       if (!isNetworkCheck) {
         const exception = AppException(
@@ -135,14 +131,15 @@ final fetchAllMarkerDataProvider = StreamProvider.autoDispose<List<MarkerData>>(
     final read = ref.read;
     final isNetworkCheck = await isNetworkConnected();
     try {
-      final response =
-          read(markerRepositoryImplProvider).fetchAllMarkers().map((event) {
+      final response = read(markerRepositoryImplProvider).fetchAllMarkers();
+      await for (final marker in response) {
         final list = <MarkerData>[];
-        event.forEach(list.add);
-        return list;
-      });
-      debugPrint('全マーカーを取得しました。');
-      yield* response.asBroadcastStream();
+        for (final document in marker.docs) {
+          final data = MarkerData.fromJson(document.data());
+          list.add(data);
+        }
+        yield list;
+      }
     } on AppException catch (e) {
       if (!isNetworkCheck) {
         const exception = AppException(
