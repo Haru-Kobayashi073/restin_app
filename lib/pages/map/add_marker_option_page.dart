@@ -240,6 +240,7 @@ class AddMarkerOptionPage extends HookConsumerWidget {
           marker: marker,
           imageUrl: imgInfo?.item1 ?? '',
           onSuccess: () {
+            ref.invalidate(fetchAllMarkersProvider);
             Navigator.pushAndRemoveUntil(
               context,
               MainPage.route(),
